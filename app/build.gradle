@@ -94,6 +94,8 @@ dependencies {
         exclude group: 'glide-parent'
     }
 
+    implementation "com.jakewharton.timber:timber:$timber"
+
     //kapt
     kapt "androidx.room:room-compiler:$room"//
     kapt "com.google.dagger:dagger-compiler:$dagger"
