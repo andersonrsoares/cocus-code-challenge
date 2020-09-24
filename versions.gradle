@@ -17,7 +17,7 @@ ext.dagger = "2.27"
 ext.glide = "4.10.0"
 ext.rxjava='2.2.9'
 ext.rxandroid='2.1.1'
-
+ext.timber='4.7.1'
 
 ext.espresso="3.3.0"
 ext.mockito = "3.1.0"
