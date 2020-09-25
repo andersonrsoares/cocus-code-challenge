@@ -36,7 +36,19 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 1.8
-
       - name: Unit Test
         run: ./gradlew testDebugUnitTest
         continue-on-error: false # IMPORTANT: allow pipeline to continue to Android Test Report step
+  
+  report:
+    runs-on: ubuntu-latest
+    needs: test # The report job will run after test job
+    if: ${{ always() }} # IMPORTANT: Execute report job regardless of status
+    steps:
+      - name: Download Test Reports Folder
+        uses: actions/download-artifact@v2
+        with:
+          name: reports
+
+      - name: Android Test Report
+        uses: asadmansr/android-test-report-action@v1.2.
