@@ -62,6 +62,7 @@ dependencies {
     //room
     implementation "androidx.room:room-runtime:$room"
     implementation "androidx.room:room-testing:$room"
+    implementation "androidx.room:room-rxjava2:$room"
 
     //lifecicle
     implementation "androidx.lifecycle:lifecycle-runtime:$lifecycle"

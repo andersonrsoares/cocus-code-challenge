@@ -1,11 +1,10 @@
 package br.com.anderson.cocuscodechallenge.persistence
 
-import androidx.room.Dao
-import androidx.room.Database
-import androidx.room.Query
-import androidx.room.RoomDatabase
+import androidx.room.*
 import br.com.anderson.cocuscodechallenge.testing.OpenForTesting
 import br.com.anderson.cocuscodechallenge.vo.User
+import io.reactivex.Completable
+import io.reactivex.Flowable
 
 @Database(
     entities = [User::class],
@@ -18,13 +17,7 @@ abstract class CodeWarsDb : RoomDatabase() {
 
 }
 
-@Dao
-@OpenForTesting
-abstract class CodeWarsDao {
 
-    @Query("SELECT * from user")
-    abstract fun allUsers(): List<User>
-}
 
 
 
