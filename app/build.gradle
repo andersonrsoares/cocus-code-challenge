@@ -4,6 +4,7 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'androidx.navigation.safeargs.kotlin'
 apply plugin: 'kotlin-allopen'
+apply plugin: 'jacoco'
 
 allOpen {
     // allows mocking for classes w/o directly opening them for release builds
@@ -25,6 +26,9 @@ android {
     }
 
     buildTypes {
+        debug {
+            testCoverageEnabled true
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
@@ -35,8 +39,23 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
     kotlinOptions {
         jvmTarget = '1.8'
+    }
+
+    sourceSets {
+        androidTest.java.srcDirs += "src/test-common/java"
+        test.java.srcDirs += "src/test-common/java"
+    }
+
+    testOptions {
+        execution 'ANDROIDX_TEST_ORCHESTRATOR'
+        animationsDisabled true
+
+        unitTests {
+            includeAndroidResources = true
+        }
     }
 }
 
@@ -116,6 +135,7 @@ dependencies {
     //test libs
     testImplementation 'junit:junit:4.13'
     testImplementation "com.squareup.okhttp3:mockwebserver:$mockwebserver"
+    testImplementation "com.squareup.okhttp3:okhttp:$okhttp"
     testImplementation "org.mockito:mockito-core:$mockito"
     testImplementation "org.mockito:mockito-inline:$mockito"
     testImplementation 'org.json:json:20180130'
@@ -126,10 +146,66 @@ dependencies {
     testImplementation "androidx.test:runner:$atsl_runner"
     testImplementation "androidx.test:rules:$atsl_runner"
     testImplementation "androidx.test.ext:truth:$ext_truth"
+    testImplementation "com.google.truth:truth:$truth"
     testImplementation "androidx.annotation:annotation:$support"
     testImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
 
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation "androidx.test.espresso:espresso-core:$espresso"
 
+}
+
+
+jacoco {
+    toolVersion = "0.8.4"
+}
+
+tasks.withType(Test) {
+    jacoco.includeNoLocationClasses = true
+}
+
+task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest']) {
+    group = 'Reporting'
+    description = 'Generate Jacoco coverage reports'
+
+    reports {
+        xml.enabled = true
+        html.enabled = true
+        csv.enabled = false
+        xml.destination file("${buildDir}/reports/jacoco/report.xml")
+    }
+
+
+    def fileFilters =
+            ['android/databinding/**/*.class',
+             '**/android/databinding/*Binding.class',
+             '**/BR.*',
+             '**/R.class',
+             '**/R$*.class',
+             '**/BuildConfig.*',
+             '**/Manifest*.*',
+             '**/*Test*.*',
+             'android/**/*.*',
+             'com/android/**/*.class',
+             '**/*_MembersInjector.class',
+             '**/Dagger*Component.class',
+             '**/Dagger*Component$Builder.class',
+             '**/*_*Factory.class',
+             '**/*ComponentImpl.class',
+             '**/*SubComponentBuilder.class',
+             '**/*$InjectAdapter.class',
+             '**/*$ModuleAdapter.class',
+             '**/*$ViewInjector*.class',
+             '**/*Module_*Factory.class',
+             '**/*$ViewInjector*.*',
+             '**/*$ViewBinder*.*',
+             "**/androidx"]
+
+
+    def kotlinDebugTree = fileTree(dir: "${buildDir}/tmp/kotlin-classes/debug", excludes: fileFilters)
+
+    sourceDirectories.from = files(['src/main/java'])
+    classDirectories.from = files([kotlinDebugTree])//javaDebugTree,
+    executionData.from = fileTree(dir: project.buildDir, includes: [
+            'jacoco/*.exec', 'outputs/code_coverage/debugAndroidTest/connected/**/*.ec'])
 }

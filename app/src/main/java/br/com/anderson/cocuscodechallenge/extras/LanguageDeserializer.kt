@@ -17,8 +17,9 @@ class LanguageDeserializer : JsonDeserializer<Languages> {
     ): Languages {
         val languages = Languages()
         json?.asJsonObject?.let { obj ->
+            languages.language = hashMapOf()
             obj.entrySet(). forEach {
-                languages.language[it.key] = Gson().fromJson(it.value, Language::class.java)
+                languages.language?.put(it.key,Gson().fromJson(it.value, Language::class.java))
             }
         }
         return languages
