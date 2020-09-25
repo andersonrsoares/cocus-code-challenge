@@ -1,9 +1,14 @@
 package br.com.anderson.cocuscodechallenge.vo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import androidx.room.TypeConverters
+import br.com.anderson.cocuscodechallenge.persistence.typeconverters.CodeChallengesTypeConverter
+import br.com.anderson.cocuscodechallenge.persistence.typeconverters.ListStringTypeConverter
+import br.com.anderson.cocuscodechallenge.persistence.typeconverters.RanksTypeConverter
 import com.google.gson.annotations.SerializedName
 
 @Entity
+@TypeConverters(value = [CodeChallengesTypeConverter::class,RanksTypeConverter::class,ListStringTypeConverter::class])
 data class User(
     @SerializedName("clan")
     var clan: String = "",

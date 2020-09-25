@@ -1,13 +1,12 @@
-package br.com.anderson.cocuscodechallenge.persistence
+package br.com.anderson.cocuscodechallenge.persistence.typeconverters
 
 import androidx.room.TypeConverter
 import br.com.anderson.cocuscodechallenge.vo.CodeChallenges
 import com.google.gson.Gson
 
-object UserTypeConverters {
+class CodeChallengesTypeConverter {
 
     @TypeConverter
-    @JvmStatic
     fun codeChallengesToString(codeChallenges: CodeChallenges?): String {
         if(codeChallenges == null)
             return ""
@@ -16,13 +15,10 @@ object UserTypeConverters {
     }
 
     @TypeConverter
-    @JvmStatic
     fun stringToCodeChallenges(data: String?): CodeChallenges? {
         if(data == null || data.isBlank())
             return null
 
         return try { Gson().fromJson<CodeChallenges>(data,CodeChallenges::class.java::class.java) } catch (e:Exception) { null }
     }
-
-
 }
