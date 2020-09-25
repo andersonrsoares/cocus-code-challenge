@@ -112,11 +112,7 @@ class CodeWarsServiceTest {
 
         //THEN
         response.assertError {
-            it is HttpException
-        }
-
-        response.assertError {
-            (it as? HttpException)?.code() == 404
+            it is HttpException && (it as? HttpException)?.code() == 404
         }
     }
 
