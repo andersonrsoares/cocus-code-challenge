@@ -1,7 +1,9 @@
-package br.com.anderson.cocuscodechallenge.dto
+package br.com.anderson.cocuscodechallenge.vo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
-
+@Entity
 data class User(
     @SerializedName("clan")
     var clan: String = "",
@@ -17,6 +19,7 @@ data class User(
     var ranks: Ranks = Ranks(),
     @SerializedName("skills")
     var skills: List<String> = listOf(),
+    @PrimaryKey
     @SerializedName("username")
     var username: String = ""
 )

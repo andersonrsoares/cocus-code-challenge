@@ -1,7 +1,7 @@
 package br.com.anderson.cocuscodechallenge.extras
 
-import br.com.anderson.cocuscodechallenge.dto.Language
-import br.com.anderson.cocuscodechallenge.dto.Languages
+import br.com.anderson.cocuscodechallenge.vo.Language
+import br.com.anderson.cocuscodechallenge.vo.Languages
 import com.google.gson.Gson
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer

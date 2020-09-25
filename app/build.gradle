@@ -3,6 +3,12 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'androidx.navigation.safeargs.kotlin'
+apply plugin: 'kotlin-allopen'
+
+allOpen {
+    // allows mocking for classes w/o directly opening them for release builds
+    annotation 'br.com.anderson.cocuscodechallenge.testing.OpenClass'
+}
 
 android {
     compileSdkVersion 30
@@ -51,10 +57,10 @@ dependencies {
 
     implementation "androidx.fragment:fragment:$fragment"
     implementation "androidx.fragment:fragment-ktx:$fragment"
-    debugImplementation "androidx.fragment:fragment-testing:$fragment"
+    debugImplementation "androidx.fragment:fragment:$fragment"
 
     //room
-    implementation "androidx.room:room-runtime:$room"//$room
+    implementation "androidx.room:room-runtime:$room"
     implementation "androidx.room:room-testing:$room"
 
     //lifecicle
@@ -62,6 +68,9 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle"
     implementation "androidx.lifecycle:lifecycle-common-java8:$lifecycle"
+
+    //arch
+    implementation "androidx.arch.core:core-runtime:$arch_core" //
 
     //navigation
     implementation "androidx.navigation:navigation-fragment-ktx:$navigation"//
@@ -112,7 +121,6 @@ dependencies {
     testImplementation "androidx.test:core:$test_core"
     testImplementation "androidx.test:core-ktx:$test_core"
     testImplementation "androidx.test.ext:junit-ktx:$atsl_junit"
-    testImplementation "androidx.test.ext:junit:$atsl_junit"
     testImplementation "androidx.arch.core:core-testing:$arch_core"
     testImplementation "androidx.test:runner:$atsl_runner"
     testImplementation "androidx.test:rules:$atsl_runner"
