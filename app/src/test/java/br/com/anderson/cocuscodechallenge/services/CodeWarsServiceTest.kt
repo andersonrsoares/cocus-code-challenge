@@ -4,7 +4,7 @@ package br.com.anderson.cocuscodechallenge.services
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import br.com.anderson.cocuscodechallenge.ApiUtil
 import br.com.anderson.cocuscodechallenge.extras.LanguageDeserializer
-import br.com.anderson.cocuscodechallenge.vo.Languages
+import br.com.anderson.cocuscodechallenge.model.Languages
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.*
 import org.junit.runner.RunWith

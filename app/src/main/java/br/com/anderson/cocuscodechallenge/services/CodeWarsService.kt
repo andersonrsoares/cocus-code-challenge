@@ -1,7 +1,7 @@
 
 package br.com.anderson.cocuscodechallenge.services
 
-import br.com.anderson.cocuscodechallenge.vo.User
+import br.com.anderson.cocuscodechallenge.dto.UserDTO
 import io.reactivex.Single
 
 import retrofit2.http.*
@@ -14,6 +14,6 @@ import retrofit2.http.*
 interface  CodeWarsService {
 
     @GET("users/{username}")
-    fun getUser(@Path("username") username:String ): Single<User>
+    fun getUser(@Path("username") username:String ): Single<UserDTO>
 
 }

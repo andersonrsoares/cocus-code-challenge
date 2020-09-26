@@ -3,9 +3,9 @@ package br.com.anderson.cocuscodechallenge.di
 import android.app.Application
 import androidx.room.Room
 import br.com.anderson.cocuscodechallenge.BuildConfig
-import br.com.anderson.cocuscodechallenge.vo.Languages
 import br.com.anderson.cocuscodechallenge.extras.AutorizationInterceptor
 import br.com.anderson.cocuscodechallenge.extras.LanguageDeserializer
+import br.com.anderson.cocuscodechallenge.model.Languages
 import br.com.anderson.cocuscodechallenge.persistence.CodeWarsDao
 import br.com.anderson.cocuscodechallenge.persistence.CodeWarsDb
 import br.com.anderson.cocuscodechallenge.services.CodeWarsService
@@ -89,6 +89,6 @@ class AppModule {
     @Singleton
     @Provides
     fun provideCodeWarsDao(db: CodeWarsDb): CodeWarsDao {
-        return db.connectedCommunitiesDao()
+        return db.codeWarsDao()
     }
 }

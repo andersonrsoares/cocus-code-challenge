@@ -1,7 +1,7 @@
 package br.com.anderson.cocuscodechallenge.persistence.typeconverters
 
 import androidx.room.TypeConverter
-import br.com.anderson.cocuscodechallenge.vo.CodeChallenges
+import br.com.anderson.cocuscodechallenge.model.CodeChallenges
 import com.google.gson.Gson
 
 class CodeChallengesTypeConverter {

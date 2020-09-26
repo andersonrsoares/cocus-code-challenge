@@ -1,7 +1,7 @@
 package br.com.anderson.cocuscodechallenge.persistence.typeconverters
 
 import androidx.room.TypeConverter
-import br.com.anderson.cocuscodechallenge.vo.Ranks
+import br.com.anderson.cocuscodechallenge.model.Ranks
 import com.google.gson.Gson
 
 class RanksTypeConverter {

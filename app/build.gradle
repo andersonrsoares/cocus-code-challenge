@@ -12,17 +12,15 @@ allOpen {
 }
 
 android {
-    compileSdkVersion 30
-    buildToolsVersion "29.0.3"
+    compileSdkVersion 29
 
     defaultConfig {
         applicationId "br.com.anderson.cocuscodechallenge"
         minSdkVersion 23
-        targetSdkVersion 30
+        targetSdkVersion 29
         versionCode 1
         versionName "1.0"
-
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "br.com.anderson.cocuscodechallenge.CustomTestRunner"
     }
 
     buildTypes {
@@ -71,8 +69,6 @@ dependencies {
     implementation "androidx.legacy:legacy-support-core-utils:$support"
     implementation "androidx.annotation:annotation:$support"
     implementation "androidx.recyclerview:recyclerview:$support"
-
-
 
     implementation "androidx.fragment:fragment:$fragment"
     implementation "androidx.fragment:fragment-ktx:$fragment"
@@ -134,6 +130,7 @@ dependencies {
 
     //test libs
     testImplementation 'junit:junit:4.13'
+    testImplementation "org.robolectric:robolectric:4.4"
     testImplementation "com.squareup.okhttp3:mockwebserver:$mockwebserver"
     testImplementation "com.squareup.okhttp3:okhttp:$okhttp"
     testImplementation "org.mockito:mockito-core:$mockito"
@@ -150,8 +147,16 @@ dependencies {
     testImplementation "androidx.annotation:annotation:$support"
     testImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
 
-    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+
     androidTestImplementation "androidx.test.espresso:espresso-core:$espresso"
+    androidTestImplementation "androidx.test:core-ktx:$test_core"
+    androidTestImplementation "androidx.test.ext:junit-ktx:$atsl_junit"
+    androidTestImplementation "androidx.fragment:fragment-testing:$fragment"
+    androidTestImplementation "androidx.arch.core:core-testing:$arch_core"
+    androidTestImplementation "androidx.test.ext:junit:$atsl_junit"
+    androidTestImplementation "androidx.test:runner:$atsl_runner"
+    androidTestImplementation "androidx.test:rules:$atsl_runner"
+
 
 }
 
