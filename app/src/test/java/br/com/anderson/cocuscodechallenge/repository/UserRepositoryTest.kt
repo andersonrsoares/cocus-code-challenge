@@ -3,11 +3,15 @@ package br.com.anderson.cocuscodechallenge.repository
 
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import br.com.anderson.cocuscodechallenge.any
+import br.com.anderson.cocuscodechallenge.dto.UserDTO
 import br.com.anderson.cocuscodechallenge.model.User
 import br.com.anderson.cocuscodechallenge.persistence.CodeWarsDao
 import br.com.anderson.cocuscodechallenge.persistence.CodeWarsDb
 import br.com.anderson.cocuscodechallenge.services.CodeWarsService
+import io.reactivex.Completable
 import io.reactivex.Flowable
+import io.reactivex.Single
 import io.reactivex.observers.TestObserver
 import io.reactivex.subscribers.TestSubscriber
 import org.junit.Before
@@ -67,23 +71,22 @@ class UserRepositoryTest {
 
     }
 
-    /*@Test
-    fun `test get all users`() {
-
+    @Test
+    fun `test get user`() {
         val username = "baz"
-        val maxResults = 3
 
         Mockito.`when`(codeWarsService.getUser(username)).thenReturn(Single.just(UserDTO(username = "foo")))
+        Mockito.`when`(codeWarsDao.insertUser(any())).thenReturn(Completable.complete())
 
+        val testSubscriber =  userRepository.searchUser(username).test()
 
-        userRepository.searchUser(username).test().assertValue {
-            it.
-        }
+        testSubscriber.awaitDone(1, TimeUnit.SECONDS)
 
-        val success = listOf(GeocodeAddress("foo", Geometry(LocationGeocode())))
+        testSubscriber.assertNoErrors()
+        testSubscriber.assertSubscribed()
+        testSubscriber.assertComplete()
 
-        Mockito.verify(observer).onChanged(Resource.success(success))
-    }*/
+    }
 
 
 }
