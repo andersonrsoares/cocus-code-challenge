@@ -12,8 +12,6 @@ import br.com.anderson.cocuscodechallenge.services.CodeWarsService
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Single
-import io.reactivex.observers.TestObserver
-import io.reactivex.subscribers.TestSubscriber
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -56,9 +54,7 @@ class UserRepositoryTest {
         val response = listOf(User(datetime = 0,username = username))
         Mockito.`when`(codeWarsDao.allUsers()).thenReturn(Flowable.just(response))
 
-        val testSubscriber = TestSubscriber<List<User>>()
-
-        userRepository.listLastUsers().subscribe(testSubscriber)
+        val testSubscriber = userRepository.listLastUsers().test()
 
         testSubscriber.awaitDone(1, TimeUnit.SECONDS)
 
