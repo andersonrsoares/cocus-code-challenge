@@ -8,6 +8,7 @@ import br.com.anderson.cocuscodechallenge.extras.LanguageDeserializer
 import br.com.anderson.cocuscodechallenge.model.Languages
 import br.com.anderson.cocuscodechallenge.persistence.CodeWarsDao
 import br.com.anderson.cocuscodechallenge.persistence.CodeWarsDb
+import br.com.anderson.cocuscodechallenge.provider.ResourceProvider
 import br.com.anderson.cocuscodechallenge.services.CodeWarsService
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -90,5 +91,11 @@ class AppModule {
     @Provides
     fun provideCodeWarsDao(db: CodeWarsDb): CodeWarsDao {
         return db.codeWarsDao()
+    }
+
+    @Singleton
+    @Provides
+    fun provideResource(app: Application): ResourceProvider {
+        return ResourceProvider(app)
     }
 }
