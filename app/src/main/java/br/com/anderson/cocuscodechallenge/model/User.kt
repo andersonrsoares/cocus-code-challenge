@@ -5,7 +5,6 @@ import androidx.room.TypeConverters
 import br.com.anderson.cocuscodechallenge.persistence.typeconverters.CodeChallengesTypeConverter
 import br.com.anderson.cocuscodechallenge.persistence.typeconverters.ListStringTypeConverter
 import br.com.anderson.cocuscodechallenge.persistence.typeconverters.RanksTypeConverter
-import com.google.gson.annotations.SerializedName
 
 
 @Entity
