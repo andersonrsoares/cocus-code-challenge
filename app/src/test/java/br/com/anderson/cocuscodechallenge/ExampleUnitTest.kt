@@ -7,7 +7,7 @@ import org.junit.Assert.*
 /**
  * Example local unit test, which will execute on the development machine (host).
  *
- * See [testing documentation](http://d.android.com/tools/testing).
+ * See [br.com.anderson.cocuscodechallenge.testing documentation](http://d.android.com/tools/br.com.anderson.cocuscodechallenge.testing).
  */
 class ExampleUnitTest {
     @Test

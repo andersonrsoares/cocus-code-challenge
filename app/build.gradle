@@ -3,10 +3,16 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'androidx.navigation.safeargs.kotlin'
+apply plugin: 'kotlin-allopen'
+apply plugin: 'jacoco'
+
+allOpen {
+    // allows mocking for classes w/o directly opening them for release builds
+    annotation 'br.com.anderson.cocuscodechallenge.testing.OpenClass'
+}
 
 android {
     compileSdkVersion 30
-    buildToolsVersion "29.0.3"
 
     defaultConfig {
         applicationId "br.com.anderson.cocuscodechallenge"
@@ -14,11 +20,13 @@ android {
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
-
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "br.com.anderson.cocuscodechallenge.CustomTestRunner"
     }
 
     buildTypes {
+        debug {
+            testCoverageEnabled true
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
@@ -29,8 +37,24 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
     kotlinOptions {
         jvmTarget = '1.8'
+    }
+
+    sourceSets {
+        androidTest.java.srcDirs += "src/test-common/java"
+        test.java.srcDirs += "src/test-common/java"
+    }
+
+    testOptions {
+        execution 'ANDROIDX_TEST_ORCHESTRATOR'
+        animationsDisabled true
+
+        unitTests {
+            returnDefaultValues = true
+            includeAndroidResources = true
+        }
     }
 }
 
@@ -47,21 +71,23 @@ dependencies {
     implementation "androidx.annotation:annotation:$support"
     implementation "androidx.recyclerview:recyclerview:$support"
 
-
-
     implementation "androidx.fragment:fragment:$fragment"
     implementation "androidx.fragment:fragment-ktx:$fragment"
-    debugImplementation "androidx.fragment:fragment-testing:$fragment"
+    debugImplementation "androidx.fragment:fragment:$fragment"
 
     //room
-    implementation "androidx.room:room-runtime:$room"//$room
+    implementation "androidx.room:room-runtime:$room"
     implementation "androidx.room:room-testing:$room"
+    implementation "androidx.room:room-rxjava2:$room"
 
     //lifecicle
     implementation "androidx.lifecycle:lifecycle-runtime:$lifecycle"
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle"
     implementation "androidx.lifecycle:lifecycle-common-java8:$lifecycle"
+
+    //arch
+    implementation "androidx.arch.core:core-runtime:$arch_core" //
 
     //navigation
     implementation "androidx.navigation:navigation-fragment-ktx:$navigation"//
@@ -105,22 +131,87 @@ dependencies {
 
     //test libs
     testImplementation 'junit:junit:4.13'
+    testImplementation "org.robolectric:robolectric:4.4"
     testImplementation "com.squareup.okhttp3:mockwebserver:$mockwebserver"
+    testImplementation "com.squareup.okhttp3:okhttp:$okhttp"
     testImplementation "org.mockito:mockito-core:$mockito"
     testImplementation "org.mockito:mockito-inline:$mockito"
     testImplementation 'org.json:json:20180130'
     testImplementation "androidx.test:core:$test_core"
     testImplementation "androidx.test:core-ktx:$test_core"
     testImplementation "androidx.test.ext:junit-ktx:$atsl_junit"
-    testImplementation "androidx.test.ext:junit:$atsl_junit"
     testImplementation "androidx.arch.core:core-testing:$arch_core"
     testImplementation "androidx.test:runner:$atsl_runner"
     testImplementation "androidx.test:rules:$atsl_runner"
     testImplementation "androidx.test.ext:truth:$ext_truth"
+    testImplementation "com.google.truth:truth:$truth"
     testImplementation "androidx.annotation:annotation:$support"
     testImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
 
-    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
-    androidTestImplementation "androidx.test.espresso:espresso-core:$espresso"
 
+    androidTestImplementation "androidx.test.espresso:espresso-core:$espresso"
+    androidTestImplementation "androidx.test:core-ktx:$test_core"
+    androidTestImplementation "androidx.test.ext:junit-ktx:$atsl_junit"
+    androidTestImplementation "androidx.fragment:fragment-testing:$fragment"
+    androidTestImplementation "androidx.arch.core:core-testing:$arch_core"
+    androidTestImplementation "androidx.test.ext:junit:$atsl_junit"
+    androidTestImplementation "androidx.test:runner:$atsl_runner"
+    androidTestImplementation "androidx.test:rules:$atsl_runner"
+
+
+}
+
+
+jacoco {
+    toolVersion = "0.8.4"
+}
+
+tasks.withType(Test) {
+    jacoco.includeNoLocationClasses = true
+}
+
+task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest']) {
+    group = 'Reporting'
+    description = 'Generate Jacoco coverage reports'
+
+    reports {
+        xml.enabled = true
+        html.enabled = true
+        csv.enabled = false
+        xml.destination file("${buildDir}/reports/jacoco/report.xml")
+    }
+
+
+    def fileFilters =
+            ['android/databinding/**/*.class',
+             '**/android/databinding/*Binding.class',
+             '**/BR.*',
+             '**/R.class',
+             '**/R$*.class',
+             '**/BuildConfig.*',
+             '**/Manifest*.*',
+             '**/*Test*.*',
+             'android/**/*.*',
+             'com/android/**/*.class',
+             '**/*_MembersInjector.class',
+             '**/Dagger*Component.class',
+             '**/Dagger*Component$Builder.class',
+             '**/*_*Factory.class',
+             '**/*ComponentImpl.class',
+             '**/*SubComponentBuilder.class',
+             '**/*$InjectAdapter.class',
+             '**/*$ModuleAdapter.class',
+             '**/*$ViewInjector*.class',
+             '**/*Module_*Factory.class',
+             '**/*$ViewInjector*.*',
+             '**/*$ViewBinder*.*',
+             "**/androidx"]
+
+
+    def kotlinDebugTree = fileTree(dir: "${buildDir}/tmp/kotlin-classes/debug", excludes: fileFilters)
+
+    sourceDirectories.from = files(['src/main/java'])
+    classDirectories.from = files([kotlinDebugTree])//javaDebugTree,
+    executionData.from = fileTree(dir: project.buildDir, includes: [
+            'jacoco/*.exec', 'outputs/code_coverage/debugAndroidTest/connected/**/*.ec'])
 }
