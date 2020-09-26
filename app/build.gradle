@@ -12,12 +12,12 @@ allOpen {
 }
 
 android {
-    compileSdkVersion 29
+    compileSdkVersion 30
 
     defaultConfig {
         applicationId "br.com.anderson.cocuscodechallenge"
         minSdkVersion 23
-        targetSdkVersion 29
+        targetSdkVersion 30
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "br.com.anderson.cocuscodechallenge.CustomTestRunner"
@@ -52,6 +52,7 @@ android {
         animationsDisabled true
 
         unitTests {
+            returnDefaultValues = true
             includeAndroidResources = true
         }
     }

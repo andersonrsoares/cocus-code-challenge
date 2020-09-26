@@ -9,13 +9,13 @@ data class Languages(
 
 open class Language(
     @SerializedName("color")
-    var color: String = "",
+    val color: String = "",
     @SerializedName("name")
-    var name: String = "",
+    val name: String = "",
     @SerializedName("rank")
-    var rank: Int = 0,
+    val rank: Int = 0,
     @SerializedName("score")
-    var score: Int = 0
+    val score: Int = 0
 )
 
 class Overall : Language()
