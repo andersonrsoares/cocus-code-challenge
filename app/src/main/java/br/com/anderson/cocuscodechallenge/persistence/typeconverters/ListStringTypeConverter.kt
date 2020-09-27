@@ -16,7 +16,7 @@ class ListStringTypeConverter {
 
     @TypeConverter
     fun stringToList(data: String?): List<String>? {
-        if(data == null || data.isBlank())
+        if(data.isNullOrBlank())
             return null
 
         return try { Gson().fromJson<List<String>>(data,

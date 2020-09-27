@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">Cocus-code-challenge</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="username_field_black">Username field is blank</string>
+    <string name="search_query_hint">Search by username</string>
+    <string name="label_position">Position</string>
+    <string name="label_username">User</string>
+    <string name="label_honor">Honor</string>
+    <string name="label_cian">Cian</string>
+    <string name="label_best_language">Best language</string>
 </resources>

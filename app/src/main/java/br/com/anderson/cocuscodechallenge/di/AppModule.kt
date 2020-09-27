@@ -8,6 +8,7 @@ import br.com.anderson.cocuscodechallenge.extras.LanguageDeserializer
 import br.com.anderson.cocuscodechallenge.model.Languages
 import br.com.anderson.cocuscodechallenge.persistence.CodeWarsDao
 import br.com.anderson.cocuscodechallenge.persistence.CodeWarsDb
+import br.com.anderson.cocuscodechallenge.provider.ResourceProvider
 import br.com.anderson.cocuscodechallenge.services.CodeWarsService
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -22,7 +23,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
-@Module
+@Module(includes = [ViewModelModule::class])
 class AppModule {
 
     val URL = "https://www.codewars.com/api/v1/"
@@ -90,5 +91,11 @@ class AppModule {
     @Provides
     fun provideCodeWarsDao(db: CodeWarsDb): CodeWarsDao {
         return db.codeWarsDao()
+    }
+
+    @Singleton
+    @Provides
+    fun provideResource(app: Application): ResourceProvider {
+        return ResourceProvider(app)
     }
 }

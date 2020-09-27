@@ -16,9 +16,9 @@ class RanksTypeConverter {
 
     @TypeConverter
     fun stringToRanks(data: String?): Ranks? {
-        if(data == null || data.isBlank())
+        if(data.isNullOrBlank())
             return null
 
-        return try { Gson().fromJson<Ranks>(data, Ranks::class.java::class.java) } catch (e:Exception) { null }
+        return try { Gson().fromJson<Ranks>(data, Ranks::class.java) } catch (e:Exception) { null }
     }
 }

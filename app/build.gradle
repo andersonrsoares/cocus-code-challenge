@@ -73,7 +73,6 @@ dependencies {
 
     implementation "androidx.fragment:fragment:$fragment"
     implementation "androidx.fragment:fragment-ktx:$fragment"
-    debugImplementation "androidx.fragment:fragment:$fragment"
 
     //room
     implementation "androidx.room:room-runtime:$room"
@@ -147,12 +146,23 @@ dependencies {
     testImplementation "com.google.truth:truth:$truth"
     testImplementation "androidx.annotation:annotation:$support"
     testImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
+    testImplementation "androidx.test.espresso:espresso-core:$espresso"
+    testImplementation "androidx.test.espresso:espresso-contrib:$espresso"
+    testImplementation "androidx.test.espresso:espresso-intents:$espresso"
+    testImplementation "androidx.arch.core:core-testing:$arch_core"
 
+    debugImplementation "androidx.fragment:fragment:$fragment"
+    debugImplementation("androidx.fragment:fragment-testing:$fragment")
+    debugImplementation("androidx.fragment:fragment-ktx:$fragment")
+    debugImplementation "androidx.test:core:$test_core"
+    debugImplementation "androidx.test:core-ktx:$test_core"
+    debugImplementation "androidx.test:runner:$atsl_runner"
+    debugImplementation "androidx.test:rules:$atsl_runner"
 
     androidTestImplementation "androidx.test.espresso:espresso-core:$espresso"
+    androidTestImplementation "androidx.test.espresso:espresso-contrib:$espresso"
     androidTestImplementation "androidx.test:core-ktx:$test_core"
     androidTestImplementation "androidx.test.ext:junit-ktx:$atsl_junit"
-    androidTestImplementation "androidx.fragment:fragment-testing:$fragment"
     androidTestImplementation "androidx.arch.core:core-testing:$arch_core"
     androidTestImplementation "androidx.test.ext:junit:$atsl_junit"
     androidTestImplementation "androidx.test:runner:$atsl_runner"

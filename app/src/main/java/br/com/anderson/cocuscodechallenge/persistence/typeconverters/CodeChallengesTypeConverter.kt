@@ -16,9 +16,9 @@ class CodeChallengesTypeConverter {
 
     @TypeConverter
     fun stringToCodeChallenges(data: String?): CodeChallenges? {
-        if(data == null || data.isBlank())
+        if(data.isNullOrBlank())
             return null
 
-        return try { Gson().fromJson<CodeChallenges>(data,CodeChallenges::class.java::class.java) } catch (e:Exception) { null }
+        return try { Gson().fromJson<CodeChallenges>(data,CodeChallenges::class.java) } catch (e:Exception) { null }
     }
 }

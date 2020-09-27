@@ -15,13 +15,14 @@ class LanguageDeserializer : JsonDeserializer<Languages> {
         typeOfT: Type?,
         context: JsonDeserializationContext?
     ): Languages {
-        val languages = Languages()
+        var languages:  ArrayList<Language>? = null
         json?.asJsonObject?.let { obj ->
-            languages.language = hashMapOf()
-            obj.entrySet(). forEach {
-                languages.language?.put(it.key,Gson().fromJson(it.value, Language::class.java))
+            languages  = arrayListOf()
+            obj.entrySet().forEach {
+                languages?.add(Gson().fromJson(it.value, Language::class.java)
+                    .apply { languageName = it.key })
             }
         }
-        return languages
+        return Languages(languages)
     }
 }
