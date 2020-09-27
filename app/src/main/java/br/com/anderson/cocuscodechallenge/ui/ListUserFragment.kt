@@ -9,6 +9,7 @@ import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import br.com.anderson.cocuscodechallenge.R
 import br.com.anderson.cocuscodechallenge.adapter.ListUserAdapter
@@ -29,9 +30,8 @@ class ListUserFragment : Fragment(R.layout.fragment_list_user), Injectable,Searc
 
     lateinit var adapter:ListUserAdapter
 
-    val viewModel: ListUserViewModel by viewModels {
-        viewModelFactory
-    }
+    @Inject
+    lateinit var viewModel: ListUserViewModel
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -39,6 +39,7 @@ class ListUserFragment : Fragment(R.layout.fragment_list_user), Injectable,Searc
         initObservers()
         loadUsers()
         initSearch()
+
     }
 
     override fun onResume() {

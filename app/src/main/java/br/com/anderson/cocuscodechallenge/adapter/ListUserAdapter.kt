@@ -1,6 +1,7 @@
 package br.com.anderson.cocuscodechallenge.adapter
 
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,7 +32,7 @@ class ListUserAdapter : ListAdapter<User,ListUserAdapter.Holder>(
         return super.getItemCount()
     }
 
-    private fun binds(holder: Holder,data: User,pos: Int) {
+    private fun binds(holder: Holder, data: User, pos: Int) {
         with(holder){
             itemView.setOnClickListener {
                 notifyItemChanged(pos)
@@ -40,7 +41,7 @@ class ListUserAdapter : ListAdapter<User,ListUserAdapter.Holder>(
             username .text = data.username
             name.text = data.clan
             honor.text = data.honor.toString()
-            position.text = data.leaderboardPosition.toString()
+            position.text = "#${data.leaderboardPosition.toString()}"
             bestlanguage.text = data.bestLanguageAndPoints()
         }
 
