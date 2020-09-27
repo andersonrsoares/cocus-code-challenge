@@ -20,7 +20,6 @@ class UserRepository @Inject constructor(val localDataSouse: CodeWarsDao,
     fun listLastUsers():Flowable<List<User>>{
         return localDataSouse.allUsers()
             .subscribeOn(Schedulers.io())
-            .limit(5)
     }
 
     fun searchUser(username:String):Flowable<User>{
@@ -29,7 +28,7 @@ class UserRepository @Inject constructor(val localDataSouse: CodeWarsDao,
             .map {
                it.toUser()
             }.doOnSuccess {
-              localDataSouse.insertUser(user = it)
+              localDataSouse.insertUser(user = it).subscribe().dispose()
             }.toFlowable()
     }
 }

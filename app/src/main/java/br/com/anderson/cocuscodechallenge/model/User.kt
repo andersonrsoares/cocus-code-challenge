@@ -12,9 +12,9 @@ import br.com.anderson.cocuscodechallenge.persistence.typeconverters.RanksTypeCo
 data class User(
     var clan: String = "",
     var codeChallenges: CodeChallenges? = null,
-    var honor: Int = 0,
-    var leaderboardPosition: Int = 0,
-    var name: String = "",
+    var honor: Int? = 0,
+    var leaderboardPosition: Int? = null,
+    var name: String? = "",
     var ranks: Ranks? = null,
     var skills: List<String>? = null,
     @PrimaryKey

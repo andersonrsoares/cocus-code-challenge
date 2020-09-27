@@ -37,7 +37,7 @@ class ListUserViewModel @Inject constructor(val resourceProvider: ResourceProvid
         disposable.add(repository
             .listLastUsers()
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(this::subscrible,this::error,this::complete))
+            .subscribe(this::subscrible,this::error))
     }
 
     fun searchUser(username:String){
@@ -48,7 +48,7 @@ class ListUserViewModel @Inject constructor(val resourceProvider: ResourceProvid
         disposable.add(repository
             .searchUser(username)
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(this::subscrible,this::error,this::complete))
+            .subscribe(this::subscrible,this::error))
 
     }
 
@@ -63,10 +63,12 @@ class ListUserViewModel @Inject constructor(val resourceProvider: ResourceProvid
 
     private fun subscrible(result:User){
         _dataSearchUser.postValue(result)
+        complete()
     }
 
     private fun subscrible(result:List<User>){
         _dataListLastUsers.postValue(result)
+        complete()
     }
 
     private fun complete(){
@@ -75,6 +77,7 @@ class ListUserViewModel @Inject constructor(val resourceProvider: ResourceProvid
 
     private fun error(error:Throwable){
         _message.postValue("erro")
+        complete()
         error.printStackTrace()
     }
 }

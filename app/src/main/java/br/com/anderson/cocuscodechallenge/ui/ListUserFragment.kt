@@ -5,6 +5,8 @@ import android.os.Handler
 import androidx.fragment.app.Fragment
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.widget.SearchView
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,7 +21,7 @@ import kotlinx.android.synthetic.main.fragment_list_user.*
 import javax.inject.Inject
 
 
-class ListUserFragment : Fragment(R.layout.fragment_list_user), Injectable {
+class ListUserFragment : Fragment(R.layout.fragment_list_user), Injectable,SearchView.OnQueryTextListener {
 
 
     @Inject
@@ -36,6 +38,16 @@ class ListUserFragment : Fragment(R.layout.fragment_list_user), Injectable {
         initRecycleView()
         initObservers()
         loadUsers()
+        initSearch()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        fetchUsers()
+    }
+
+    private fun initSearch(){
+        searchview.setOnQueryTextListener(this)
     }
 
     private fun loadUsers(){
@@ -43,8 +55,10 @@ class ListUserFragment : Fragment(R.layout.fragment_list_user), Injectable {
     }
 
     private fun initObservers(){
+        observe(viewModel.dataSearchUser,this::onLoadSearchUser)
         observe(viewModel.dataListLastUsers,this::onLoadDataListUsers)
         observe(viewModel.message,this::onMessage)
+        observe(viewModel.loading,this::onLoading)
     }
 
     private fun initRecycleView(){
@@ -60,8 +74,28 @@ class ListUserFragment : Fragment(R.layout.fragment_list_user), Injectable {
         adapter.submitList(data)
     }
 
+    private fun onLoadSearchUser(data: User) {
+        adapter.insert(data)
+    }
+
+    private fun fetchUsers(){
+        viewModel.listLastUsers()
+    }
+
     private fun onMessage(data: String) {
         Toast.makeText(requireContext(),data, Toast.LENGTH_LONG).show()
     }
 
+    private fun onLoading(data: Boolean) {
+        progressloading.isVisible = data
+    }
+
+    override fun onQueryTextSubmit(query: String?): Boolean {
+        viewModel.searchUser(query ?: "")
+        return true
+    }
+
+    override fun onQueryTextChange(newText: String?): Boolean {
+       return true
+    }
 }

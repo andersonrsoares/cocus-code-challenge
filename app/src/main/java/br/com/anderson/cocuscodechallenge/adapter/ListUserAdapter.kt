@@ -55,6 +55,11 @@ class ListUserAdapter : ListAdapter<User,ListUserAdapter.Holder>(
         val bestlanguage: TextView = view.findViewById(R.id.bestlanguage)
     }
 
+    fun insert(user: User){
+       submitList(currentList.toMutableList().apply {
+           add(0,user)
+       })
+    }
 
     companion object {
         private val diffCallback: DiffUtil.ItemCallback<User> =
