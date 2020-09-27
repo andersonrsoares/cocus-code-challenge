@@ -10,11 +10,11 @@ import br.com.anderson.cocuscodechallenge.persistence.typeconverters.RanksTypeCo
 @Entity
 @TypeConverters(value = [CodeChallengesTypeConverter::class,RanksTypeConverter::class,ListStringTypeConverter::class])
 data class User(
-    var clan: String = "",
+    var clan: String? = null,
     var codeChallenges: CodeChallenges? = null,
-    var honor: Int? = 0,
+    var honor: Int? = null,
     var leaderboardPosition: Int? = null,
-    var name: String? = "",
+    var name: String? = null,
     var ranks: Ranks? = null,
     var skills: List<String>? = null,
     @PrimaryKey

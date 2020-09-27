@@ -11,6 +11,7 @@
 
 
     <TextView
+        android:textStyle="bold"
         android:id="@+id/labelposition"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
@@ -25,6 +26,7 @@
     </TextView>
 
     <TextView
+        android:textStyle="bold"
         android:id="@+id/labelusername"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -70,6 +72,7 @@
     </TextView>
 
     <TextView
+        android:textStyle="bold"
         android:id="@+id/labelhonor"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
@@ -96,6 +99,7 @@
 
 
     <TextView
+        android:textStyle="bold"
         android:layout_marginEnd="10dp"
         android:id="@+id/labelname"
         android:layout_width="0dp"
@@ -111,6 +115,7 @@
     </TextView>
 
     <TextView
+        android:textStyle="bold"
         android:id="@+id/labelbestlanguage"
         android:layout_width="200dp"
         android:layout_height="wrap_content"

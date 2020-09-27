@@ -28,7 +28,7 @@ class UserRepository @Inject constructor(val localDataSouse: CodeWarsDao,
             .map {
                it.toUser()
             }.doOnSuccess {
-              localDataSouse.insertUser(user = it).subscribe().dispose()
+                localDataSouse.insertUser(user = it).subscribe()
             }.toFlowable()
     }
 }
