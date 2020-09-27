@@ -3,6 +3,8 @@ package br.com.anderson.cocuscodechallenge.ui
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import br.com.anderson.cocuscodechallenge.R
+import br.com.anderson.cocuscodechallenge.di.AppInjector
+import dagger.android.AndroidInjection
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import javax.inject.Inject

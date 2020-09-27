@@ -20,7 +20,14 @@ data class User(
     @PrimaryKey
     var username: String = "",
     var datetime:Long
-)
+){
+    fun bestLanguageAndPoints(): String {
+        val best = ranks?.languages?.language?.maxBy { it.score  }
+        return best?.let {
+            "${it.languageName} - ${it.score}"
+        } ?: ""
+    }
+}
 
 
 

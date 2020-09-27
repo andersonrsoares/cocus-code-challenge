@@ -4,10 +4,11 @@ import com.google.gson.annotations.SerializedName
 
 
 data class Languages(
-    var language: HashMap<String,Language>? = null
+    var language: List<Language>? = null
 )
 
 open class Language(
+    var languageName: String = "",
     @SerializedName("color")
     val color: String = "",
     @SerializedName("name")
