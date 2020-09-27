@@ -11,7 +11,6 @@ sealed class ViewState<out T> {
         val causeError: CauseError
     ): ViewState<Nothing>()
 
-
 }
 
 sealed class CauseError {

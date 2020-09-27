@@ -54,9 +54,6 @@ class UserListFragmentTest {
     }
 
 
-
-
-
     @Test fun `test ui recycleview list`() {
         val liveDataListUser = MutableLiveData<List<User>>()
         val liveDataUser = MutableLiveData<User>()
