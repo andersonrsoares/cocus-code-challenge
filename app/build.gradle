@@ -73,7 +73,6 @@ dependencies {
 
     implementation "androidx.fragment:fragment:$fragment"
     implementation "androidx.fragment:fragment-ktx:$fragment"
-    debugImplementation "androidx.fragment:fragment:$fragment"
 
     //room
     implementation "androidx.room:room-runtime:$room"
@@ -152,13 +151,13 @@ dependencies {
     testImplementation "androidx.test.espresso:espresso-intents:$espresso"
     testImplementation "androidx.arch.core:core-testing:$arch_core"
 
+    debugImplementation "androidx.fragment:fragment:$fragment"
     debugImplementation("androidx.fragment:fragment-testing:$fragment")
     debugImplementation("androidx.fragment:fragment-ktx:$fragment")
     debugImplementation "androidx.test:core:$test_core"
     debugImplementation "androidx.test:core-ktx:$test_core"
     debugImplementation "androidx.test:runner:$atsl_runner"
     debugImplementation "androidx.test:rules:$atsl_runner"
-
 
     androidTestImplementation "androidx.test.espresso:espresso-core:$espresso"
     androidTestImplementation "androidx.test.espresso:espresso-contrib:$espresso"

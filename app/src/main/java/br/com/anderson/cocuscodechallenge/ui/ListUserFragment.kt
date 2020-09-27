@@ -1,15 +1,12 @@
 package br.com.anderson.cocuscodechallenge.ui
 
 import android.os.Bundle
-import android.os.Handler
 import androidx.fragment.app.Fragment
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import br.com.anderson.cocuscodechallenge.R
 import br.com.anderson.cocuscodechallenge.adapter.ListUserAdapter
@@ -23,8 +20,7 @@ import javax.inject.Inject
 
 
 class ListUserFragment : Fragment(R.layout.fragment_list_user), Injectable,SearchView.OnQueryTextListener {
-
-
+    
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
