@@ -4,17 +4,17 @@ import com.google.gson.annotations.SerializedName
 
 data class AuthoredChallengeDTO(
     @SerializedName("description")
-    var description: String = "",
+    var description: String? = null,
     @SerializedName("id")
-    var id: String = "",
+    var id: String? = null,
     @SerializedName("languages")
-    var languages: List<String> = listOf(),
+    var languages: List<String>? = null,
     @SerializedName("name")
-    var name: String = "",
+    var name: String? = null,
     @SerializedName("rank")
-    var rank: Int = 0,
+    var rank: Int? = null,
     @SerializedName("rankName")
-    var rankName: String = "",
+    var rankName: String? = null,
     @SerializedName("tags")
-    var tags: List<String> = listOf()
+    var tags: List<String>?= null
 )
