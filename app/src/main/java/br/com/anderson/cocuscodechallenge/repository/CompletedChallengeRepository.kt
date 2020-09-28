@@ -23,10 +23,6 @@ class CompletedChallengeRepository @Inject constructor(val localDataSouse: CodeW
             .subscribeOn(Schedulers.io())
             .map {
                 PageCompletedChallenge(totalPages = 1,totalItems = it.size, data = it)
-            }.doOnSuccess {
-                print(it)
-            }.doOnError {
-                it.printStackTrace()
             }.toFlowable()
 
         val remoteData = remoteDataSource.getCompletedChallenges(username,page)

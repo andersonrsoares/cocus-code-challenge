@@ -30,7 +30,7 @@ class ListCompletedChallengeViewModel @Inject constructor(val repository: Comple
             .subscribe(this::subscrible,this::error))
     }
 
-    fun nextPagePistUserCompletedChallenge(username:String){
+    fun nextPageListUserCompletedChallenge(username:String){
         totalPages++
         if(currentPage < totalPages){
             listUserCompletedChallenge(username)
