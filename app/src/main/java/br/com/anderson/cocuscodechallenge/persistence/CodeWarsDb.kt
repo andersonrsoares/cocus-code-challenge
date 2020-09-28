@@ -6,7 +6,7 @@ import br.com.anderson.cocuscodechallenge.model.User
 
 @Database(
     entities = [User::class,CompletedChallenge::class],
-    version = 5,
+    version = 6,
     exportSchema = false
 )
 

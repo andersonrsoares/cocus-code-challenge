@@ -25,12 +25,6 @@ class ListUserViewModel @Inject constructor(val resourceProvider: ResourceProvid
     val dataSearchUser:LiveData<User>
         get() = _dataSearchUser
 
-    private val disposable = CompositeDisposable()
-
-    override fun onCleared() {
-        super.onCleared()
-        disposable.clear()
-    }
 
     fun listLastUsers(){
         _loading.postValue(true)
@@ -69,15 +63,5 @@ class ListUserViewModel @Inject constructor(val resourceProvider: ResourceProvid
     private fun subscrible(result:List<User>){
         _dataListLastUsers.postValue(result)
         complete()
-    }
-
-    private fun complete(){
-        _loading.postValue(false)
-    }
-
-    private fun error(error:Throwable){
-        _message.postValue("erro")
-        complete()
-        error.printStackTrace()
     }
 }

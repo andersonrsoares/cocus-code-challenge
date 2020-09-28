@@ -16,7 +16,7 @@ interface  CodeWarsService {
     @GET("users/{username}")
     fun getUser(@Path("username") username:String ): Single<UserDTO>
 
-    @GET("{username}/code-challenges/completed")
+    @GET("users/{username}/code-challenges/completed")
     fun getCompletedChallenges(@Path("username") username:String,@Query("page") page:Int = 0): Single<PageCompletedChallengeDTO>
 
 }

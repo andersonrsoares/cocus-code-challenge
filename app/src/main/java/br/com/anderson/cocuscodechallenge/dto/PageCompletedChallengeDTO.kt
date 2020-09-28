@@ -1,5 +1,6 @@
 package br.com.anderson.cocuscodechallenge.dto
 
+import br.com.anderson.cocuscodechallenge.model.PageCompletedChallenge
 import com.google.gson.annotations.SerializedName
 
 data class PageCompletedChallengeDTO(
@@ -9,4 +10,8 @@ data class PageCompletedChallengeDTO(
     var totalItems: Int? = null,
     @SerializedName("totalPages")
     var totalPages: Int? = null
-):BaseDTO()
+):BaseDTO(){
+    fun toPageCompletedChallenge(): PageCompletedChallenge {
+        return PageCompletedChallenge(totalItems = totalItems, data = data?.map { it.toCompletedChallenge() }, totalPages = totalPages )
+    }
+}

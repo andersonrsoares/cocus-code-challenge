@@ -3,6 +3,7 @@ package br.com.anderson.cocuscodechallenge.di
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import br.com.anderson.cocuscodechallenge.viewmodel.ListCompletedChallengeViewModel
 import br.com.anderson.cocuscodechallenge.viewmodel.ListUserViewModel
 import br.com.anderson.cocuscodechallenge.viewmodel.ViewModelFactory
 import dagger.Binds
@@ -18,10 +19,14 @@ abstract class ViewModelModule {
     @Binds
     abstract fun bindViewModelFactory(factory: ViewModelFactory): ViewModelProvider.Factory
 
-
     @Binds
     @IntoMap
     @ViewModelKey(ListUserViewModel::class)
-    abstract fun bindLoginActivityViewModel(viewModel: ListUserViewModel): ViewModel
+    abstract fun bindListUserViewModel(viewModel: ListUserViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(ListCompletedChallengeViewModel::class)
+    abstract fun bindListCompletedChallengeViewModel(viewModel: ListCompletedChallengeViewModel): ViewModel
 
 }

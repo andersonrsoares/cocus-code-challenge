@@ -19,5 +19,7 @@ data class CompletedChallenge(
     @SerializedName("name")
     var name: String? = null,
     @SerializedName("slug")
-    var slug: String? = null
+    var slug: String? = null,
+    @SerializedName("username")
+    var username: String? = null
 )

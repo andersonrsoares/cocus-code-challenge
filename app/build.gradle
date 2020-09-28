@@ -93,7 +93,7 @@ dependencies {
     implementation "androidx.navigation:navigation-runtime:$navigation"//
     implementation "androidx.navigation:navigation-runtime-ktx:$navigation"
     implementation "androidx.navigation:navigation-fragment:$navigation"
-
+    implementation "androidx.navigation:navigation-ui-ktx:$navigation"
     //retrofit
     implementation "com.squareup.retrofit2:retrofit:$retrofit"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit"

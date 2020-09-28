@@ -18,7 +18,7 @@ class ServiceCompletedChallengeTest : BaseServiceTest() {
 
         //when
         val request = mockWebServer.takeRequest()
-        assertThat(request.path).isEqualTo("/username/code-challenges/completed?page=0")
+        assertThat(request.path).isEqualTo("/users/username/code-challenges/completed?page=0")
         //THEN
 
         response.assertNoErrors()
@@ -47,7 +47,7 @@ class ServiceCompletedChallengeTest : BaseServiceTest() {
 
         //when
         val request = mockWebServer.takeRequest()
-        assertThat(request.path).isEqualTo("/username/code-challenges/completed?page=1")
+        assertThat(request.path).isEqualTo("/users/username/code-challenges/completed?page=1")
         //THEN
 
         response.assertNoErrors()
@@ -68,7 +68,7 @@ class ServiceCompletedChallengeTest : BaseServiceTest() {
         val response = service.getCompletedChallenges("username").test()
         //when
         val request = mockWebServer.takeRequest()
-        assertThat(request.path).isEqualTo("/username/code-challenges/completed?page=0")
+        assertThat(request.path).isEqualTo("/users/username/code-challenges/completed?page=0")
         //THEN
 
         response.assertError {
@@ -84,7 +84,7 @@ class ServiceCompletedChallengeTest : BaseServiceTest() {
         val response = service.getCompletedChallenges("username").test()
         //when
         val request = mockWebServer.takeRequest()
-        assertThat(request.path).isEqualTo("/username/code-challenges/completed?page=0")
+        assertThat(request.path).isEqualTo("/users/username/code-challenges/completed?page=0")
 
         //THEN
         response.assertError {
