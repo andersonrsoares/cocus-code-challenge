@@ -83,7 +83,7 @@ class ListUserFragment : Fragment(R.layout.fragment_list_user), Injectable,Searc
     }
 
     private fun onLoadSearchUser(data: User) {
-        adapter.insert(data)
+        adapter.submitList(arrayListOf(data))
     }
 
     private fun fetchUsers(){

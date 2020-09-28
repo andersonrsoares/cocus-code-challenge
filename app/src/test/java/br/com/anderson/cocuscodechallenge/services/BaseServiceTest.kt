@@ -18,7 +18,7 @@ import com.google.gson.stream.MalformedJsonException
 import retrofit2.HttpException
 
 
-@RunWith(JUnit4::class)
+
 open class BaseServiceTest {
     @Rule
     @JvmField

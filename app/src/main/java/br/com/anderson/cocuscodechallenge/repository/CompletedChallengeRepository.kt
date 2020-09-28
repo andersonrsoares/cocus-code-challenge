@@ -19,16 +19,12 @@ class CompletedChallengeRepository @Inject constructor(val localDataSouse: CodeW
 
 
     fun getCompletedChallenges(username:String,page:Int):Flowable<PageCompletedChallenge>{
-        val localData = localDataSouse.allCompletedChallenges(username)
-            .subscribeOn(Schedulers.io())
-            .map {
-                PageCompletedChallenge(totalPages = 1,totalItems = it.size, data = it)
-            }.toFlowable()
+        val localData = getLocalDataCompleteChallange(username, page)
 
         val remoteData = remoteDataSource.getCompletedChallenges(username,page)
             .subscribeOn(Schedulers.io())
             .map {
-                it.toPageCompletedChallenge()
+                it.toPageCompletedChallenge(username)
             }.doOnSuccess {
                  it.data?.forEach {completed->
                      localDataSouse.insertCompletedChallenge(completed).subscribe()
@@ -36,5 +32,19 @@ class CompletedChallengeRepository @Inject constructor(val localDataSouse: CodeW
             }.toFlowable()
 
         return Flowable.merge(localData,remoteData).subscribeOn(Schedulers.io())
+    }
+
+    fun getLocalDataCompleteChallange(username:String,page:Int):Flowable<PageCompletedChallenge>{
+        return if(page==1){
+            localDataSouse.allCompletedChallenges(username)
+                .subscribeOn(Schedulers.io())
+                .map {
+                    PageCompletedChallenge(totalPages = 1,totalItems = it.size, data = it)
+                }.toFlowable()
+        }else{
+            Flowable.empty()
+        }
+
+
     }
 }

@@ -16,18 +16,10 @@ private const val NUM_PAGES = 2
 
 class UserDetailFragment : Fragment(R.layout.fragment_user_detail), Injectable{
 
-    var args:UserDetailFragmentArgs? = null
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initViewPager()
         initNavigationBottom()
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            args = UserDetailFragmentArgs.fromBundle(it)
-        }
     }
 
     fun onNavigationItemSelected(item: MenuItem): Boolean {
@@ -55,8 +47,8 @@ class UserDetailFragment : Fragment(R.layout.fragment_user_detail), Injectable{
 
         override fun createFragment(position: Int): Fragment {
             return when (position){
-                1 -> ListCompletedChallengeFragment()
-                else -> ListCompletedChallengeFragment()
+                1 -> ListCompletedChallengeFragment.newInstance(arguments)
+                else -> ListCompletedChallengeFragment.newInstance(arguments)
             }
         }
     }

@@ -9,4 +9,7 @@
     <string name="label_honor">Honor</string>
     <string name="label_cian">Cian</string>
     <string name="label_best_language">Best language</string>
+    <string name="label_completed_languages">Completed Languages</string>
+    <string name="label_date">Date</string>
+    <string name="label_challenge_name">Challenge name</string>
 </resources>

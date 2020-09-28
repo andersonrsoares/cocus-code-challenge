@@ -70,7 +70,7 @@ class CompletedChallengeRepositoryTest {
         testSubscriber.assertSubscribed()
         testSubscriber.assertComplete()
         testSubscriber.assertValues(PageCompletedChallenge(totalPages = 1,totalItems = 0,data = arrayListOf()),
-            remoteData.toPageCompletedChallenge())
+            remoteData.toPageCompletedChallenge(username))
 
 
     }
@@ -98,7 +98,7 @@ class CompletedChallengeRepositoryTest {
         testSubscriber.assertSubscribed()
         testSubscriber.assertComplete()
         testSubscriber.assertValues(localData,
-            remoteData.toPageCompletedChallenge())
+            remoteData.toPageCompletedChallenge(username))
 
     }
 

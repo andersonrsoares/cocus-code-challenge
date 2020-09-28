@@ -52,7 +52,7 @@ class UserRepositoryTest {
         val username = "baz"
 
         val response = listOf(User(datetime = 0,username = username))
-        Mockito.`when`(codeWarsDao.allUsers()).thenReturn(Flowable.just(response))
+        Mockito.`when`(codeWarsDao.allUsers()).thenReturn(Single.just(response))
 
         val testSubscriber = userRepository.listLastUsers().test()
 

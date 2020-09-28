@@ -11,7 +11,7 @@ data class PageCompletedChallengeDTO(
     @SerializedName("totalPages")
     var totalPages: Int? = null
 ):BaseDTO(){
-    fun toPageCompletedChallenge(): PageCompletedChallenge {
-        return PageCompletedChallenge(totalItems = totalItems, data = data?.map { it.toCompletedChallenge() }, totalPages = totalPages )
+    fun toPageCompletedChallenge(username:String): PageCompletedChallenge {
+        return PageCompletedChallenge(totalItems = totalItems, data = data?.map { it.toCompletedChallenge().apply { this.username = username } }, totalPages = totalPages )
     }
 }

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#fff"
+    android:foreground="?android:attr/selectableItemBackground"
+    android:padding="15dp">
+
+
+
+    <TextView
+        android:layout_marginEnd="10dp"
+        android:id="@+id/labelusername"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/label_challenge_name"
+        android:textAlignment="textStart"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/labeldate"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </TextView>
+
+
+    <TextView
+        android:layout_marginEnd="10dp"
+        android:id="@+id/name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:text=""
+        android:textAlignment="textStart"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        app:layout_constraintEnd_toStartOf="@+id/date"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/labelusername">
+
+    </TextView>
+
+    <TextView
+        android:textStyle="bold"
+        android:id="@+id/labeldate"
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        android:text="@string/label_date"
+        android:textAlignment="textStart"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </TextView>
+
+    <TextView
+        android:layout_marginTop="3dp"
+        android:id="@+id/date"
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textAlignment="textStart"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        app:layout_constraintEnd_toEndOf="@+id/labeldate"
+        app:layout_constraintTop_toBottomOf="@+id/labeldate">
+
+    </TextView>
+
+
+    <TextView
+        android:id="@+id/labelcompletedlanguage"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="@string/label_completed_languages"
+        android:textAlignment="textStart"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/name">
+
+    </TextView>
+
+
+    <TextView
+        android:id="@+id/completedlanguages"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textAlignment="textStart"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/labelcompletedlanguage"
+        app:layout_constraintStart_toStartOf="@+id/labelcompletedlanguage"
+        app:layout_constraintTop_toBottomOf="@+id/labelcompletedlanguage">
+
+    </TextView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

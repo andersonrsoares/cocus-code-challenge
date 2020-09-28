@@ -17,12 +17,12 @@ import io.reactivex.Single
 abstract class CodeWarsDao {
 
     @Query("SELECT * from User order by datetime desc limit 5")
-    abstract fun allUsers(): Flowable<List<User>>
+    abstract fun allUsers(): Single<List<User>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract fun insertUser(user: User): Completable
 
-    @Query("SELECT * from CompletedChallenge where username == :username order by completedAt desc")
+    @Query("SELECT * from CompletedChallenge where username == :username order by completedAt desc limit 200")
     abstract fun allCompletedChallenges(username:String): Single<List<CompletedChallenge>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

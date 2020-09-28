@@ -4,9 +4,11 @@ import br.com.anderson.cocuscodechallenge.ApiUtil
 import org.junit.*
 import com.google.common.truth.Truth.assertThat
 import com.google.gson.stream.MalformedJsonException
+import org.junit.runner.RunWith
+import org.junit.runners.JUnit4
 import retrofit2.HttpException
 
-
+@RunWith(JUnit4::class)
 class ServiceCompletedChallengeTest : BaseServiceTest() {
 
     @Test
