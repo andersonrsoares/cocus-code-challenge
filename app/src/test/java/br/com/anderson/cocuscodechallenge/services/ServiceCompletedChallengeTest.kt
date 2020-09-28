@@ -12,7 +12,7 @@ import retrofit2.HttpException
 class ServiceCompletedChallengeTest : BaseServiceTest() {
 
     @Test
-    fun `test completed challages response success full data`() {
+    fun `test completed challenges response success full data`() {
         //GIVEN
         ApiUtil.enqueueResponse(mockWebServer,"completed_challages.json")
 
@@ -41,7 +41,7 @@ class ServiceCompletedChallengeTest : BaseServiceTest() {
     }
 
     @Test
-    fun `test completed challages response success page end`() {
+    fun `test completed challenges response success page end`() {
         //GIVEN
         ApiUtil.enqueueResponse(mockWebServer,"completed_challages_page_end.json")
 
@@ -63,7 +63,7 @@ class ServiceCompletedChallengeTest : BaseServiceTest() {
     }
 
     @Test
-    fun `test completed challages  response not json`() {
+    fun `test completed challenges  response not json`() {
         //GIVEN
         ApiUtil.enqueueResponse(mockWebServer,"error_json_response.html")
 
@@ -79,7 +79,7 @@ class ServiceCompletedChallengeTest : BaseServiceTest() {
     }
 
     @Test
-    fun `test completed challages not found`() {
+    fun `test completed challenges not found`() {
         //GIVEN
         ApiUtil.enqueueResponse(mockWebServer =  mockWebServer,fileName = "not_found_response.json",statuscode = 404)
 

@@ -1,0 +1,51 @@
+{
+  "data": [
+    {
+      "id": "5571d9fc11526780a000011a",
+      "name": "The builder of things",
+      "description": "For this kata you will be using some meta-programming magic to create a new `Thing` object. This object will allow you to define things in a descriptive **sentence like format**.",
+      "rank": -3,
+      "rankName": "3 kyu",
+      "tags": [
+        "Algorithms",
+        "Metaprogramming",
+        "Programming Paradigms",
+        "Advanced Language Features",
+        "Fundamentals",
+        "Domain Specific Languages",
+        "Declarative Programming"
+      ],
+      "languages": [
+        "ruby",
+        "javascript",
+        "python",
+        "coffeescript"
+      ]
+    },
+    {
+      "id": "51ba717bb08c1cd60f00002f",
+      "name": "Range Extraction",
+      "description": "A format for expressing an ordered list of integers is to use a comma separated list of either\n\n* individual integers\n* or a range of integers denoted by the starting integer separated from the end integer in the range by a dash, '-'. The range includes all integers in the interval including both endpoints.  It is not considered a range unless it spans at least 3 numbers.",
+      "rank": -4,
+      "rankName": "4 kyu",
+      "tags": [
+        "Algorithms",
+        "String Formatting",
+        "Formatting",
+        "Logic",
+        "Strings"
+      ],
+      "languages": [
+        "javascript",
+        "coffeescript",
+        "ruby",
+        "go",
+        "python",
+        "java",
+        "haskell",
+        "csharp",
+        "cpp"
+      ]
+    }
+  ]
+}
