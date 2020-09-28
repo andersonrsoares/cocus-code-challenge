@@ -9,10 +9,6 @@ import java.util.*
 
 
 data class UserDTO(
-    @SerializedName("reason")
-    val reason: String? = null,
-    @SerializedName("success")
-    val success: Boolean? = null,
     @SerializedName("clan")
     val clan: String = "",
     @SerializedName("codeChallenges")
@@ -30,7 +26,7 @@ data class UserDTO(
     @PrimaryKey
     @SerializedName("username")
     val username: String = ""
-){
+):BaseDTO(){
     fun toUser(): User {
         return User(datetime = Calendar.getInstance().timeInMillis,
                     clan = clan, name = name, username = username,

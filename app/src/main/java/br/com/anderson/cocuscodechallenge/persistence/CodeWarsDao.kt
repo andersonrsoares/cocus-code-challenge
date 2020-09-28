@@ -4,6 +4,8 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import br.com.anderson.cocuscodechallenge.model.CodeChallenges
+import br.com.anderson.cocuscodechallenge.model.CompletedChallenge
 import br.com.anderson.cocuscodechallenge.testing.OpenForTesting
 import br.com.anderson.cocuscodechallenge.model.User
 import io.reactivex.Completable
@@ -18,4 +20,11 @@ abstract class CodeWarsDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract fun insertUser(user: User): Completable
+
+    @Query("SELECT * from CompletedChallenge order by completedAt desc")
+    abstract fun allCompletedChallenges(): Flowable<List<CompletedChallenge>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    abstract fun insertCompletedChallenge(completedChallenge: CompletedChallenge): Completable
+
 }
