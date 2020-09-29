@@ -37,12 +37,11 @@ class ListCompletedChallengeViewModel @Inject constructor(val repository: Comple
        super.refresh()
     }
 
-    fun listUserCompletedChallenge(username:String){
-
-        _username = username
+    fun listUserCompletedChallenge(username:String?){
+        _username = username ?: ""
         _loading.postValue(true)
         disposable.add(repository
-            .getCompletedChallenges(username,currentPage)
+            .getCompletedChallenges(_username,currentPage)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(this::subscrible,this::error,this::complete) )
     }

@@ -34,7 +34,6 @@ class UserListFragmentTest {
 
     lateinit var factory:FragmentFactory
 
-
     @Before
     fun setup(){
         testviewModel = Mockito.mock(ListUserViewModel::class.java)

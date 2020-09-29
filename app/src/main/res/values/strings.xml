@@ -17,4 +17,5 @@
     <string name="label_languages">Languages</string>
     <string name="menu_completed_challenges">Completed challenges</string>
     <string name="menu_authored_challenges">Authored challenges</string>
+    <string name="label_tags">Tags</string>
 </resources>

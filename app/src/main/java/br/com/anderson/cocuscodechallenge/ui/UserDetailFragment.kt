@@ -5,6 +5,7 @@ import android.view.MenuItem
 import androidx.fragment.app.Fragment
 import android.view.View
 import androidx.fragment.app.FragmentActivity
+import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import br.com.anderson.cocuscodechallenge.R
 import br.com.anderson.cocuscodechallenge.di.Injectable
@@ -20,7 +21,6 @@ class UserDetailFragment : Fragment(R.layout.fragment_user_detail), Injectable{
         super.onViewCreated(view, savedInstanceState)
         initViewPager()
         initNavigationBottom()
-
     }
 
     fun onNavigationItemSelected(item: MenuItem): Boolean {
@@ -50,4 +50,9 @@ class UserDetailFragment : Fragment(R.layout.fragment_user_detail), Injectable{
         }
     }
 
+    fun navigateToChallenge(id:String){
+        navController().navigate(UserDetailFragmentDirections.actionUserDetailFragmentToChallengeFragment(id))
+    }
+
+    fun navController() = findNavController()
 }

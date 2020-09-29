@@ -17,10 +17,10 @@ class ListAuthoredChallengeViewModel @Inject constructor(val repository: Authore
         get() = _dataAuthoredChallenge
 
 
-    fun listUserAuthoredChallenge(username:String){
+    fun listUserAuthoredChallenge(username:String?){
         _loading.postValue(true)
         disposable.add(repository
-            .getAuthoredChallenges(username)
+            .getAuthoredChallenges(username ?: "")
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(this::subscrible,this::error,this::complete) )
     }

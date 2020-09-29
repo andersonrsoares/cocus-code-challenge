@@ -11,8 +11,10 @@ import androidx.recyclerview.widget.RecyclerView
 import br.com.anderson.cocuscodechallenge.R
 import br.com.anderson.cocuscodechallenge.adapter.CompletedChallengeAdapter
 import br.com.anderson.cocuscodechallenge.di.Injectable
+import br.com.anderson.cocuscodechallenge.extras.hideKeyboard
 import br.com.anderson.cocuscodechallenge.extras.observe
 import br.com.anderson.cocuscodechallenge.extras.setDivider
+import br.com.anderson.cocuscodechallenge.model.AuthoredChallenge
 import br.com.anderson.cocuscodechallenge.model.CompletedChallenge
 import br.com.anderson.cocuscodechallenge.viewmodel.ListCompletedChallengeViewModel
 import kotlinx.android.synthetic.main.fragment_list_completed_challenge.*
@@ -40,7 +42,6 @@ class ListCompletedChallengeFragment : Fragment(R.layout.fragment_list_completed
         fetchCompletedChallenges()
     }
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -57,10 +58,8 @@ class ListCompletedChallengeFragment : Fragment(R.layout.fragment_list_completed
     }
 
     private fun fetchCompletedChallenges(){
-        viewModel.listUserCompletedChallenge(getUsername())
+        viewModel.listUserCompletedChallenge(args?.username ?: "")
     }
-
-    fun getUsername() = args?.username ?: ""
 
     private fun initObservers(){
         observe(viewModel.dataCompletedChallenge,this::onLoadDataCompletedChallenge)
@@ -75,6 +74,11 @@ class ListCompletedChallengeFragment : Fragment(R.layout.fragment_list_completed
             orientation = LinearLayoutManager.VERTICAL
         }
         recycleview.setDivider(R.drawable.divider_recycleview)
+        adapter.itemOnClick = this::onItemClick
+    }
+
+    private fun onItemClick(challange: CompletedChallenge){
+        (parentFragment as? UserDetailFragment)?.navigateToChallenge(challange.id)
     }
 
     private fun initScrollListener() {

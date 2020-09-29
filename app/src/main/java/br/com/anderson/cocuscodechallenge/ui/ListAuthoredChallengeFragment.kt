@@ -10,9 +10,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import br.com.anderson.cocuscodechallenge.R
 import br.com.anderson.cocuscodechallenge.adapter.AuthoredChallengeAdapter
 import br.com.anderson.cocuscodechallenge.di.Injectable
+import br.com.anderson.cocuscodechallenge.extras.hideKeyboard
 import br.com.anderson.cocuscodechallenge.extras.observe
 import br.com.anderson.cocuscodechallenge.extras.setDivider
 import br.com.anderson.cocuscodechallenge.model.AuthoredChallenge
+import br.com.anderson.cocuscodechallenge.model.Challenge
+import br.com.anderson.cocuscodechallenge.model.User
 import br.com.anderson.cocuscodechallenge.viewmodel.ListAuthoredChallengeViewModel
 import kotlinx.android.synthetic.main.fragment_list_completed_challenge.*
 import javax.inject.Inject
@@ -54,10 +57,9 @@ class ListAuthoredChallengeFragment : Fragment(R.layout.fragment_list_authored_c
     }
 
     private fun fetchCompletedChallenges(){
-        viewModel.listUserAuthoredChallenge(getUsername())
+        viewModel.listUserAuthoredChallenge(args?.username)
     }
 
-    fun getUsername() = args?.username ?: ""
 
     private fun initObservers(){
         observe(viewModel.dataAuthoredChallenge,this::onLoadDataCompletedChallenge)
@@ -72,6 +74,12 @@ class ListAuthoredChallengeFragment : Fragment(R.layout.fragment_list_authored_c
             orientation = LinearLayoutManager.VERTICAL
         }
         recycleview.setDivider(R.drawable.divider_recycleview)
+        adapter.itemOnClick = this::onItemClick
+    }
+
+    private fun onItemClick(challange: AuthoredChallenge){
+        hideKeyboard()
+        (parentFragment as? UserDetailFragment)?.navigateToChallenge(challange.id)
     }
 
     private fun onLoadDataCompletedChallenge(data: List<AuthoredChallenge>) {
@@ -85,7 +93,6 @@ class ListAuthoredChallengeFragment : Fragment(R.layout.fragment_list_authored_c
     private fun onLoading(data: Boolean) {
         swiperefresh.isRefreshing = data && adapter.currentList.isEmpty()
     }
-
 
     companion object {
         @JvmStatic

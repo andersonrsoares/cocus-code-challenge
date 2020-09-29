@@ -8,6 +8,7 @@ import androidx.appcompat.widget.SearchView
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavOptions
 import androidx.navigation.NavOptionsBuilder
 import androidx.navigation.fragment.findNavController
@@ -31,11 +32,11 @@ class ListUserFragment : Fragment(R.layout.fragment_list_user), Injectable,Searc
 
     lateinit var adapter:ListUserAdapter
 
-    @Inject
     lateinit var viewModel: ListUserViewModel
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel = ViewModelProvider(this,viewModelFactory).get(ListUserViewModel::class.java)
         initRecycleView()
         initObservers()
         loadUsers()
