@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class Member(
     @SerializedName("url")
-    var url: String = "",
+    val url: String = "",
     @SerializedName("username")
-    var username: String = ""
+    val username: String = ""
 )

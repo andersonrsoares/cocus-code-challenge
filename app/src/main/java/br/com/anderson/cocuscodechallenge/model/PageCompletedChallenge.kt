@@ -4,9 +4,9 @@ import com.google.gson.annotations.SerializedName
 
 data class PageCompletedChallenge(
     @SerializedName("data")
-    var data: List<CompletedChallenge>? = null,
+    val data: List<CompletedChallenge>? = null,
     @SerializedName("totalItems")
-    var totalItems: Int? = null,
+    val totalItems: Int? = null,
     @SerializedName("totalPages")
-    var totalPages: Int? = null
+    val totalPages: Int? = null
 )

@@ -10,16 +10,16 @@ import com.google.gson.annotations.SerializedName
 @TypeConverters(value = [ListStringTypeConverter::class])
 data class CompletedChallenge(
     @SerializedName("completedAt")
-    var completedAt: Long? = null,
+    val completedAt: Long? = null,
     @SerializedName("completedLanguages")
-    var completedLanguages: List<String>? = null,
+    val completedLanguages: List<String>? = null,
     @SerializedName("id")
     @PrimaryKey
-    var id: String = "",
+    val id: String = "",
     @SerializedName("name")
-    var name: String? = null,
+    val name: String? = null,
     @SerializedName("slug")
-    var slug: String? = null,
+    val slug: String? = null,
     @SerializedName("username")
     var username: String? = null
 )

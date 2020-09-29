@@ -14,13 +14,13 @@ import org.robolectric.annotation.Config
 class AuthoredChallengeDaoTest: BaseDaoTest() {
 
 
-    @Test fun `test empty db`() {
+    @Test fun `test empty db authored challenge`() {
         database.codeWarsDao().allAuthoredChallenges("username")
                 .test()
                 .assertValue { it.isEmpty() }
     }
 
-    @Test fun `test insert and get challenge`() {
+    @Test fun `test insert and get authored challenge`() {
 
         database.codeWarsDao().insertAuthoredChallenge(CHALLENGE).blockingAwait()
 
@@ -29,7 +29,7 @@ class AuthoredChallengeDaoTest: BaseDaoTest() {
                 .assertValue { it.contains(CHALLENGE) }
     }
 
-    @Test fun `test update and get challenge`() {
+    @Test fun `test update and get authored challenge`() {
         database.codeWarsDao().insertAuthoredChallenge(CHALLENGE).blockingAwait()
 
         val rank = 101

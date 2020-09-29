@@ -4,9 +4,9 @@ import com.google.gson.annotations.SerializedName
 
 data class Rank(
     @SerializedName("color")
-    var color: String = "",
+    val color: String = "",
     @SerializedName("id")
-    var id: Int = 0,
+    val id: Int = 0,
     @SerializedName("name")
-    var name: String = ""
+    val name: String = ""
 )

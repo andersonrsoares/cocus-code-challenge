@@ -14,13 +14,13 @@ import org.robolectric.annotation.Config
 class CompletedChallengeDaoTest: BaseDaoTest() {
 
 
-    @Test fun `test empty db`() {
+    @Test fun `test empty db completed challenge`() {
         database.codeWarsDao().allCompletedChallenges("username")
                 .test()
                 .assertValue { it.isEmpty() }
     }
 
-    @Test fun `test insert and get challenge`() {
+    @Test fun `test insert and get completed challenge`() {
 
         database.codeWarsDao().insertCompletedChallenge(CHALLENGE).blockingAwait()
 
@@ -29,7 +29,7 @@ class CompletedChallengeDaoTest: BaseDaoTest() {
                 .assertValue { it.contains(CHALLENGE) }
     }
 
-    @Test fun `test update and get challenge`() {
+    @Test fun `test update and get completed challenge`() {
         database.codeWarsDao().insertCompletedChallenge(CHALLENGE).blockingAwait()
 
         val datetime = 957150000000L

@@ -10,16 +10,16 @@ import br.com.anderson.cocuscodechallenge.persistence.typeconverters.RanksTypeCo
 @Entity
 @TypeConverters(value = [CodeChallengesTypeConverter::class,RanksTypeConverter::class,ListStringTypeConverter::class])
 data class User(
-    var clan: String? = null,
-    var codeChallenges: CodeChallenges? = null,
-    var honor: Int? = null,
-    var leaderboardPosition: Int? = null,
-    var name: String? = null,
-    var ranks: Ranks? = null,
-    var skills: List<String>? = null,
+    val clan: String? = null,
+    val codeChallenges: CodeChallenges? = null,
+    val honor: Int? = null,
+    val leaderboardPosition: Int? = null,
+    val name: String? = null,
+    val ranks: Ranks? = null,
+    val skills: List<String>? = null,
     @PrimaryKey
-    var username: String = "",
-    var datetime:Long
+    val username: String = "",
+    val datetime:Long
 ){
     fun bestLanguageAndPoints(): String {
         val best = ranks?.languages?.language?.maxBy { it.score  }
