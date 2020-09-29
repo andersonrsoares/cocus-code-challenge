@@ -1,9 +1,7 @@
 package br.com.anderson.cocuscodechallenge.repository
 
 
-import br.com.anderson.cocuscodechallenge.model.CompletedChallenge
 import br.com.anderson.cocuscodechallenge.model.PageCompletedChallenge
-import br.com.anderson.cocuscodechallenge.model.User
 import br.com.anderson.cocuscodechallenge.persistence.CodeWarsDao
 import br.com.anderson.cocuscodechallenge.services.CodeWarsService
 import br.com.anderson.cocuscodechallenge.testing.OpenForTesting
@@ -19,32 +17,38 @@ class CompletedChallengeRepository @Inject constructor(val localDataSouse: CodeW
 
 
     fun getCompletedChallenges(username:String,page:Int):Flowable<PageCompletedChallenge>{
-        val localData = getLocalDataCompleteChallange(username, page)
+        val localData = getOnlyPageOneLocalDataCompleteChallange(username, page)
 
-        val remoteData = remoteDataSource.getCompletedChallenges(username,page)
-            .subscribeOn(Schedulers.io())
-            .map {
-                it.toPageCompletedChallenge(username)
-            }.doOnSuccess {
-                 it.data?.forEach {completed->
-                     localDataSouse.insertCompletedChallenge(completed).subscribe()
-                 }
-            }.toFlowable()
+        val remoteData = getRemotelDataCompleteChallange(username, page)
 
         return Flowable.merge(localData,remoteData).subscribeOn(Schedulers.io())
     }
 
-    fun getLocalDataCompleteChallange(username:String,page:Int):Flowable<PageCompletedChallenge>{
+    private fun getLocalDataCompleteChallange(username:String):Flowable<PageCompletedChallenge>{
+       return localDataSouse.allCompletedChallenges(username)
+            .subscribeOn(Schedulers.io())
+            .map {
+                PageCompletedChallenge(totalPages = 1,totalItems = it.size, data = it)
+            }.toFlowable()
+    }
+
+    fun getOnlyPageOneLocalDataCompleteChallange(username:String,page:Int): Flowable<PageCompletedChallenge>{
         return if(page==1){
-            localDataSouse.allCompletedChallenges(username)
-                .subscribeOn(Schedulers.io())
-                .map {
-                    PageCompletedChallenge(totalPages = 1,totalItems = it.size, data = it)
-                }.toFlowable()
+            getLocalDataCompleteChallange(username)
         }else{
             Flowable.empty()
         }
+    }
 
-
+    private fun getRemotelDataCompleteChallange(username:String,page:Int):Flowable<PageCompletedChallenge>{
+        return remoteDataSource.getCompletedChallenges(username,page)
+            .subscribeOn(Schedulers.io())
+            .map {
+                it.toPageCompletedChallenge(username)
+            }.doOnSuccess {
+                it.data?.forEach {completed->
+                    localDataSouse.insertCompletedChallenge(completed).subscribe()
+                }
+            }.toFlowable()
     }
 }

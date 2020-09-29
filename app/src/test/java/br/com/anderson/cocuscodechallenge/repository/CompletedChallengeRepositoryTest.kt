@@ -97,12 +97,32 @@ class CompletedChallengeRepositoryTest {
         testSubscriber.assertNoErrors()
         testSubscriber.assertSubscribed()
         testSubscriber.assertComplete()
-        testSubscriber.assertValues(localData,
-            remoteData.toPageCompletedChallenge(username))
+        testSubscriber.assertValues(localData, remoteData.toPageCompletedChallenge(username))
 
     }
 
 
+    @Test
+    fun `test get completed challenges page 2 dont call local data`() {
+
+        val username = "baz"
+
+        val remoteData = PageCompletedChallengeDTO(totalPages = 1,totalItems = 1,data = arrayListOf(
+            CompletedChallengeDTO(completedAt = "2020-01-01T00:00:00Z", id = "id")))
+
+        Mockito.`when`(codeWarsDao.insertCompletedChallenge(any())).thenReturn(Completable.complete())
+        Mockito.`when`(codeWarsService.getCompletedChallenges(username,2)).thenReturn(Single.just(remoteData))
+
+        val testSubscriber = completedChallengeRepository.getCompletedChallenges("baz",2).test()
+
+        testSubscriber.awaitDone(1, TimeUnit.SECONDS)
+
+        testSubscriber.assertNoErrors()
+        testSubscriber.assertSubscribed()
+        testSubscriber.assertComplete()
+        testSubscriber.assertValues(remoteData.toPageCompletedChallenge(username))
+
+    }
 
 
 }
