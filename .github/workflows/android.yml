@@ -43,7 +43,7 @@ jobs:
         uses: asadmansr/android-test-report-action@v1.2.0
         if: ${{ always() }} # IMPORTANT: run Android Test Report regardless
   sonar:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     steps:
         - uses: actions/checkout@v1
         - name: SonarCloud Scan
