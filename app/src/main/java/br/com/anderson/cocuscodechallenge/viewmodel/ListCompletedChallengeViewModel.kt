@@ -43,7 +43,7 @@ class ListCompletedChallengeViewModel @Inject constructor(val repository: Comple
         disposable.add(repository
             .getCompletedChallenges(username,currentPage)
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(this::subscrible,this::error) )
+            .subscribe(this::subscrible,this::error,this::complete) )
     }
 
     fun nextPageListUserCompletedChallenge(){
@@ -71,7 +71,6 @@ class ListCompletedChallengeViewModel @Inject constructor(val repository: Comple
             totalPages = result.totalPages ?: 1
             _dataCompletedChallenge.postValue(result.data)
         }
-        complete()
     }
 
 }

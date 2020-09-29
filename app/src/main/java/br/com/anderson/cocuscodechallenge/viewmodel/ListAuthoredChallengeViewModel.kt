@@ -22,7 +22,7 @@ class ListAuthoredChallengeViewModel @Inject constructor(val repository: Authore
         disposable.add(repository
             .getAuthoredChallenges(username)
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(this::subscrible,this::error) )
+            .subscribe(this::subscrible,this::error,this::complete) )
     }
 
 
@@ -30,7 +30,6 @@ class ListAuthoredChallengeViewModel @Inject constructor(val repository: Authore
         if(result.isNotEmpty()){
             _dataAuthoredChallenge.postValue(result)
         }
-        complete()
     }
 
 }
