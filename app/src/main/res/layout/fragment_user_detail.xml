@@ -20,10 +20,14 @@
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomnavigation"
+        app:labelVisibilityMode="labeled"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        android:background="@color/colorPrimary"
+        app:itemIconTint="@drawable/bottom_menu_colors"
+        app:itemTextColor="@drawable/bottom_menu_colors"
         app:menu="@menu/user_detail_bottom_menu" />
 </androidx.constraintlayout.widget.ConstraintLayout>

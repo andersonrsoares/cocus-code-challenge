@@ -20,6 +20,7 @@ class UserDetailFragment : Fragment(R.layout.fragment_user_detail), Injectable{
         super.onViewCreated(view, savedInstanceState)
         initViewPager()
         initNavigationBottom()
+
     }
 
     fun onNavigationItemSelected(item: MenuItem): Boolean {
@@ -38,16 +39,12 @@ class UserDetailFragment : Fragment(R.layout.fragment_user_detail), Injectable{
         bottomnavigation.setOnNavigationItemSelectedListener(this::onNavigationItemSelected)
     }
 
-    override fun onResume() {
-        super.onResume()
-    }
-
     private inner class ScreenSlidePagerAdapter(fa: Fragment) : FragmentStateAdapter(fa) {
         override fun getItemCount(): Int = NUM_PAGES
 
         override fun createFragment(position: Int): Fragment {
             return when (position){
-                1 -> ListCompletedChallengeFragment.newInstance(arguments)
+                1 -> ListAuthoredChallengeFragment.newInstance(arguments)
                 else -> ListCompletedChallengeFragment.newInstance(arguments)
             }
         }

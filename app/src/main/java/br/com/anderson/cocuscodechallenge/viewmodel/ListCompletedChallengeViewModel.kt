@@ -30,8 +30,14 @@ class ListCompletedChallengeViewModel @Inject constructor(val repository: Comple
 
     private var _username: String = ""
 
+   override fun refresh(){
+       totalPages = 1
+       currentPage = 1
+       super.refresh()
+    }
 
     fun listUserCompletedChallenge(username:String){
+
         _username = username
         _loading.postValue(true)
         disposable.add(repository

@@ -13,12 +13,16 @@ open class BaseViewModel : ViewModel()  {
     protected val disposable = CompositeDisposable()
     protected var _message = MutableLiveData<String>()
     protected var _loading = MutableLiveData<Boolean>()
+    protected var _clean = MutableLiveData<Boolean>()
 
     val message:LiveData<String>
         get() = _message
 
     val loading:LiveData<Boolean>
         get() = _loading
+
+    val clean:LiveData<Boolean>
+        get() = _clean
 
     override fun onCleared() {
         super.onCleared()
@@ -35,4 +39,7 @@ open class BaseViewModel : ViewModel()  {
         error.printStackTrace()
     }
 
+    fun refresh(){
+        _clean.postValue(true)
+    }
 }

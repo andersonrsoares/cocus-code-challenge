@@ -1,6 +1,7 @@
 package br.com.anderson.cocuscodechallenge.di
 
 
+import br.com.anderson.cocuscodechallenge.ui.ListAuthoredChallengeFragment
 import br.com.anderson.cocuscodechallenge.ui.ListCompletedChallengeFragment
 import br.com.anderson.cocuscodechallenge.ui.ListUserFragment
 import br.com.anderson.cocuscodechallenge.ui.UserDetailFragment
@@ -20,5 +21,9 @@ abstract class MainFragmentBuildersModule {
 
     @ContributesAndroidInjector
     abstract fun contributeListCompletedChallengeFragment(): ListCompletedChallengeFragment
+
+    @ContributesAndroidInjector
+    abstract fun contributeListAuthoredChallengeFragment(): ListAuthoredChallengeFragment
+
 }
 
