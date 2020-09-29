@@ -3,6 +3,7 @@ package br.com.anderson.cocuscodechallenge.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import br.com.anderson.cocuscodechallenge.model.AuthoredChallenge
 import br.com.anderson.cocuscodechallenge.model.CompletedChallenge
 import br.com.anderson.cocuscodechallenge.model.PageCompletedChallenge
 import br.com.anderson.cocuscodechallenge.provider.ResourceProvider
@@ -69,8 +70,18 @@ class ListCompletedChallengeViewModel @Inject constructor(val repository: Comple
     private fun subscrible(result:PageCompletedChallenge){
         if(!result.data.isNullOrEmpty()){
             totalPages = result.totalPages ?: 1
-            _dataCompletedChallenge.postValue(result.data)
+            _dataCompletedChallenge.postValue(appendToCurrent(result))
         }
+        complete()
+    }
+
+    private fun appendToCurrent(result:PageCompletedChallenge):List<CompletedChallenge>{
+        val list = _dataCompletedChallenge.value.orEmpty().toMutableList()
+        if(totalPages == 1){
+            list.clear()
+        }
+        list.addAll(result.data.orEmpty())
+        return list
     }
 
 }

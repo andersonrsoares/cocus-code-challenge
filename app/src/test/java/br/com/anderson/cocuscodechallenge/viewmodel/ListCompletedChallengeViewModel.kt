@@ -56,7 +56,7 @@ class ListCompletedChallengeViewModelTest {
         verify(observerLoading).onChanged(true)
         verify(completedChallengeRepository).getCompletedChallenges(username,1)
         verify(observerData).onChanged(repositoryResponse.data)
-        verify(observerLoading).onChanged(false)
+        verify(observerLoading, times(2)).onChanged(false)
     }
 
 
@@ -78,7 +78,7 @@ class ListCompletedChallengeViewModelTest {
         verify(observerLoading).onChanged(true)
         verify(completedChallengeRepository).getCompletedChallenges(username,1)
         verify(observerData, never()).onChanged(repositoryResponse.data)
-        verify(observerLoading).onChanged(false)
+        verify(observerLoading, times(2)).onChanged(false)
     }
 
     @Test
@@ -99,12 +99,12 @@ class ListCompletedChallengeViewModelTest {
         verify(observerLoading).onChanged(true)
         verify(completedChallengeRepository).getCompletedChallenges(username,1)
         verify(observerData).onChanged(repositoryResponse.data)
-        verify(observerLoading).onChanged(false)
+        verify(observerLoading, times(2)).onChanged(false)
 
         completedChallengeViewModel.listScrolled(5,3,5)
         verify(observerLoading).onChanged(true)
         verify(observerData).onChanged(repositoryResponse.data)
-        verify(observerLoading).onChanged(false)
+        verify(observerLoading, times(2)).onChanged(false)
 
     }
 }

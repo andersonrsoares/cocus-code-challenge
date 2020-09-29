@@ -41,6 +41,12 @@ class AuthoredChallengeRepository @Inject constructor(val localDataSouse: CodeWa
     private fun getLocalDataAuthoredChallange(username:String):Flowable<List<AuthoredChallenge>>{
       return localDataSouse.allAuthoredChallenges(username)
            .subscribeOn(Schedulers.io())
-           .toFlowable()
+          .flatMapPublisher {
+              if(it.isNotEmpty()){
+                  Flowable.just(it)
+              }else{
+                  Flowable.never()
+              }
+          }
    }
 }

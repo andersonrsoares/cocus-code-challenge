@@ -57,7 +57,6 @@ class ListUserFragment : Fragment(R.layout.fragment_list_user), Injectable,Searc
     }
 
     private fun initObservers(){
-        observe(viewModel.dataSearchUser,this::onLoadSearchUser)
         observe(viewModel.dataListLastUsers,this::onLoadDataListUsers)
         observe(viewModel.message,this::onMessage)
         observe(viewModel.loading,this::onLoading)
@@ -80,10 +79,6 @@ class ListUserFragment : Fragment(R.layout.fragment_list_user), Injectable,Searc
 
     private fun onLoadDataListUsers(data: List<User>) {
         adapter.submitList(data)
-    }
-
-    private fun onLoadSearchUser(data: User) {
-        adapter.submitList(arrayListOf(data))
     }
 
     private fun fetchUsers(){

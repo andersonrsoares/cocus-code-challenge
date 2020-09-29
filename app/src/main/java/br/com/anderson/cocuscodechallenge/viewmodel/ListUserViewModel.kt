@@ -19,19 +19,12 @@ class ListUserViewModel @Inject constructor(val resourceProvider: ResourceProvid
     val dataListLastUsers:LiveData<List<User>>
         get() = _dataListLastUsers
 
-
-    private var _dataSearchUser = MutableLiveData<User>()
-
-    val dataSearchUser:LiveData<User>
-        get() = _dataSearchUser
-
-
     fun listLastUsers(){
         _loading.postValue(true)
         disposable.add(repository
             .listLastUsers()
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(this::subscrible,this::error))
+            .subscribe(this::subscribleLastUsers,this::error))
     }
 
     fun searchUser(username:String){
@@ -42,7 +35,7 @@ class ListUserViewModel @Inject constructor(val resourceProvider: ResourceProvid
         disposable.add(repository
             .searchUser(username)
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(this::subscrible,this::error))
+            .subscribe(this::subscribleNewUser,this::error,this::complete))
 
     }
 
@@ -55,12 +48,23 @@ class ListUserViewModel @Inject constructor(val resourceProvider: ResourceProvid
         }
     }
 
-    private fun subscrible(result:User){
-        _dataSearchUser.postValue(result)
+    private fun subscribleNewUser(result:User){
+        val list= replaceIfExists(result)
+        _dataListLastUsers.postValue(list)
         complete()
     }
 
-    private fun subscrible(result:List<User>){
+    private fun replaceIfExists(result:User):List<User>{
+        val list = _dataListLastUsers.value.orEmpty().toMutableList()
+        val index = list.indexOfFirst { user -> user.username == result.username  }
+        if(index >= 0){
+            list.removeAt(index)
+        }
+        list.add(0,result)
+        return list
+    }
+
+    private fun subscribleLastUsers(result:List<User>){
         _dataListLastUsers.postValue(result)
         complete()
     }

@@ -66,8 +66,8 @@ class AuthoredChallengeRepositoryTest {
 
         testSubscriber.assertNoErrors()
         testSubscriber.assertSubscribed()
-        testSubscriber.assertComplete()
-        testSubscriber.assertValues(arrayListOf(), remoteData.toAuthoredChallengeList(username))
+        testSubscriber.assertNotComplete()
+        testSubscriber.assertValues(remoteData.toAuthoredChallengeList(username))
 
 
     }

@@ -68,9 +68,8 @@ class CompletedChallengeRepositoryTest {
 
         testSubscriber.assertNoErrors()
         testSubscriber.assertSubscribed()
-        testSubscriber.assertComplete()
-        testSubscriber.assertValues(PageCompletedChallenge(totalPages = 1,totalItems = 0,data = arrayListOf()),
-            remoteData.toPageCompletedChallenge(username))
+        testSubscriber.assertNotComplete()
+        testSubscriber.assertValues(remoteData.toPageCompletedChallenge(username))
 
 
     }

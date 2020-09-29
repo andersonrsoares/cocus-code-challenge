@@ -56,7 +56,7 @@ class ListAuthoredChallengeViewModelTest {
         verify(observerLoading).onChanged(true)
         verify(authoredChallengeRepository).getAuthoredChallenges(username)
         verify(observerData).onChanged(repositoryResponse)
-        verify(observerLoading).onChanged(false)
+        verify(observerLoading, times(2)).onChanged(false)
     }
 
     @Test
@@ -77,7 +77,7 @@ class ListAuthoredChallengeViewModelTest {
         verify(observerLoading).onChanged(true)
         verify(authoredChallengeRepository).getAuthoredChallenges(username)
         verify(observerData, never()).onChanged(repositoryResponse)
-        verify(observerLoading).onChanged(false)
+        verify(observerLoading, times(2)).onChanged(false)
     }
 
 }

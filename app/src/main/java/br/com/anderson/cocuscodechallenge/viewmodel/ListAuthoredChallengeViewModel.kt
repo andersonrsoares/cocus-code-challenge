@@ -30,6 +30,7 @@ class ListAuthoredChallengeViewModel @Inject constructor(val repository: Authore
         if(result.isNotEmpty()){
             _dataAuthoredChallenge.postValue(result)
         }
+        complete()
     }
 
 }

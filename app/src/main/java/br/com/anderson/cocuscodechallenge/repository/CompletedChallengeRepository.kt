@@ -27,9 +27,13 @@ class CompletedChallengeRepository @Inject constructor(val localDataSouse: CodeW
     private fun getLocalDataCompleteChallange(username:String):Flowable<PageCompletedChallenge>{
        return localDataSouse.allCompletedChallenges(username)
             .subscribeOn(Schedulers.io())
-            .map {
-                PageCompletedChallenge(totalPages = 1,totalItems = it.size, data = it)
-            }.toFlowable()
+            .flatMapPublisher {
+                if(it.isNotEmpty()){
+                    Flowable.just(PageCompletedChallenge(totalPages = 1,totalItems = it.size, data = it))
+                }else{
+                    Flowable.never()
+                }
+            }
     }
 
     fun getOnlyPageOneLocalDataCompleteChallange(username:String,page:Int): Flowable<PageCompletedChallenge>{
