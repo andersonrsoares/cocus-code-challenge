@@ -18,4 +18,10 @@
     <string name="menu_completed_challenges">Completed challenges</string>
     <string name="menu_authored_challenges">Authored challenges</string>
     <string name="label_tags">Tags</string>
+    <string name="label_category">Category</string>
+    <string name="label_starts">Starts</string>
+    <string name="label_attempts">Attempts</string>
+    <string name="total_completed">Completed</string>
+    <string name="label_created_by">Created by</string>
+    <string name="label_created">Published</string>
 </resources>

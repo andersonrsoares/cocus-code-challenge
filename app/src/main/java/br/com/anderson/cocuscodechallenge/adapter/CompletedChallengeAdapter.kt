@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.*
 import br.com.anderson.cocuscodechallenge.R
+import br.com.anderson.cocuscodechallenge.extras.toDateFormat
 import br.com.anderson.cocuscodechallenge.extras.toTimestamp
 import br.com.anderson.cocuscodechallenge.model.CompletedChallenge
 import java.util.concurrent.Executors
@@ -37,12 +38,10 @@ class CompletedChallengeAdapter : ListAdapter<CompletedChallenge,CompletedChalle
             itemView.setOnClickListener {
                 itemOnClick(data)
             }
-
             completedlanguages.text = data.completedLanguages?.joinToString(", ")
             name.text = data.name
-            date.text = data.completedAt?.toTimestamp()
+            date.text = data.completedAt?.toDateFormat()
         }
-
 
     }
 

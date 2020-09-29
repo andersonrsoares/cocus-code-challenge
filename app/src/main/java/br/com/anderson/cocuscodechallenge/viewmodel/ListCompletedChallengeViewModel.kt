@@ -32,9 +32,10 @@ class ListCompletedChallengeViewModel @Inject constructor(val repository: Comple
     private var _username: String = ""
 
    override fun refresh(){
+       super.refresh()
        totalPages = 1
        currentPage = 1
-       super.refresh()
+       listUserCompletedChallenge(_username)
     }
 
     fun listUserCompletedChallenge(username:String?){
@@ -76,8 +77,9 @@ class ListCompletedChallengeViewModel @Inject constructor(val repository: Comple
 
     private fun appendToCurrent(result:PageCompletedChallenge):List<CompletedChallenge>{
         val list = _dataCompletedChallenge.value.orEmpty().toMutableList()
-        if(totalPages == 1){
+        if(currentPage == 1){
             list.clear()
+            _clean.postValue(true)
         }
         list.addAll(result.data.orEmpty())
         return list

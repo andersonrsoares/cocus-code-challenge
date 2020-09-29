@@ -65,6 +65,7 @@ class ListAuthoredChallengeFragment : Fragment(R.layout.fragment_list_authored_c
         observe(viewModel.dataAuthoredChallenge,this::onLoadDataCompletedChallenge)
         observe(viewModel.message,this::onMessage)
         observe(viewModel.loading,this::onLoading)
+        observe(viewModel.clean,this::onClean)
     }
 
     private fun initRecycleView(){
@@ -92,6 +93,10 @@ class ListAuthoredChallengeFragment : Fragment(R.layout.fragment_list_authored_c
 
     private fun onLoading(data: Boolean) {
         swiperefresh.isRefreshing = data && adapter.currentList.isEmpty()
+    }
+
+    private fun onClean(data: Boolean) {
+        adapter.submitList(arrayListOf())
     }
 
     companion object {

@@ -65,6 +65,7 @@ class ListCompletedChallengeFragment : Fragment(R.layout.fragment_list_completed
         observe(viewModel.dataCompletedChallenge,this::onLoadDataCompletedChallenge)
         observe(viewModel.message,this::onMessage)
         observe(viewModel.loading,this::onLoading)
+        observe(viewModel.clean,this::onClean)
     }
 
     private fun initRecycleView(){
@@ -109,6 +110,10 @@ class ListCompletedChallengeFragment : Fragment(R.layout.fragment_list_completed
         swiperefresh.isRefreshing = data && adapter.currentList.isEmpty()
     }
 
+
+    private fun onClean(data: Boolean) {
+       adapter.submitList(arrayListOf())
+    }
 
     companion object {
         @JvmStatic

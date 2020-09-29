@@ -16,11 +16,12 @@ class ListAuthoredChallengeViewModel @Inject constructor(val repository: Authore
     val dataAuthoredChallenge:LiveData<List<AuthoredChallenge>>
         get() = _dataAuthoredChallenge
 
-
+    var _username:String = ""
     fun listUserAuthoredChallenge(username:String?){
+        _username = username ?: ""
         _loading.postValue(true)
         disposable.add(repository
-            .getAuthoredChallenges(username ?: "")
+            .getAuthoredChallenges(_username)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(this::subscrible,this::error,this::complete) )
     }
@@ -31,6 +32,11 @@ class ListAuthoredChallengeViewModel @Inject constructor(val repository: Authore
             _dataAuthoredChallenge.postValue(result)
         }
         complete()
+    }
+
+    override fun refresh() {
+        super.refresh()
+        listUserAuthoredChallenge(_username)
     }
 
 }

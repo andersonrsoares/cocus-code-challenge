@@ -18,6 +18,7 @@ import br.com.anderson.cocuscodechallenge.di.Injectable
 import br.com.anderson.cocuscodechallenge.extras.hideKeyboard
 import br.com.anderson.cocuscodechallenge.extras.observe
 import br.com.anderson.cocuscodechallenge.extras.setDivider
+import br.com.anderson.cocuscodechallenge.extras.toDateFormat
 import br.com.anderson.cocuscodechallenge.model.Challenge
 import br.com.anderson.cocuscodechallenge.model.User
 import br.com.anderson.cocuscodechallenge.viewmodel.ChallengeViewModel
@@ -68,6 +69,12 @@ class ChallengeFragment : Fragment(R.layout.fragment_challange), Injectable {
         rank.text = data.rank?.name
         languages.text = data.languages?.joinToString(", ")
         tags.text = data.tags?.joinToString(", ")
+        createdby.text = data.createdBy?.username
+        createdat.text = data.publishedAt?.toDateFormat()
+        category.text = data.category
+        starts.text = data.totalStars.toString()
+        attempts.text = data.totalAttempts.toString()
+        attempts.text = data.totalCompleted.toString()
     }
 
     private fun onMessage(data: String) {
