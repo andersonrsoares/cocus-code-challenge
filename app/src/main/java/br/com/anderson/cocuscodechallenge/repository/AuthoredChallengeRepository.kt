@@ -2,9 +2,6 @@ package br.com.anderson.cocuscodechallenge.repository
 
 
 import br.com.anderson.cocuscodechallenge.model.AuthoredChallenge
-import br.com.anderson.cocuscodechallenge.model.CompletedChallenge
-import br.com.anderson.cocuscodechallenge.model.PageCompletedChallenge
-import br.com.anderson.cocuscodechallenge.model.User
 import br.com.anderson.cocuscodechallenge.persistence.CodeWarsDao
 import br.com.anderson.cocuscodechallenge.services.CodeWarsService
 import br.com.anderson.cocuscodechallenge.testing.OpenForTesting

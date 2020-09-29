@@ -7,18 +7,10 @@ sealed class ViewState<out T> {
 
     object Empty : ViewState<Nothing>()
 
-    data class Error(
-        val causeError: CauseError
-    ): ViewState<Nothing>()
+    object Retry : ViewState<Nothing>()
 
-}
+    object InternetConnection : ViewState<Nothing>()
 
-sealed class CauseError {
-
-    object NetWorkTimeout : CauseError()
-
-    object ServerError : CauseError()
-
-    class Generic(val errorMessage: String? = null) : CauseError()
+    data class Error(val cause: String): ViewState<Nothing>()
 
 }
