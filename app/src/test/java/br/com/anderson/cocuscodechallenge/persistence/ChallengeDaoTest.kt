@@ -19,7 +19,7 @@ class ChallengeDaoTest: BaseDaoTest() {
     @Test fun `test empty db challenge`() {
         database.codeWarsDao().getChallenge("id")
                 .test()
-                .assertError { it is EmptyResultSetException }
+                .assertNoValues()
     }
 
     @Test fun `test insert and get challenge`() {

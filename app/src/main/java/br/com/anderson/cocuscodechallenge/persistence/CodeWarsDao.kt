@@ -8,6 +8,7 @@ import br.com.anderson.cocuscodechallenge.model.*
 import br.com.anderson.cocuscodechallenge.testing.OpenForTesting
 import io.reactivex.Completable
 import io.reactivex.Flowable
+import io.reactivex.Maybe
 import io.reactivex.Single
 
 @Dao
@@ -33,7 +34,7 @@ abstract class CodeWarsDao {
     abstract fun insertAuthoredChallenge(authoredChallenge: AuthoredChallenge): Completable
 
     @Query("SELECT * from Challenge where id == :id")
-    abstract fun getChallenge(id:String): Single<Challenge>
+    abstract fun getChallenge(id:String): Maybe<Challenge>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract fun insertChallenge(challenge: Challenge): Completable
