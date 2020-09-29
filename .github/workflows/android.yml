@@ -47,7 +47,7 @@ jobs:
     steps:
         - uses: actions/checkout@v1
         - name: SonarCloud Scan
-          run: ./gradlew jacocoTestReport sonarqube -Dsonar.login=${{ secrets.SONAR_TOKEN }} -Dsonar.projectKey=andersonrsoares_cocus-code-challenge -Dsonar.projectName=cocus-code-challenge -Dsonar.sources=app/src/main/java -Dsonar.java.binaries=app/build/tmp/kotlin-classes/devDebug -Dsonar.language=kotlin -Dsonar.coverage.jacoco.xmlReportPaths=app/build/reports/jacoco/report.xml -Dsonar.exclusions="**/*.js,**/*.css,**/*.html" -Dsonar.java.coveragePlugin=jacoco -Dsonar.host.url=https://sonarcloud.io/ -Dsonar.organizatio=andersonrsoares --stacktrace
+          run: ./gradlew jacocoTestReport sonarqube -Dsonar.login=${{ secrets.SONAR_TOKEN }} -Dsonar.projectKey=andersonrsoares_cocus-code-challenge -Dsonar.projectName=cocus-code-challenge -Dsonar.sources=app/src/main/java -Dsonar.java.binaries=app/build/tmp/kotlin-classes/devDebug -Dsonar.language=kotlin -Dsonar.coverage.jacoco.xmlReportPaths=app/build/reports/jacoco/report.xml -Dsonar.exclusions="**/*.js,**/*.css,**/*.html" -Dsonar.java.coveragePlugin=jacoco -Dsonar.host.url=https://sonarcloud.io/ -Dsonar.organization=andersonrsoares --stacktrace
           env:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         - name: Link to SonarCloud Report
