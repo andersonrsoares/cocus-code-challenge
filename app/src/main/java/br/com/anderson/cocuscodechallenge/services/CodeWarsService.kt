@@ -1,5 +1,6 @@
 package br.com.anderson.cocuscodechallenge.services
 
+import br.com.anderson.cocuscodechallenge.dto.ChallengeDTO
 import br.com.anderson.cocuscodechallenge.dto.DataAuthoredChallengeDTO
 import br.com.anderson.cocuscodechallenge.dto.PageCompletedChallengeDTO
 import br.com.anderson.cocuscodechallenge.dto.UserDTO
@@ -22,5 +23,8 @@ interface  CodeWarsService {
 
     @GET("users/{username}/code-challenges/authored")
     fun getAuthoredChallenges(@Path("username") username:String): Single<DataAuthoredChallengeDTO>
+
+    @GET("code-challenges/{id}")
+    fun getChallenge(@Path("id") id:String): Single<ChallengeDTO>
 
 }

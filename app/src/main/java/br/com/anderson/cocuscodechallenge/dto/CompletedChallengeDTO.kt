@@ -9,13 +9,13 @@ data class CompletedChallengeDTO(
     @SerializedName("completedAt")
     var completedAt: String? = null,
     @SerializedName("completedLanguages")
-    var completedLanguages: List<String> = listOf(),
+    val completedLanguages: List<String> = listOf(),
     @SerializedName("id")
-    var id: String = "",
+    val id: String = "",
     @SerializedName("name")
-    var name: String = "",
+    val name: String = "",
     @SerializedName("slug")
-    var slug: String = ""
+    val slug: String = ""
 ){
     fun toCompletedChallenge(): CompletedChallenge{
         return CompletedChallenge(completedAt = completedAt.toTimestamp(),

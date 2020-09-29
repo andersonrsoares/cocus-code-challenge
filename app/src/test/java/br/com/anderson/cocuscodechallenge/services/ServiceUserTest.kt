@@ -76,6 +76,7 @@ class ServiceUserTest : BaseServiceTest() {
 
         //THEN
         response.assertError {
+            //print((it as? HttpException)?.response()?.errorBody()?.string())
             it is HttpException && (it as? HttpException)?.code() == 404
         }
     }
