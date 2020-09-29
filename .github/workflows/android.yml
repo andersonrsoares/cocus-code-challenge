@@ -17,9 +17,7 @@ jobs:
         uses: gradle/wrapper-validation-action@v1
         
   build:
-
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v2
     - name: set up JDK 1.8
@@ -28,6 +26,7 @@ jobs:
         java-version: 1.8
     - name: Build with Gradle
       run: ./gradlew buildDebug
+      
   test:
     runs-on: ubuntu-latest
     steps:
@@ -43,3 +42,14 @@ jobs:
       - name: Android Test Report
         uses: asadmansr/android-test-report-action@v1.2.0
         if: ${{ always() }} # IMPORTANT: run Android Test Report regardless
+  sonar:
+    runs-on: ubuntu-18.04
+    steps:
+        - uses: actions/checkout@v1
+        - name: SonarCloud Scan
+        run: ./gradlew jacocoTestReport sonarqube -Dsonar.login=${{ secrets.SONAR_TOKEN }} -Dsonar.projectKey=andersonrsoares_cocus-code-challenge -Dsonar.projectName=cocus-code-challenge -Dsonar.sources=app/src/main/java -Dsonar.java.binaries=app/build/tmp/kotlin-classes/devDebug -Dsonar.language=kotlin -Dsonar.coverage.jacoco.xmlReportPaths =app/build/reports/jacoco/report.xml -Dsonar.exclusions="**/*.js,**/*.css,**/*.html" -Dsonar.java.coveragePlugin=jacoco --stacktrace
+        env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        - name: Link to SonarCloud Report
+        run: echo "https://sonarcloud.io/dashboard?id=andersonrsoares_cocus-code-challenger"
+  
