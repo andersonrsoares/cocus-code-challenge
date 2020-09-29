@@ -156,6 +156,7 @@ dependencies {
     debugImplementation "androidx.test:core-ktx:$test_core"
     debugImplementation "androidx.test:runner:$atsl_runner"
     debugImplementation "androidx.test:rules:$atsl_runner"
+    debugImplementation "com.squareup.okhttp3:mockwebserver:$mockwebserver"
 
     androidTestImplementation "androidx.test.espresso:espresso-core:$espresso"
     androidTestImplementation "androidx.test.espresso:espresso-contrib:$espresso"
