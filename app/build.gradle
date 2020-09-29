@@ -5,6 +5,7 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'androidx.navigation.safeargs.kotlin'
 apply plugin: 'kotlin-allopen'
 apply plugin: 'jacoco'
+apply plugin: 'org.sonarqube'
 
 allOpen {
     // allows mocking for classes w/o directly opening them for release builds
@@ -55,6 +56,12 @@ android {
             returnDefaultValues = true
             includeAndroidResources = true
         }
+    }
+}
+
+sonarqube {
+    properties {
+       
     }
 }
 
