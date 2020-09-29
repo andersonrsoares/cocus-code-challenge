@@ -56,7 +56,6 @@ class ChallengeViewModelTest {
     fun `list authored challenges data empty`() {
 
         val id = "id"
-        val repositoryResponse = Challenge(id = "id")
         `when`(challengeRepository.getAuthoredChallenges(id)).thenReturn(Flowable.empty())
 
         val observerData = mock<Observer<Challenge>>()

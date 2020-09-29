@@ -35,7 +35,9 @@ class AuthoredChallengeRepository @Inject constructor(val localDataSouse: CodeWa
                 it.forEach { completed ->
                     localDataSouse.insertAuthoredChallenge(completed).subscribe()
                 }
-            }.toFlowable()
+            }.onErrorResumeNext {
+               Single.just(arrayListOf())
+           }.toFlowable()
     }
 
     private fun getLocalDataAuthoredChallange(username:String):Flowable<List<AuthoredChallenge>>{

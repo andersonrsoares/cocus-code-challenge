@@ -53,6 +53,9 @@ class CompletedChallengeRepository @Inject constructor(val localDataSouse: CodeW
                 it.data?.forEach {completed->
                     localDataSouse.insertCompletedChallenge(completed).subscribe()
                 }
+            }.onErrorResumeNext {
+                Single.just(PageCompletedChallenge(totalPages = 1))
             }.toFlowable()
+
     }
 }
