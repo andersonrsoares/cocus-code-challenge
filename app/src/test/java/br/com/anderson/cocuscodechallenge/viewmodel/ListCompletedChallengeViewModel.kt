@@ -60,4 +60,51 @@ class ListCompletedChallengeViewModelTest {
     }
 
 
+    @Test
+    fun `list completed challenges success data empty`() {
+
+        val username = "baz"
+
+        val repositoryResponse = PageCompletedChallenge(totalPages = 1,totalItems = 1,data = arrayListOf())
+
+        `when`(completedChallengeRepository.getCompletedChallenges(username,1)).thenReturn(Flowable.just(repositoryResponse))
+
+        val observerData = mock<Observer<List<CompletedChallenge>>>()
+        val observerLoading = mock<Observer<Boolean>>()
+
+        completedChallengeViewModel.loading.observeForever(observerLoading)
+        completedChallengeViewModel.dataCompletedChallenge.observeForever(observerData)
+        completedChallengeViewModel.listUserCompletedChallenge(username)
+        verify(observerLoading).onChanged(true)
+        verify(completedChallengeRepository).getCompletedChallenges(username,1)
+        verify(observerData, never()).onChanged(repositoryResponse.data)
+        verify(observerLoading).onChanged(false)
+    }
+
+    @Test
+    fun `list completed challenges success page 2`() {
+
+        val username = "baz"
+
+        val repositoryResponse = PageCompletedChallenge(totalPages = 2,totalItems = 1,data = arrayListOf(CompletedChallenge(completedAt = 0, id = "id")))
+
+        `when`(completedChallengeRepository.getCompletedChallenges(username,1)).thenReturn(Flowable.just(repositoryResponse))
+
+        val observerData = mock<Observer<List<CompletedChallenge>>>()
+        val observerLoading = mock<Observer<Boolean>>()
+
+        completedChallengeViewModel.loading.observeForever(observerLoading)
+        completedChallengeViewModel.dataCompletedChallenge.observeForever(observerData)
+        completedChallengeViewModel.listUserCompletedChallenge(username)
+        verify(observerLoading).onChanged(true)
+        verify(completedChallengeRepository).getCompletedChallenges(username,1)
+        verify(observerData).onChanged(repositoryResponse.data)
+        verify(observerLoading).onChanged(false)
+
+        completedChallengeViewModel.listScrolled(5,3,5)
+        verify(observerLoading).onChanged(true)
+        verify(observerData).onChanged(repositoryResponse.data)
+        verify(observerLoading).onChanged(false)
+
+    }
 }
