@@ -67,16 +67,16 @@ class ListUserViewModelTest {
 
         `when`(userRepository.searchUser(username)).thenReturn(Flowable.just(repositoryResponse))
 
-        val observerData = mock<Observer<User>>()
+        val observerData = mock<Observer<List<User>>>()
         val observerLoading = mock<Observer<Boolean>>()
 
         userViewModel.loading.observeForever(observerLoading)
-        userViewModel.dataSearchUser.observeForever(observerData)
+        userViewModel.dataListLastUsers.observeForever(observerData)
         userViewModel.searchUser(username)
         verify(observerLoading).onChanged(true)
         verify(userRepository).searchUser(username)
-        verify(observerData).onChanged(repositoryResponse)
-        verify(observerLoading).onChanged(false)
+        verify(observerData).onChanged(listOf(repositoryResponse))
+        verify(observerLoading, times(2)).onChanged(false)
     }
 
     @Test

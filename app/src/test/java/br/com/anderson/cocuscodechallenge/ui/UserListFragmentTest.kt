@@ -34,7 +34,6 @@ class UserListFragmentTest {
 
     lateinit var factory:FragmentFactory
 
-
     @Before
     fun setup(){
         testviewModel = Mockito.mock(ListUserViewModel::class.java)
@@ -51,11 +50,9 @@ class UserListFragmentTest {
 
     @Test fun `test ui recycleview list`() {
         val liveDataListUser = MutableLiveData<List<User>>()
-        val liveDataUser = MutableLiveData<User>()
         val loading = MutableLiveData<Boolean>()
         val message = MutableLiveData<String>()
         Mockito.`when`(testviewModel.dataListLastUsers).thenReturn(liveDataListUser)
-        Mockito.`when`(testviewModel.dataSearchUser).thenReturn(liveDataUser)
         Mockito.`when`(testviewModel.loading).thenReturn(loading)
         Mockito.`when`(testviewModel.message).thenReturn(message)
 

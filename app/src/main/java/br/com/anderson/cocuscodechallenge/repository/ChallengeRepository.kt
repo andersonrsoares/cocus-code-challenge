@@ -1,0 +1,41 @@
+package br.com.anderson.cocuscodechallenge.repository
+
+
+import br.com.anderson.cocuscodechallenge.model.*
+import br.com.anderson.cocuscodechallenge.persistence.CodeWarsDao
+import br.com.anderson.cocuscodechallenge.services.CodeWarsService
+import br.com.anderson.cocuscodechallenge.testing.OpenForTesting
+import io.reactivex.*
+import io.reactivex.schedulers.Schedulers
+import javax.inject.Inject
+import javax.inject.Singleton
+
+@Singleton
+@OpenForTesting
+class ChallengeRepository @Inject constructor(val localDataSouse: CodeWarsDao,
+                                              val remoteDataSource:CodeWarsService) {
+
+
+    fun getAuthoredChallenges(id:String):Flowable<Challenge>{
+        val localData = getRemoteDataChallenge(id)
+        val remoteData = getLocalDataChallange(id)
+
+        return Flowable.merge(localData,remoteData).subscribeOn(Schedulers.io())
+    }
+
+    private fun getRemoteDataChallenge(id:String):Flowable<Challenge>{
+       return remoteDataSource.getChallenge(id)
+            .subscribeOn(Schedulers.io())
+            .map {
+                it.toChallange()
+            }.doOnSuccess {
+               localDataSouse.insertChallenge(it).subscribe()
+            }.toFlowable()
+    }
+
+    private fun getLocalDataChallange(id:String):Flowable<Challenge>{
+      return localDataSouse.getChallenge(id)
+           .subscribeOn(Schedulers.io())
+           .toFlowable()
+   }
+}

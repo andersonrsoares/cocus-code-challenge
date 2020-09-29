@@ -17,7 +17,7 @@ class ListUserAdapter : ListAdapter<User,ListUserAdapter.Holder>(
     .setBackgroundThreadExecutor(Executors.newSingleThreadExecutor())
     .build()){
 
-
+    var itemOnClick: (User) -> Unit = {_ ->  }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListUserAdapter.Holder {
         val view = LayoutInflater.from(parent.context)
                 .inflate(R.layout.adapter_user, parent, false)
@@ -25,17 +25,17 @@ class ListUserAdapter : ListAdapter<User,ListUserAdapter.Holder>(
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
-        binds(holder,getItem(position)!!,position)
+        binds(holder,getItem(position))
     }
 
     override fun getItemCount(): Int {
         return super.getItemCount()
     }
 
-    private fun binds(holder: Holder, data: User, pos: Int) {
+    private fun binds(holder: Holder, data: User) {
         with(holder){
             itemView.setOnClickListener {
-                notifyItemChanged(pos)
+                itemOnClick(data)
             }
 
             username .text = data.username

@@ -9,4 +9,19 @@
     <string name="label_honor">Honor</string>
     <string name="label_cian">Cian</string>
     <string name="label_best_language">Best language</string>
+    <string name="label_completed_languages">Completed Languages</string>
+    <string name="label_date">Date</string>
+    <string name="label_challenge_name">Challenge name</string>
+    <string name="label_rank">Rank</string>
+    <string name="label_description">Description</string>
+    <string name="label_languages">Languages</string>
+    <string name="menu_completed_challenges">Completed challenges</string>
+    <string name="menu_authored_challenges">Authored challenges</string>
+    <string name="label_tags">Tags</string>
+    <string name="label_category">Category</string>
+    <string name="label_starts">Starts</string>
+    <string name="label_attempts">Attempts</string>
+    <string name="total_completed">Completed</string>
+    <string name="label_created_by">Created by</string>
+    <string name="label_created">Published</string>
 </resources>
