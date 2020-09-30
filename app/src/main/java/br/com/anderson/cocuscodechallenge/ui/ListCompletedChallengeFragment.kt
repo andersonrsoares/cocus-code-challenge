@@ -22,9 +22,7 @@ import javax.inject.Inject
 
 
 class ListCompletedChallengeFragment : Fragment(R.layout.fragment_list_completed_challenge), Injectable{
-    
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
+
 
     lateinit var adapter:CompletedChallengeAdapter
 

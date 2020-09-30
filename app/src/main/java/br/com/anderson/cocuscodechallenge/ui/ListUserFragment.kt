@@ -22,17 +22,14 @@ import javax.inject.Inject
 
 
 class ListUserFragment : Fragment(R.layout.fragment_list_user), Injectable,SearchView.OnQueryTextListener {
-    
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
 
     lateinit var adapter:ListUserAdapter
 
+    @Inject
     lateinit var viewModel: ListUserViewModel
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(this,viewModelFactory).get(ListUserViewModel::class.java)
         initRecycleView()
         initObservers()
         loadUsers()

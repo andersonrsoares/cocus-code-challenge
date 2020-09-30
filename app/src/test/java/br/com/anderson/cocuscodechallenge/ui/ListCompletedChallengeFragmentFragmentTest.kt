@@ -18,9 +18,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.test.espresso.assertion.ViewAssertions
 import br.com.anderson.cocuscodechallenge.R
 import br.com.anderson.cocuscodechallenge.RecyclerViewMatcher
-import br.com.anderson.cocuscodechallenge.ViewModelUtil
-import br.com.anderson.cocuscodechallenge.model.User
-import br.com.anderson.cocuscodechallenge.viewmodel.ListUserViewModel
+import br.com.anderson.cocuscodechallenge.model.AuthoredChallenge
+import br.com.anderson.cocuscodechallenge.model.CompletedChallenge
+import br.com.anderson.cocuscodechallenge.viewmodel.ListAuthoredChallengeViewModel
+import br.com.anderson.cocuscodechallenge.viewmodel.ListCompletedChallengeViewModel
 import org.junit.Before
 import org.mockito.Mockito
 
@@ -28,18 +29,18 @@ import org.mockito.Mockito
 @RunWith(AndroidJUnit4::class)
 @LooperMode(LooperMode.Mode.PAUSED)
 @Config(sdk = [Build.VERSION_CODES.P], application = Application::class,qualifiers = "w360dp-h880dp-xhdpi" )
-class UserListFragmentTest {
+class ListCompletedChallengeFragmentFragmentTest {
 
-    lateinit var testviewModel: ListUserViewModel
+    lateinit var testviewModel: ListCompletedChallengeViewModel
 
     lateinit var factory:FragmentFactory
 
     @Before
     fun setup(){
-        testviewModel = Mockito.mock(ListUserViewModel::class.java)
+        testviewModel = Mockito.mock(ListCompletedChallengeViewModel::class.java)
         factory = object : FragmentFactory(){
             override fun instantiate(classLoader: ClassLoader, className: String): Fragment {
-                return  ListUserFragment().apply {
+                return  ListCompletedChallengeFragment().apply {
                     this.viewModel = testviewModel
                 }
             }
@@ -47,18 +48,21 @@ class UserListFragmentTest {
     }
 
 
-    @Test fun `test list user ui recycleview list`() {
-        val liveDataListUser = MutableLiveData<List<User>>()
+    @Test fun `test authored challenge ui recycleview list`() {
+        val liveDataListUser = MutableLiveData<List<CompletedChallenge>>()
         val loading = MutableLiveData<Boolean>()
         val message = MutableLiveData<String>()
         val retry = MutableLiveData<String>()
-        Mockito.`when`(testviewModel.dataListLastUsers).thenReturn(liveDataListUser)
+        val clean = MutableLiveData<Boolean>()
+        Mockito.`when`(testviewModel.dataCompletedChallenge).thenReturn(liveDataListUser)
         Mockito.`when`(testviewModel.loading).thenReturn(loading)
         Mockito.`when`(testviewModel.message).thenReturn(message)
         Mockito.`when`(testviewModel.retry).thenReturn(retry)
+        Mockito.`when`(testviewModel.clean).thenReturn(clean)
 
-        liveDataListUser.value = arrayListOf(User(datetime = 0,clan = "clan", honor = 100, leaderboardPosition = 1,name = "Name", username = "username"))
-        val  scenario = launchFragmentInContainer<ListUserFragment>(themeResId = R.style.AppTheme, factory = factory)
+
+        liveDataListUser.value = arrayListOf(CompletedChallenge(  name = "Name", username = "username"))
+        val  scenario = launchFragmentInContainer<ListCompletedChallengeFragment>(themeResId = R.style.AppTheme, factory = factory)
 
         scenario.onFragment {
 

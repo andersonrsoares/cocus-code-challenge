@@ -22,9 +22,6 @@ import javax.inject.Inject
 
 
 class ListAuthoredChallengeFragment : Fragment(R.layout.fragment_list_authored_challenge), Injectable{
-    
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
 
     lateinit var adapter:AuthoredChallengeAdapter
 
