@@ -33,15 +33,12 @@ fun <T> Throwable.createDataSourceResult(): DataSourceResult<T>{
 }
 
 fun Throwable.handleException(): ErrorResult {
-     when(this){
+    return when(this){
          is UnknownHostException, is TimeoutException, is TimeoutCancellationException, is IOException -> ErrorResult.NetworkError
          is MalformedJsonException -> ErrorResult.ServerError
          is HttpException -> this.handleServerError()
          else -> ErrorResult.GenericError()
-
      }
-
-     return ErrorResult.NetworkError
 }
 
 fun HttpException.handleServerError(): ErrorResult {
@@ -56,7 +53,7 @@ fun HttpException.extractMessage():String {
    return try {
        Gson().fromJson(this.response()?.errorBody()?.string(),BaseDTO::class.java).reason ?: ""
    } catch (e:Exception){
-        ""
+       this.response()?.errorBody()?.string() ?: ""
    }
 }
 

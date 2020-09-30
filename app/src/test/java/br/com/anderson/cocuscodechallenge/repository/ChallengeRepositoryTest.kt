@@ -13,6 +13,7 @@ import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Maybe
 import io.reactivex.Single
+import okhttp3.ResponseBody.Companion.toResponseBody
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -20,6 +21,8 @@ import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito
+import retrofit2.HttpException
+import retrofit2.Response
 import java.util.concurrent.TimeUnit
 
 
@@ -91,6 +94,32 @@ class ChallengeRepositoryTest {
         testSubscriber.assertValues(
             DataSourceResult.create(localData) ,
             DataSourceResult.create(remoteData.toChallange()))
+
+    }
+
+    @Test
+    fun `test get challenge remote error database empty`() {
+
+        val id = "id"
+
+        Mockito.`when`(codeWarsDao.getChallenge(id)).thenReturn(Maybe.empty())
+
+        Mockito.`when`(codeWarsDao.insertChallenge(any())).thenReturn(Completable.complete())
+        Mockito.`when`(codeWarsService.getChallenge(id)).thenReturn(Single.error(
+            HttpException(
+                Response.error<Single<CompletedChallengeDTO>>(500, "error".toResponseBody()))
+        ))
+
+        val testSubscriber = challengeRepository.getAuthoredChallenges(id).test()
+
+        testSubscriber.awaitDone(1, TimeUnit.SECONDS)
+
+        testSubscriber.assertNoErrors()
+        testSubscriber.assertSubscribed()
+        testSubscriber.assertComplete()
+        testSubscriber.assertValue {
+            it.error is ErrorResult.GenericError
+        }
 
     }
 }

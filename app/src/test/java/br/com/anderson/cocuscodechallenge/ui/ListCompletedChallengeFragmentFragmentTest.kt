@@ -15,6 +15,9 @@ import android.app.Application
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.MutableLiveData
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
+import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.assertion.ViewAssertions
 import br.com.anderson.cocuscodechallenge.R
 import br.com.anderson.cocuscodechallenge.RecyclerViewMatcher
@@ -49,25 +52,28 @@ class ListCompletedChallengeFragmentFragmentTest {
 
 
     @Test fun `test authored challenge ui recycleview list`() {
-        val liveDataListUser = MutableLiveData<List<CompletedChallenge>>()
+        val liveDataListCompleted = MutableLiveData<List<CompletedChallenge>>()
         val loading = MutableLiveData<Boolean>()
         val message = MutableLiveData<String>()
         val retry = MutableLiveData<String>()
         val clean = MutableLiveData<Boolean>()
-        Mockito.`when`(testviewModel.dataCompletedChallenge).thenReturn(liveDataListUser)
+        Mockito.`when`(testviewModel.dataCompletedChallenge).thenReturn(liveDataListCompleted)
         Mockito.`when`(testviewModel.loading).thenReturn(loading)
         Mockito.`when`(testviewModel.message).thenReturn(message)
         Mockito.`when`(testviewModel.retry).thenReturn(retry)
         Mockito.`when`(testviewModel.clean).thenReturn(clean)
 
 
-        liveDataListUser.value = arrayListOf(CompletedChallenge(  name = "Name", username = "username"))
+        liveDataListCompleted.value = arrayListOf(CompletedChallenge(id="id", name = "Name", username = "username"))
         val  scenario = launchFragmentInContainer<ListCompletedChallengeFragment>(themeResId = R.style.AppTheme, factory = factory)
 
         scenario.onFragment {
 
         }
+
         onView(listMatcher().atPosition(0)).check(ViewAssertions.matches(isDisplayed()))
+        onView(listMatcher().atPosition(0)).check(ViewAssertions.matches(hasDescendant(withText("Name"))))
+        onView(withText("Name")).perform(ViewActions.click())
 
         scenario.moveToState(Lifecycle.State.RESUMED)
         scenario.moveToState(Lifecycle.State.DESTROYED)

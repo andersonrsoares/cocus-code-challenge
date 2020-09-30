@@ -21,3 +21,5 @@ object ApiUtil {
     fun loadfile(fileName: String):String = javaClass.classLoader?.getResourceAsStream("api-response/$fileName")?.source()?.buffer()?.readString(Charsets.UTF_8) ?: ""
 
 }
+
+
