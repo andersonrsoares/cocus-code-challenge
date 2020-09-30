@@ -5,10 +5,7 @@ package br.com.anderson.cocuscodechallenge.repository
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import br.com.anderson.cocuscodechallenge.any
 import br.com.anderson.cocuscodechallenge.dto.*
-import br.com.anderson.cocuscodechallenge.model.AuthoredChallenge
-import br.com.anderson.cocuscodechallenge.model.CompletedChallenge
-import br.com.anderson.cocuscodechallenge.model.PageCompletedChallenge
-import br.com.anderson.cocuscodechallenge.model.User
+import br.com.anderson.cocuscodechallenge.model.*
 import br.com.anderson.cocuscodechallenge.persistence.CodeWarsDao
 import br.com.anderson.cocuscodechallenge.persistence.CodeWarsDb
 import br.com.anderson.cocuscodechallenge.services.CodeWarsService
@@ -55,7 +52,7 @@ class AuthoredChallengeRepositoryTest {
         val username = "baz"
 
         Mockito.`when`(codeWarsDao.allAuthoredChallenges("baz")).thenReturn(Single.just(arrayListOf()))
-        val remoteData = DataAuthoredChallengeDTO(data = arrayListOf(AuthoredChallengeDTO( id = "id" )))
+        val remoteData =  DataAuthoredChallengeDTO(data = arrayListOf(AuthoredChallengeDTO( id = "id" )))
 
         Mockito.`when`(codeWarsDao.insertAuthoredChallenge(any())).thenReturn(Completable.complete())
         Mockito.`when`(codeWarsService.getAuthoredChallenges(username)).thenReturn(Single.just(remoteData))
@@ -67,7 +64,7 @@ class AuthoredChallengeRepositoryTest {
         testSubscriber.assertNoErrors()
         testSubscriber.assertSubscribed()
         testSubscriber.assertNotComplete()
-        testSubscriber.assertValues(remoteData.toAuthoredChallengeList(username))
+        testSubscriber.assertValues(DataSourceResult.create(remoteData.toAuthoredChallengeList(username)))
 
 
     }
@@ -92,8 +89,8 @@ class AuthoredChallengeRepositoryTest {
         testSubscriber.assertNoErrors()
         testSubscriber.assertSubscribed()
         testSubscriber.assertComplete()
-        testSubscriber.assertValues(localData,
-            remoteData.toAuthoredChallengeList(username))
+        testSubscriber.assertValues(DataSourceResult.create(localData),
+            DataSourceResult.create(remoteData.toAuthoredChallengeList(username)))
 
     }
 

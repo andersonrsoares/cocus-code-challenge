@@ -1,12 +1,14 @@
 package br.com.anderson.cocuscodechallenge.repository
 
 
+
+import br.com.anderson.cocuscodechallenge.extras.transformToDataSourceResult
+import br.com.anderson.cocuscodechallenge.model.DataSourceResult
 import br.com.anderson.cocuscodechallenge.model.User
 import br.com.anderson.cocuscodechallenge.persistence.CodeWarsDao
 import br.com.anderson.cocuscodechallenge.services.CodeWarsService
 import br.com.anderson.cocuscodechallenge.testing.OpenForTesting
 import io.reactivex.Flowable
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -17,18 +19,20 @@ class UserRepository @Inject constructor(val localDataSouse: CodeWarsDao,
                                          val remoteDataSource:CodeWarsService) {
 
 
-    fun listLastUsers():Flowable<List<User>>{
+    fun listLastUsers():Flowable<DataSourceResult<List<User>>>{
         return localDataSouse.allUsers()
+            .transformToDataSourceResult()
             .subscribeOn(Schedulers.io()).toFlowable()
     }
 
-    fun searchUser(username:String):Flowable<User>{
+    fun searchUser(username:String):Flowable<DataSourceResult<User>>{
       return remoteDataSource.getUser(username)
             .subscribeOn(Schedulers.io())
             .map {
-               it.toUser()
-            }.doOnSuccess {
+                it.toUser()
+            }
+            .doOnSuccess {
                 localDataSouse.insertUser(user = it).subscribe()
-            }.toFlowable()
+            }.transformToDataSourceResult().toFlowable()
     }
 }

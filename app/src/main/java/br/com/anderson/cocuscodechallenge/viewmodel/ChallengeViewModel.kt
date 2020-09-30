@@ -2,8 +2,11 @@ package br.com.anderson.cocuscodechallenge.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import br.com.anderson.cocuscodechallenge.R
 import br.com.anderson.cocuscodechallenge.model.AuthoredChallenge
 import br.com.anderson.cocuscodechallenge.model.Challenge
+import br.com.anderson.cocuscodechallenge.model.DataSourceResult
+import br.com.anderson.cocuscodechallenge.model.ErrorResult
 import br.com.anderson.cocuscodechallenge.repository.ChallengeRepository
 import br.com.anderson.cocuscodechallenge.testing.OpenForTesting
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -23,12 +26,18 @@ class ChallengeViewModel @Inject constructor(val repository: ChallengeRepository
         disposable.add(repository
             .getAuthoredChallenges(id ?: "")
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(this::subscrible,this::error,this::complete) )
+            .subscribe(this::subscrible,this::error,this::complete))
     }
 
 
-    private fun subscrible(result:Challenge){
-        _dataChallenge.postValue(result)
+    private fun subscrible(result:DataSourceResult<Challenge>){
+         when{
+             result.error is ErrorResult.NotFound-> _message.postValue(resourceProvider.getString(R.string.message_challenge_not_found))
+             result.body != null  -> _dataChallenge.postValue(result.body)
+         }
+        complete()
     }
+
+
 
 }

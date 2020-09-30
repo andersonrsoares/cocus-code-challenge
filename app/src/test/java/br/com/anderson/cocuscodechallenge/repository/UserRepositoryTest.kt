@@ -5,6 +5,7 @@ package br.com.anderson.cocuscodechallenge.repository
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import br.com.anderson.cocuscodechallenge.any
 import br.com.anderson.cocuscodechallenge.dto.UserDTO
+import br.com.anderson.cocuscodechallenge.model.DataSourceResult
 import br.com.anderson.cocuscodechallenge.model.User
 import br.com.anderson.cocuscodechallenge.persistence.CodeWarsDao
 import br.com.anderson.cocuscodechallenge.persistence.CodeWarsDb
@@ -62,7 +63,7 @@ class UserRepositoryTest {
         testSubscriber.assertSubscribed()
         testSubscriber.assertComplete()
         testSubscriber.assertValue {
-            it == response
+            it == DataSourceResult.create(response)
         }
 
     }

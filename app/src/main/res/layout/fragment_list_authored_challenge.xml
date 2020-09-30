@@ -6,6 +6,22 @@
     android:layout_height="match_parent"
     tools:context=".ui.ListUserFragment">
 
+    <Button
+        android:visibility="gone"
+        android:layout_margin="10dp"
+        android:backgroundTint="@color/colorPrimary"
+        android:id="@+id/retrybutton"
+        android:textSize="12sp"
+        android:text="@string/label_retry"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </Button>
+
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swiperefresh"
         android:layout_width="0dp"
@@ -13,7 +29,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/retrybutton">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycleview"

@@ -22,9 +22,6 @@ import javax.inject.Inject
 
 
 class ListAuthoredChallengeFragment : Fragment(R.layout.fragment_list_authored_challenge), Injectable{
-    
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
 
     lateinit var adapter:AuthoredChallengeAdapter
 
@@ -38,6 +35,7 @@ class ListAuthoredChallengeFragment : Fragment(R.layout.fragment_list_authored_c
         initRecycleView()
         initObservers()
         initrRefresh()
+        initRetryButton()
         fetchCompletedChallenges()
     }
 
@@ -46,6 +44,15 @@ class ListAuthoredChallengeFragment : Fragment(R.layout.fragment_list_authored_c
         arguments?.let {
             args = UserDetailFragmentArgs.fromBundle(it)
         }
+    }
+
+    private fun initRetryButton(){
+        retrybutton.setOnClickListener(this::onRetryClick)
+    }
+
+    fun onRetryClick(view: View){
+        viewModel.refresh()
+        retrybutton.isVisible = false
     }
 
    private fun initrRefresh(){
@@ -66,6 +73,7 @@ class ListAuthoredChallengeFragment : Fragment(R.layout.fragment_list_authored_c
         observe(viewModel.message,this::onMessage)
         observe(viewModel.loading,this::onLoading)
         observe(viewModel.clean,this::onClean)
+        observe(viewModel.retry,this::onRetry)
     }
 
     private fun initRecycleView(){
@@ -91,13 +99,20 @@ class ListAuthoredChallengeFragment : Fragment(R.layout.fragment_list_authored_c
         Toast.makeText(requireContext(),data, Toast.LENGTH_LONG).show()
     }
 
+    private fun onRetry(data: String) {
+        Toast.makeText(requireContext(),data, Toast.LENGTH_LONG).show()
+        retrybutton.isVisible = true
+    }
+
     private fun onLoading(data: Boolean) {
         swiperefresh.isRefreshing = data && adapter.currentList.isEmpty()
     }
 
     private fun onClean(data: Boolean) {
-        adapter.submitList(arrayListOf())
+        if(data)
+            adapter.submitList(arrayListOf())
     }
+
 
     companion object {
         @JvmStatic

@@ -39,6 +39,13 @@ class UserDetailFragment : Fragment(R.layout.fragment_user_detail), Injectable{
         bottomnavigation.setOnNavigationItemSelectedListener(this::onNavigationItemSelected)
     }
 
+    fun navigateToChallenge(id:String){
+        navController().navigate(UserDetailFragmentDirections.actionUserDetailFragmentToChallengeFragment(id))
+    }
+
+    fun navController() = findNavController()
+
+
     private inner class ScreenSlidePagerAdapter(fa: Fragment) : FragmentStateAdapter(fa) {
         override fun getItemCount(): Int = NUM_PAGES
 
@@ -49,10 +56,4 @@ class UserDetailFragment : Fragment(R.layout.fragment_user_detail), Injectable{
             }
         }
     }
-
-    fun navigateToChallenge(id:String){
-        navController().navigate(UserDetailFragmentDirections.actionUserDetailFragmentToChallengeFragment(id))
-    }
-
-    fun navController() = findNavController()
 }

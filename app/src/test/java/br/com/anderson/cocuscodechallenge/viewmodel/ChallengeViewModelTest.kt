@@ -13,6 +13,7 @@ import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 import org.mockito.Mockito.*
 import br.com.anderson.cocuscodechallenge.model.Challenge
+import br.com.anderson.cocuscodechallenge.model.DataSourceResult
 import br.com.anderson.cocuscodechallenge.repository.ChallengeRepository
 
 
@@ -38,7 +39,7 @@ class ChallengeViewModelTest {
 
         val repositoryResponse = Challenge(id = "id")
 
-        `when`(challengeRepository.getAuthoredChallenges(id)).thenReturn(Flowable.just(repositoryResponse))
+        `when`(challengeRepository.getAuthoredChallenges(id)).thenReturn(Flowable.just( DataSourceResult.create(repositoryResponse)))
 
         val observerData = mock<Observer<Challenge>>()
         val observerLoading = mock<Observer<Boolean>>()
@@ -49,7 +50,7 @@ class ChallengeViewModelTest {
         verify(observerLoading).onChanged(true)
         verify(challengeRepository).getAuthoredChallenges(id)
         verify(observerData).onChanged(repositoryResponse)
-        verify(observerLoading).onChanged(false)
+        verify(observerLoading, times(2)).onChanged(false)
     }
 
     @Test

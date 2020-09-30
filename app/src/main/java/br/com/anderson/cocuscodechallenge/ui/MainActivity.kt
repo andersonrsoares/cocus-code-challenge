@@ -1,7 +1,11 @@
 package br.com.anderson.cocuscodechallenge.ui
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupActionBarWithNavController
 import br.com.anderson.cocuscodechallenge.R
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
@@ -12,30 +16,23 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
     @Inject
     lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Any>
 
+    lateinit var  navController : NavController
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-
-//        val cidades = Observable.create<List<String>> { emitter ->
-//            emitter.onNext(listOf(
-//                "Tóquio", "Rio", "Berlim", "Denver",
-//                "Moscou", "Nairobi", "Helsinque", "Oslo"
-//            ))
-//            emitter.onComplete()
-//        }.subscribeOn(Schedulers.newThread())
-//
-//        val bb = Observable.create<List<String>> { emitter ->
-//            emitter.onNext(listOf("Walt", "Jesse", "Skyler", "Saul", "Hank"))
-//            emitter.onComplete()
-//        }.subscribeOn(Schedulers.newThread())
-//
-//
-//        Observable.merge(cidades, bb)
-//            .subscribe {
-//                    t -> println("$t, ")
-//            }
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.container) as NavHostFragment
+        navController = navHostFragment.navController
+        val appBarConfiguration = AppBarConfiguration(navController.graph)
+        setupActionBarWithNavController(navController,appBarConfiguration)
     }
+
+    override fun onSupportNavigateUp(): Boolean {
+        navController.popBackStack()
+        return true
+    }
+
 
     override fun androidInjector() = dispatchingAndroidInjector
 }

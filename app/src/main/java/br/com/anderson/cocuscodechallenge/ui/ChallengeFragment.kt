@@ -30,9 +30,6 @@ import javax.inject.Inject
 
 
 class ChallengeFragment : Fragment(R.layout.fragment_challange), Injectable {
-    
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
 
     @Inject
     lateinit var viewModel: ChallengeViewModel

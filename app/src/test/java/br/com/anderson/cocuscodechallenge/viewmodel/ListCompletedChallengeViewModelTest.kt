@@ -17,6 +17,7 @@ import org.junit.runners.JUnit4
 import org.mockito.Mockito.*
 import br.com.anderson.cocuscodechallenge.any
 import br.com.anderson.cocuscodechallenge.model.CompletedChallenge
+import br.com.anderson.cocuscodechallenge.model.DataSourceResult
 import br.com.anderson.cocuscodechallenge.model.PageCompletedChallenge
 import br.com.anderson.cocuscodechallenge.repository.CompletedChallengeRepository
 import org.mockito.ArgumentMatchers
@@ -45,7 +46,7 @@ class ListCompletedChallengeViewModelTest {
             CompletedChallenge(completedAt = 0, id = "id")
         ))
 
-        `when`(completedChallengeRepository.getCompletedChallenges(username,1)).thenReturn(Flowable.just(repositoryResponse))
+        `when`(completedChallengeRepository.getCompletedChallenges(username,1)).thenReturn(Flowable.just( DataSourceResult.create(repositoryResponse)))
 
         val observerData = mock<Observer<List<CompletedChallenge>>>()
         val observerLoading = mock<Observer<Boolean>>()
@@ -67,7 +68,7 @@ class ListCompletedChallengeViewModelTest {
 
         val repositoryResponse = PageCompletedChallenge(totalPages = 1,totalItems = 1,data = arrayListOf())
 
-        `when`(completedChallengeRepository.getCompletedChallenges(username,1)).thenReturn(Flowable.just(repositoryResponse))
+        `when`(completedChallengeRepository.getCompletedChallenges(username,1)).thenReturn(Flowable.just( DataSourceResult.create(repositoryResponse)))
 
         val observerData = mock<Observer<List<CompletedChallenge>>>()
         val observerLoading = mock<Observer<Boolean>>()
@@ -88,7 +89,7 @@ class ListCompletedChallengeViewModelTest {
 
         val repositoryResponse = PageCompletedChallenge(totalPages = 2,totalItems = 1,data = arrayListOf(CompletedChallenge(completedAt = 0, id = "id")))
 
-        `when`(completedChallengeRepository.getCompletedChallenges(username,1)).thenReturn(Flowable.just(repositoryResponse))
+        `when`(completedChallengeRepository.getCompletedChallenges(username,1)).thenReturn(Flowable.just(DataSourceResult.create(repositoryResponse)))
 
         val observerData = mock<Observer<List<CompletedChallenge>>>()
         val observerLoading = mock<Observer<Boolean>>()

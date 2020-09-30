@@ -5,12 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
-import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.NavOptions
-import androidx.navigation.NavOptionsBuilder
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import br.com.anderson.cocuscodechallenge.R
@@ -26,17 +22,14 @@ import javax.inject.Inject
 
 
 class ListUserFragment : Fragment(R.layout.fragment_list_user), Injectable,SearchView.OnQueryTextListener {
-    
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
 
     lateinit var adapter:ListUserAdapter
 
+    @Inject
     lateinit var viewModel: ListUserViewModel
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(this,viewModelFactory).get(ListUserViewModel::class.java)
         initRecycleView()
         initObservers()
         loadUsers()
@@ -61,6 +54,7 @@ class ListUserFragment : Fragment(R.layout.fragment_list_user), Injectable,Searc
         observe(viewModel.dataListLastUsers,this::onLoadDataListUsers)
         observe(viewModel.message,this::onMessage)
         observe(viewModel.loading,this::onLoading)
+        observe(viewModel.retry,this::onRetry)
     }
 
     private fun initRecycleView(){
@@ -87,6 +81,10 @@ class ListUserFragment : Fragment(R.layout.fragment_list_user), Injectable,Searc
     }
 
     private fun onMessage(data: String) {
+        Toast.makeText(requireContext(),data, Toast.LENGTH_LONG).show()
+    }
+
+    private fun onRetry(data: String) {
         Toast.makeText(requireContext(),data, Toast.LENGTH_LONG).show()
     }
 
