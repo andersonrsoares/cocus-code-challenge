@@ -3,9 +3,11 @@ package br.com.anderson.cocuscodechallenge.repository
 
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import br.com.anderson.cocuscodechallenge.ApiUtil
 import br.com.anderson.cocuscodechallenge.any
 import br.com.anderson.cocuscodechallenge.dto.UserDTO
 import br.com.anderson.cocuscodechallenge.model.DataSourceResult
+import br.com.anderson.cocuscodechallenge.model.ErrorResult
 import br.com.anderson.cocuscodechallenge.model.User
 import br.com.anderson.cocuscodechallenge.persistence.CodeWarsDao
 import br.com.anderson.cocuscodechallenge.persistence.CodeWarsDb
@@ -13,6 +15,8 @@ import br.com.anderson.cocuscodechallenge.services.CodeWarsService
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Single
+import okhttp3.ResponseBody
+import okhttp3.ResponseBody.Companion.toResponseBody
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -20,7 +24,10 @@ import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito
+import retrofit2.HttpException
+import retrofit2.Response
 import java.util.concurrent.TimeUnit
+import java.util.concurrent.TimeoutException
 
 
 @RunWith(JUnit4::class)
@@ -85,5 +92,47 @@ class UserRepositoryTest {
 
     }
 
+    @Test
+    fun `test get user error remote 404`() {
+        val username = "baz"
+
+        Mockito.`when`(codeWarsService.getUser(username)).thenReturn(Single.error(HttpException(
+           Response.error<Single<UserDTO>>(404, ApiUtil.loadfile("not_found_response.json").toResponseBody()))))
+
+        Mockito.`when`(codeWarsDao.insertUser(any())).thenReturn(Completable.complete())
+
+        val testSubscriber =  userRepository.searchUser(username).test()
+
+        testSubscriber.awaitDone(1, TimeUnit.SECONDS)
+
+        testSubscriber.assertNoErrors()
+        testSubscriber.assertSubscribed()
+        testSubscriber.assertComplete()
+        testSubscriber.assertValue {
+            it.error is ErrorResult.NotFound
+        }
+
+    }
+
+    @Test
+    fun `test get user error remote 500`() {
+        val username = "baz"
+
+        Mockito.`when`(codeWarsService.getUser(username)).thenReturn(Single.error(HttpException(
+            Response.error<Single<UserDTO>>(500, "error".toResponseBody()))))
+
+        Mockito.`when`(codeWarsDao.insertUser(any())).thenReturn(Completable.complete())
+
+        val testSubscriber =  userRepository.searchUser(username).test()
+
+        testSubscriber.awaitDone(1, TimeUnit.SECONDS)
+
+        testSubscriber.assertNoErrors()
+        testSubscriber.assertSubscribed()
+        testSubscriber.assertComplete()
+        testSubscriber.assertValue {
+            it.error is ErrorResult.GenericError
+        }
+    }
 
 }

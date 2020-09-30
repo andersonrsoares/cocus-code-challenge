@@ -12,6 +12,7 @@ import br.com.anderson.cocuscodechallenge.services.CodeWarsService
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Single
+import okhttp3.ResponseBody.Companion.toResponseBody
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -19,6 +20,8 @@ import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito
+import retrofit2.HttpException
+import retrofit2.Response
 import java.util.concurrent.TimeUnit
 
 
@@ -94,7 +97,32 @@ class AuthoredChallengeRepositoryTest {
 
     }
 
+    @Test
+    fun `test get authored challenges error remote database empty`() {
+        val username = "baz"
 
+
+        Mockito.`when`(codeWarsDao.allAuthoredChallenges("baz")).thenReturn(Single.just(arrayListOf()))
+
+
+        Mockito.`when`(codeWarsDao.insertAuthoredChallenge(any())).thenReturn(Completable.complete())
+        Mockito.`when`(codeWarsService.getAuthoredChallenges(username)).thenReturn(Single.error(
+            HttpException(
+                Response.error<Single<CompletedChallengeDTO>>(500, "error".toResponseBody()))
+        ))
+
+        val testSubscriber =  authoredChallengeRepository.getAuthoredChallenges(username).test()
+
+
+        testSubscriber.awaitDone(1, TimeUnit.SECONDS)
+
+        testSubscriber.assertNoErrors()
+        testSubscriber.assertSubscribed()
+        testSubscriber.assertNotComplete()
+        testSubscriber.assertValue {
+            it.error is ErrorResult.GenericError
+        }
+    }
 
 
 }

@@ -47,19 +47,19 @@ class ListAuthoredChallengeFragmentFragmentTest {
 
 
     @Test fun `test authored challenge ui recycleview list`() {
-        val liveDataListUser = MutableLiveData<List<AuthoredChallenge>>()
+        val liveDataListAuthored = MutableLiveData<List<AuthoredChallenge>>()
         val loading = MutableLiveData<Boolean>()
         val message = MutableLiveData<String>()
         val retry = MutableLiveData<String>()
         val clean = MutableLiveData<Boolean>()
-        Mockito.`when`(testviewModel.dataAuthoredChallenge).thenReturn(liveDataListUser)
+        Mockito.`when`(testviewModel.dataAuthoredChallenge).thenReturn(liveDataListAuthored)
         Mockito.`when`(testviewModel.loading).thenReturn(loading)
         Mockito.`when`(testviewModel.message).thenReturn(message)
         Mockito.`when`(testviewModel.retry).thenReturn(retry)
         Mockito.`when`(testviewModel.clean).thenReturn(clean)
 
 
-        liveDataListUser.value = arrayListOf(AuthoredChallenge( rankName = "rankName", name = "Name", username = "username"))
+        liveDataListAuthored.value = arrayListOf(AuthoredChallenge( rankName = "rankName", name = "Name", username = "username"))
         val  scenario = launchFragmentInContainer<ListAuthoredChallengeFragment>(themeResId = R.style.AppTheme, factory = factory)
 
         scenario.onFragment {

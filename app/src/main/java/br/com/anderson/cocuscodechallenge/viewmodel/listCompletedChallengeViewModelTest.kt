@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
 
-const val VISIBLE_THRESHOLD = 5
+const val VISIBLE_THRESHOLD = 2
 
 @OpenForTesting
 class ListCompletedChallengeViewModel @Inject constructor(val repository: CompletedChallengeRepository) : BaseViewModel()  {
@@ -48,11 +48,9 @@ class ListCompletedChallengeViewModel @Inject constructor(val repository: Comple
 
     fun nextPageListUserCompletedChallenge(){
         if(_loading.value == false){
-            currentPage++
             if(currentPage < totalPages){
+                currentPage++
                 listUserCompletedChallenge(_username)
-            }else{
-                _message.postValue("end of list")//temporary refactor after
             }
         }
     }
@@ -79,16 +77,23 @@ class ListCompletedChallengeViewModel @Inject constructor(val repository: Comple
             totalPages = result.totalPages ?: 1
             _dataCompletedChallenge.postValue(appendToCurrent(result))
         }
+        checkIfEndOfList()
     }
 
     private fun appendToCurrent(result:PageCompletedChallenge):List<CompletedChallenge>{
         val list = _dataCompletedChallenge.value.orEmpty().toMutableList()
         if(currentPage == 1){
-            list.clear()
+             list.clear()
             _clean.postValue(true)
         }
         list.addAll(result.data.orEmpty())
         return list
+    }
+
+    fun checkIfEndOfList(){
+        if(currentPage == totalPages && currentPage > 1) {
+            _message.postValue(resourceProvider.getString(R.string.no_more_results_found))
+        }
     }
 
 }
