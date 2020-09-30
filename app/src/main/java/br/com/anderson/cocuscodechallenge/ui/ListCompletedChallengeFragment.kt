@@ -112,7 +112,8 @@ class ListCompletedChallengeFragment : Fragment(R.layout.fragment_list_completed
 
 
     private fun onClean(data: Boolean) {
-       adapter.submitList(arrayListOf())
+        if(data)
+            adapter.submitList(arrayListOf())
     }
 
     companion object {

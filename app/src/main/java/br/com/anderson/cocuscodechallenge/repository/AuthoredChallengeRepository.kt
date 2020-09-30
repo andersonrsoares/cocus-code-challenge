@@ -1,7 +1,9 @@
 package br.com.anderson.cocuscodechallenge.repository
 
 
+import br.com.anderson.cocuscodechallenge.extras.transformToDataSourceResult
 import br.com.anderson.cocuscodechallenge.model.AuthoredChallenge
+import br.com.anderson.cocuscodechallenge.model.DataSourceResult
 import br.com.anderson.cocuscodechallenge.persistence.CodeWarsDao
 import br.com.anderson.cocuscodechallenge.services.CodeWarsService
 import br.com.anderson.cocuscodechallenge.testing.OpenForTesting
@@ -16,14 +18,14 @@ class AuthoredChallengeRepository @Inject constructor(val localDataSouse: CodeWa
                                                       val remoteDataSource:CodeWarsService) {
 
 
-    fun getAuthoredChallenges(username:String):Flowable<List<AuthoredChallenge>>{
+    fun getAuthoredChallenges(username:String):Flowable<DataSourceResult<List<AuthoredChallenge>>>{
         val localData = getLocalDataAuthoredChallange(username)
         val remoteData = getRemoteDataAuthoredChallenge(username)
 
         return Flowable.merge(localData,remoteData).subscribeOn(Schedulers.io())
     }
 
-    private fun getRemoteDataAuthoredChallenge(username:String):Flowable<List<AuthoredChallenge>>{
+    private fun getRemoteDataAuthoredChallenge(username:String):Flowable<DataSourceResult<List<AuthoredChallenge>>>{
        return remoteDataSource.getAuthoredChallenges(username)
             .subscribeOn(Schedulers.io())
             .map {
@@ -32,20 +34,21 @@ class AuthoredChallengeRepository @Inject constructor(val localDataSouse: CodeWa
                 it.forEach { completed ->
                     localDataSouse.insertAuthoredChallenge(completed).subscribe()
                 }
-            }.onErrorResumeNext {
-               Single.just(arrayListOf())
-           }.toFlowable()
+            }.transformToDataSourceResult()
+            .toFlowable()
     }
 
-    private fun getLocalDataAuthoredChallange(username:String):Flowable<List<AuthoredChallenge>>{
+    private fun getLocalDataAuthoredChallange(username:String):Flowable<DataSourceResult<List<AuthoredChallenge>>> {
       return localDataSouse.allAuthoredChallenges(username)
            .subscribeOn(Schedulers.io())
-          .flatMapPublisher {
+          .flatMap {
               if(it.isNotEmpty()){
-                  Flowable.just(it)
+                  Single.just(it)
               }else{
-                  Flowable.never()
+                  Single.never()
               }
           }
+          .transformToDataSourceResult()
+          .toFlowable()
    }
 }

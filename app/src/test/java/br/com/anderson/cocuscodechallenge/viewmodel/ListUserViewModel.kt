@@ -16,6 +16,7 @@ import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 import org.mockito.Mockito.*
 import br.com.anderson.cocuscodechallenge.any
+import br.com.anderson.cocuscodechallenge.model.DataSourceResult
 import org.mockito.ArgumentMatchers
 
 @RunWith(JUnit4::class)
@@ -30,7 +31,8 @@ class ListUserViewModelTest {
     private lateinit var  userViewModel: ListUserViewModel
     @Before
     fun init(){
-        userViewModel = ListUserViewModel(resourceProvider,userRepository)
+        userViewModel = ListUserViewModel(userRepository)
+        userViewModel.resourceProvider = resourceProvider
         RxAndroidPlugins.setInitMainThreadSchedulerHandler { Schedulers.trampoline() }
     }
 
@@ -43,7 +45,7 @@ class ListUserViewModelTest {
 
         val repositoryResponse = listOf(User(datetime = 0,username = username))
 
-        `when`(userRepository.listLastUsers()).thenReturn(Flowable.just(repositoryResponse))
+        `when`(userRepository.listLastUsers()).thenReturn(Flowable.just(DataSourceResult.create(repositoryResponse)))
 
         val observerData = mock<Observer<List<User>>>()
         val observerLoading = mock<Observer<Boolean>>()
@@ -65,7 +67,7 @@ class ListUserViewModelTest {
 
         val repositoryResponse = User(datetime = 0,username = username)
 
-        `when`(userRepository.searchUser(username)).thenReturn(Flowable.just(repositoryResponse))
+        `when`(userRepository.searchUser(username)).thenReturn(Flowable.just(DataSourceResult.create(repositoryResponse)))
 
         val observerData = mock<Observer<List<User>>>()
         val observerLoading = mock<Observer<Boolean>>()

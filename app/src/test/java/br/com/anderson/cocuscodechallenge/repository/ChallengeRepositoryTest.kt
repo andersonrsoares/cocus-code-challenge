@@ -63,7 +63,7 @@ class ChallengeRepositoryTest {
         testSubscriber.assertNoErrors()
         testSubscriber.assertSubscribed()
         testSubscriber.assertComplete()
-        testSubscriber.assertValues(remoteData.toChallange())
+        testSubscriber.assertValues(DataSourceResult.create(remoteData.toChallange()))
 
 
     }
@@ -88,8 +88,9 @@ class ChallengeRepositoryTest {
         testSubscriber.assertNoErrors()
         testSubscriber.assertSubscribed()
         testSubscriber.assertComplete()
-        testSubscriber.assertValues(localData,
-            remoteData.toChallange())
+        testSubscriber.assertValues(
+            DataSourceResult.create(localData) ,
+            DataSourceResult.create(remoteData.toChallange()))
 
     }
 }

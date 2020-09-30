@@ -3,6 +3,8 @@ package br.com.anderson.cocuscodechallenge.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import br.com.anderson.cocuscodechallenge.R
+import br.com.anderson.cocuscodechallenge.model.DataSourceResult
+import br.com.anderson.cocuscodechallenge.model.ErrorResult
 import br.com.anderson.cocuscodechallenge.model.User
 import br.com.anderson.cocuscodechallenge.provider.ResourceProvider
 import br.com.anderson.cocuscodechallenge.repository.UserRepository
@@ -12,7 +14,7 @@ import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
 
 @OpenForTesting
-class ListUserViewModel @Inject constructor(val resourceProvider: ResourceProvider,val repository: UserRepository) : BaseViewModel()  {
+class ListUserViewModel @Inject constructor(val repository: UserRepository) : BaseViewModel()  {
 
     private var _dataListLastUsers = MutableLiveData<List<User>>()
 
@@ -48,24 +50,30 @@ class ListUserViewModel @Inject constructor(val resourceProvider: ResourceProvid
         }
     }
 
-    private fun subscribleNewUser(result:User){
-        val list= replaceIfExists(result)
+    private fun subscribleNewUser(result:DataSourceResult<User>){
+        val list= replaceIfExists(result.body)
         _dataListLastUsers.postValue(list)
         complete()
     }
 
-    private fun replaceIfExists(result:User):List<User>{
+    private fun replaceIfExists(result:User?):List<User>{
         val list = _dataListLastUsers.value.orEmpty().toMutableList()
-        val index = list.indexOfFirst { user -> user.username == result.username  }
-        if(index >= 0){
-            list.removeAt(index)
+        result?.let {
+            val index = list.indexOfFirst { user -> user.username == result.username  }
+            if(index >= 0){
+                list.removeAt(index)
+            }
+            list.add(0,result)
         }
-        list.add(0,result)
         return list
     }
 
-    private fun subscribleLastUsers(result:List<User>){
-        _dataListLastUsers.postValue(result)
+    private fun subscribleLastUsers(result: DataSourceResult<List<User>>){
+        when{
+            result.body != null  -> _dataListLastUsers.postValue(result.body)
+            result.error is ErrorResult.NotFound -> _message.postValue(resourceProvider.getString(R.string.message_user_not_found))
+            result.error != null ->  error(result.error)
+        }
         complete()
     }
 }

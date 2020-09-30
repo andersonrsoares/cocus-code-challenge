@@ -98,4 +98,6 @@ class AppModule {
     fun provideResource(app: Application): ResourceProvider {
         return ResourceProvider(app)
     }
+
+
 }

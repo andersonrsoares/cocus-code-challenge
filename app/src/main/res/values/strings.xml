@@ -24,4 +24,11 @@
     <string name="total_completed">Completed</string>
     <string name="label_created_by">Created by</string>
     <string name="label_created">Published</string>
+
+    <string name="message_challenge_not_found">Challenge not found</string>
+    <string name="message_user_not_found">User not found</string>
+    <string name="message_not_found">Resource not found</string>
+    <string name="message_server_error">There is an issue with the server.</string>
+    <string name="message_server_network_error_retry">There is an issue connecting with the server.\nplease try again.</string>
+
 </resources>

@@ -8,6 +8,7 @@ import br.com.anderson.cocuscodechallenge.dto.CompletedChallengeDTO
 import br.com.anderson.cocuscodechallenge.dto.PageCompletedChallengeDTO
 import br.com.anderson.cocuscodechallenge.dto.UserDTO
 import br.com.anderson.cocuscodechallenge.model.CompletedChallenge
+import br.com.anderson.cocuscodechallenge.model.DataSourceResult
 import br.com.anderson.cocuscodechallenge.model.PageCompletedChallenge
 import br.com.anderson.cocuscodechallenge.model.User
 import br.com.anderson.cocuscodechallenge.persistence.CodeWarsDao
@@ -69,7 +70,7 @@ class CompletedChallengeRepositoryTest {
         testSubscriber.assertNoErrors()
         testSubscriber.assertSubscribed()
         testSubscriber.assertNotComplete()
-        testSubscriber.assertValues(remoteData.toPageCompletedChallenge(username))
+        testSubscriber.assertValues( DataSourceResult.create(remoteData.toPageCompletedChallenge(username)))
 
 
     }
@@ -96,7 +97,7 @@ class CompletedChallengeRepositoryTest {
         testSubscriber.assertNoErrors()
         testSubscriber.assertSubscribed()
         testSubscriber.assertComplete()
-        testSubscriber.assertValues(localData, remoteData.toPageCompletedChallenge(username))
+        testSubscriber.assertValues( DataSourceResult.create(localData),  DataSourceResult.create(remoteData.toPageCompletedChallenge(username)))
 
     }
 
@@ -119,7 +120,7 @@ class CompletedChallengeRepositoryTest {
         testSubscriber.assertNoErrors()
         testSubscriber.assertSubscribed()
         testSubscriber.assertComplete()
-        testSubscriber.assertValues(remoteData.toPageCompletedChallenge(username))
+        testSubscriber.assertValues( DataSourceResult.create(remoteData.toPageCompletedChallenge(username)))
 
     }
 

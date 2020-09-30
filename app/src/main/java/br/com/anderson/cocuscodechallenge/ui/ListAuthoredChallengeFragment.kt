@@ -96,7 +96,8 @@ class ListAuthoredChallengeFragment : Fragment(R.layout.fragment_list_authored_c
     }
 
     private fun onClean(data: Boolean) {
-        adapter.submitList(arrayListOf())
+        if(data)
+            adapter.submitList(arrayListOf())
     }
 
     companion object {

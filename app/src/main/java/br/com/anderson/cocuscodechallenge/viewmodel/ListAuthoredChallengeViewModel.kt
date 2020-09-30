@@ -3,6 +3,7 @@ package br.com.anderson.cocuscodechallenge.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import br.com.anderson.cocuscodechallenge.model.AuthoredChallenge
+import br.com.anderson.cocuscodechallenge.model.DataSourceResult
 import br.com.anderson.cocuscodechallenge.repository.AuthoredChallengeRepository
 import br.com.anderson.cocuscodechallenge.testing.OpenForTesting
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -27,13 +28,19 @@ class ListAuthoredChallengeViewModel @Inject constructor(val repository: Authore
     }
 
 
-    private fun subscrible(result:List<AuthoredChallenge>){
-        if(result.isNotEmpty()){
-            _dataAuthoredChallenge.postValue(result)
+    private fun subscrible(result:DataSourceResult<List<AuthoredChallenge>>){
+        when{
+            result.body != null  -> emitList(result.body)
+            result.error != null ->  error(result.error)
         }
         complete()
     }
 
+    private fun emitList(result: List<AuthoredChallenge>){
+        if(result.isNotEmpty()){
+            _dataAuthoredChallenge.postValue(result)
+        }
+    }
     override fun refresh() {
         super.refresh()
         listUserAuthoredChallenge(_username)
