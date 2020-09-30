@@ -29,11 +29,14 @@ class ListCompletedChallengeViewModelTest {
     val instantExecutorRule = InstantTaskExecutorRule()
 
     private val completedChallengeRepository = mock<CompletedChallengeRepository>()
+    private val  resourceProvider = mock<ResourceProvider>()
 
     private lateinit var  completedChallengeViewModel: ListCompletedChallengeViewModel
+
     @Before
     fun init(){
         completedChallengeViewModel = ListCompletedChallengeViewModel(completedChallengeRepository)
+        completedChallengeViewModel.resourceProvider = resourceProvider
         RxAndroidPlugins.setInitMainThreadSchedulerHandler { Schedulers.trampoline() }
     }
 
@@ -91,21 +94,28 @@ class ListCompletedChallengeViewModelTest {
 
         `when`(completedChallengeRepository.getCompletedChallenges(username,1)).thenReturn(Flowable.just(DataSourceResult.create(repositoryResponse)))
 
+        `when`(completedChallengeRepository.getCompletedChallenges(username,2)).thenReturn(Flowable.just(DataSourceResult.create(repositoryResponse)))
+
+        `when`(resourceProvider.getString(ArgumentMatchers.anyInt())).thenReturn("end of list")
+
         val observerData = mock<Observer<List<CompletedChallenge>>>()
         val observerLoading = mock<Observer<Boolean>>()
+        val observerMessage = mock<Observer<String>>()
 
         completedChallengeViewModel.loading.observeForever(observerLoading)
+        completedChallengeViewModel.message.observeForever(observerMessage)
+
         completedChallengeViewModel.dataCompletedChallenge.observeForever(observerData)
         completedChallengeViewModel.listUserCompletedChallenge(username)
         verify(observerLoading).onChanged(true)
         verify(completedChallengeRepository).getCompletedChallenges(username,1)
         verify(observerData).onChanged(repositoryResponse.data)
         verify(observerLoading, times(2)).onChanged(false)
-
-        completedChallengeViewModel.listScrolled(5,3,5)
-        verify(observerLoading).onChanged(true)
+        completedChallengeViewModel.listScrolled(2,3,5)
+        verify(observerLoading, times(2)).onChanged(true)
         verify(observerData).onChanged(repositoryResponse.data)
-        verify(observerLoading, times(2)).onChanged(false)
+        verify(observerLoading, times(4)).onChanged(false)
+        verify(observerMessage).onChanged("end of list")
 
     }
 }
