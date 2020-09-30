@@ -51,8 +51,11 @@ class ListUserViewModel @Inject constructor(val repository: UserRepository) : Ba
     }
 
     private fun subscribleNewUser(result:DataSourceResult<User>){
-        val list= replaceIfExists(result.body)
-        _dataListLastUsers.postValue(list)
+        when{
+            result.body != null  -> _dataListLastUsers.postValue(replaceIfExists(result.body))
+            result.error is ErrorResult.NotFound -> _message.postValue(resourceProvider.getString(R.string.message_user_not_found))
+            result.error != null ->  error(result.error)
+        }
         complete()
     }
 
@@ -69,11 +72,7 @@ class ListUserViewModel @Inject constructor(val repository: UserRepository) : Ba
     }
 
     private fun subscribleLastUsers(result: DataSourceResult<List<User>>){
-        when{
-            result.body != null  -> _dataListLastUsers.postValue(result.body)
-            result.error is ErrorResult.NotFound -> _message.postValue(resourceProvider.getString(R.string.message_user_not_found))
-            result.error != null ->  error(result.error)
-        }
+        _dataListLastUsers.postValue(result.body)
         complete()
     }
 }

@@ -17,7 +17,11 @@ import java.util.concurrent.TimeoutException
 
 
 fun <T> Single<T>.transformToDataSourceResult(): Single<DataSourceResult<T>> {
-   return this.map { DataSourceResult.create(it) }.onErrorReturn { it.createDataSourceResult() }
+   return this.map {
+       DataSourceResult.create(it)
+   }.onErrorReturn {
+       it.createDataSourceResult()
+   }
 }
 
 fun <T> Maybe<T>.transformToDataSourceResult(): Maybe<DataSourceResult<T>> {

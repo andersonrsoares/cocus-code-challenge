@@ -57,6 +57,7 @@ class ListUserFragment : Fragment(R.layout.fragment_list_user), Injectable,Searc
         observe(viewModel.dataListLastUsers,this::onLoadDataListUsers)
         observe(viewModel.message,this::onMessage)
         observe(viewModel.loading,this::onLoading)
+        observe(viewModel.retry,this::onRetry)
     }
 
     private fun initRecycleView(){
@@ -83,6 +84,10 @@ class ListUserFragment : Fragment(R.layout.fragment_list_user), Injectable,Searc
     }
 
     private fun onMessage(data: String) {
+        Toast.makeText(requireContext(),data, Toast.LENGTH_LONG).show()
+    }
+
+    private fun onRetry(data: String) {
         Toast.makeText(requireContext(),data, Toast.LENGTH_LONG).show()
     }
 

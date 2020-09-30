@@ -36,9 +36,6 @@ open class BaseViewModel @Inject constructor() : ViewModel()  {
     val retry:LiveData<String>
         get() = _retry
 
-    val internetConnection:LiveData<String>
-        get() = _retry
-
     override fun onCleared() {
         super.onCleared()
         disposable.clear()
