@@ -28,8 +28,8 @@ class UserDetailFragment : Fragment(R.layout.fragment_user_detail), Injectable {
     }
 
     fun initFragments() = fragments.apply {
-        add(listAuthoredChallengeFragment)
         add(listCompletedChallengeFragment)
+        add(listAuthoredChallengeFragment)
     }
 
     val listAuthoredChallengeFragment : ListAuthoredChallengeFragment by lazy {
