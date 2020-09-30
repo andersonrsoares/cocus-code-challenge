@@ -59,7 +59,7 @@ class ChallengeRepositoryTest {
         Mockito.`when`(codeWarsDao.insertChallenge(any())).thenReturn(Completable.complete())
         Mockito.`when`(codeWarsService.getChallenge(id)).thenReturn(Single.just(remoteData))
 
-        val testSubscriber = challengeRepository.getAuthoredChallenges(id).test()
+        val testSubscriber = challengeRepository.getChallenge(id).test()
 
         testSubscriber.awaitDone(1, TimeUnit.SECONDS)
 
@@ -84,7 +84,7 @@ class ChallengeRepositoryTest {
         Mockito.`when`(codeWarsDao.insertChallenge(any())).thenReturn(Completable.complete())
         Mockito.`when`(codeWarsService.getChallenge(id)).thenReturn(Single.just(remoteData))
 
-        val testSubscriber = challengeRepository.getAuthoredChallenges(id).test()
+        val testSubscriber = challengeRepository.getChallenge(id).test()
 
         testSubscriber.awaitDone(1, TimeUnit.SECONDS)
 
@@ -110,7 +110,7 @@ class ChallengeRepositoryTest {
                 Response.error<Single<CompletedChallengeDTO>>(500, "error".toResponseBody()))
         ))
 
-        val testSubscriber = challengeRepository.getAuthoredChallenges(id).test()
+        val testSubscriber = challengeRepository.getChallenge(id).test()
 
         testSubscriber.awaitDone(1, TimeUnit.SECONDS)
 

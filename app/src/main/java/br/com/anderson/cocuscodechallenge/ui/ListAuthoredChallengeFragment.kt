@@ -52,7 +52,7 @@ class ListAuthoredChallengeFragment : Fragment(R.layout.fragment_list_authored_c
 
     fun onRetryClick(view: View){
         viewModel.refresh()
-        retrybutton.isVisible = false
+        view.isVisible = false
     }
 
    private fun initrRefresh(){

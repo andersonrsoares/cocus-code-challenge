@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/listUserFragment"
         android:name="br.com.anderson.cocuscodechallenge.ui.ListUserFragment"
-        android:label="Find user" >
+        android:label="@string/find_user_title" >
 
         <action
             android:id="@+id/action_listUserFragment_to_userDetailFragment"
@@ -18,7 +18,7 @@
     <fragment
         android:id="@+id/userDetailFragment"
         android:name="br.com.anderson.cocuscodechallenge.ui.UserDetailFragment"
-        android:label="Challenges" >
+        android:label="@string/user_detail_title" >
         <argument android:name="username"
             app:argType="string"
             app:nullable="true"/>
@@ -29,7 +29,7 @@
     <fragment
         android:id="@+id/challengeFragment"
         android:name="br.com.anderson.cocuscodechallenge.ui.ChallengeFragment"
-        android:label="Challenge detail" >
+        android:label="@string/challenge_title" >
         <argument android:name="id"
             app:argType="string"
             app:nullable="true"/>

@@ -54,7 +54,7 @@ class ListCompletedChallengeFragment : Fragment(R.layout.fragment_list_completed
 
     fun onRetryClick(view: View){
         viewModel.refresh()
-        retrybutton.isVisible = false
+        view.isVisible = false
     }
 
     private fun initrRefresh(){

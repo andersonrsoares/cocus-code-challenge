@@ -17,7 +17,7 @@ class ChallengeRepository @Inject constructor(val localDataSouse: CodeWarsDao,
                                               val remoteDataSource:CodeWarsService) {
 
 
-    fun getAuthoredChallenges(id:String):Flowable<DataSourceResult<Challenge>>{
+    fun getChallenge(id:String):Flowable<DataSourceResult<Challenge>>{
         val localData = getRemoteDataChallenge(id)
         val remoteData = getLocalDataChallange(id)
 
