@@ -39,7 +39,7 @@ class ChallengeViewModelTest {
 
         val repositoryResponse = Challenge(id = "id")
 
-        `when`(challengeRepository.getAuthoredChallenges(id)).thenReturn(Flowable.just( DataSourceResult.create(repositoryResponse)))
+        `when`(challengeRepository.getChallenge(id)).thenReturn(Flowable.just( DataSourceResult.create(repositoryResponse)))
 
         val observerData = mock<Observer<Challenge>>()
         val observerLoading = mock<Observer<Boolean>>()
@@ -48,7 +48,7 @@ class ChallengeViewModelTest {
         auhtoredChallengeViewModel.dataChallenge.observeForever(observerData)
         auhtoredChallengeViewModel.listChallenge(id)
         verify(observerLoading).onChanged(true)
-        verify(challengeRepository).getAuthoredChallenges(id)
+        verify(challengeRepository).getChallenge(id)
         verify(observerData).onChanged(repositoryResponse)
         verify(observerLoading, times(2)).onChanged(false)
     }
@@ -57,7 +57,7 @@ class ChallengeViewModelTest {
     fun `list authored challenges data empty`() {
 
         val id = "id"
-        `when`(challengeRepository.getAuthoredChallenges(id)).thenReturn(Flowable.empty())
+        `when`(challengeRepository.getChallenge(id)).thenReturn(Flowable.empty())
 
         val observerData = mock<Observer<Challenge>>()
         val observerLoading = mock<Observer<Boolean>>()
@@ -66,7 +66,7 @@ class ChallengeViewModelTest {
         auhtoredChallengeViewModel.dataChallenge.observeForever(observerData)
         auhtoredChallengeViewModel.listChallenge(id)
         verify(observerLoading).onChanged(true)
-        verify(challengeRepository).getAuthoredChallenges(id)
+        verify(challengeRepository).getChallenge(id)
         verify(observerData, never()).onChanged(null)
         verify(observerLoading).onChanged(false)
     }

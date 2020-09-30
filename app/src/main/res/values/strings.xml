@@ -1,6 +1,11 @@
 <resources>
     <string name="app_name">Cocus-code-challenge</string>
     <!-- TODO: Remove or change this placeholder text -->
+
+    <string name="find_user_title">Cocus code challenge</string>
+    <string name="challenge_title">Challenge detail</string>
+    <string name="user_detail_title">Challenges</string>
+
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="username_field_black">Username field is blank</string>
     <string name="search_query_hint">Search by username</string>

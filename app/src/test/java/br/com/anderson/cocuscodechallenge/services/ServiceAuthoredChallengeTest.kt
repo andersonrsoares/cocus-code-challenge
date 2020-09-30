@@ -37,7 +37,7 @@ class ServiceAuthoredChallengeTest : BaseServiceTest() {
     }
 
     @Test
-    fun `test completed challenges  response not json`() {
+    fun `test completed challenges esponse not json`() {
         //GIVEN
         ApiUtil.enqueueResponse(mockWebServer,"error_json_response.html")
 

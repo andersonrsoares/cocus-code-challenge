@@ -24,7 +24,7 @@ class ChallengeViewModel @Inject constructor(val repository: ChallengeRepository
     fun listChallenge(id:String?){
         _loading.postValue(true)
         disposable.add(repository
-            .getAuthoredChallenges(id ?: "")
+            .getChallenge(id ?: "")
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(this::subscrible,this::error,this::complete))
     }
