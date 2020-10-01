@@ -55,7 +55,7 @@ class ListAuthoredChallengeFragment : Fragment(R.layout.fragment_list_authored_c
         view.isVisible = false
     }
 
-   private fun initrRefresh(){
+    private fun initrRefresh(){
         swiperefresh.setOnRefreshListener(this::onRefresh)
     }
 

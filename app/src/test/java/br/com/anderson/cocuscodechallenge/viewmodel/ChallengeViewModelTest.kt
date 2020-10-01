@@ -25,10 +25,10 @@ class ChallengeViewModelTest {
 
     private val challengeRepository = mock<ChallengeRepository>()
 
-    private lateinit var  auhtoredChallengeViewModel: ChallengeViewModel
+    private lateinit var  challengeViewModel: ChallengeViewModel
     @Before
     fun init(){
-        auhtoredChallengeViewModel = ChallengeViewModel(challengeRepository)
+        challengeViewModel = ChallengeViewModel(challengeRepository)
         RxAndroidPlugins.setInitMainThreadSchedulerHandler { Schedulers.trampoline() }
     }
 
@@ -44,9 +44,9 @@ class ChallengeViewModelTest {
         val observerData = mock<Observer<Challenge>>()
         val observerLoading = mock<Observer<Boolean>>()
 
-        auhtoredChallengeViewModel.loading.observeForever(observerLoading)
-        auhtoredChallengeViewModel.dataChallenge.observeForever(observerData)
-        auhtoredChallengeViewModel.listChallenge(id)
+        challengeViewModel.loading.observeForever(observerLoading)
+        challengeViewModel.dataChallenge.observeForever(observerData)
+        challengeViewModel.listChallenge(id)
         verify(observerLoading).onChanged(true)
         verify(challengeRepository).getChallenge(id)
         verify(observerData).onChanged(repositoryResponse)
@@ -62,9 +62,9 @@ class ChallengeViewModelTest {
         val observerData = mock<Observer<Challenge>>()
         val observerLoading = mock<Observer<Boolean>>()
 
-        auhtoredChallengeViewModel.loading.observeForever(observerLoading)
-        auhtoredChallengeViewModel.dataChallenge.observeForever(observerData)
-        auhtoredChallengeViewModel.listChallenge(id)
+        challengeViewModel.loading.observeForever(observerLoading)
+        challengeViewModel.dataChallenge.observeForever(observerData)
+        challengeViewModel.listChallenge(id)
         verify(observerLoading).onChanged(true)
         verify(challengeRepository).getChallenge(id)
         verify(observerData, never()).onChanged(null)

@@ -46,7 +46,7 @@ open class BaseViewModel @Inject constructor() : ViewModel()  {
     }
 
     protected fun error(error:Throwable){
-        _message.postValue("erro")
+        _message.postValue(resourceProvider.getString(R.string.message_error))
         complete()
         error.printStackTrace()
     }

@@ -34,7 +34,7 @@ fun <T> Throwable.createDataSourceResult(): DataSourceResult<T>{
 
 fun Throwable.handleException(): ErrorResult {
     return when(this){
-         is UnknownHostException, is TimeoutException, is TimeoutCancellationException, is IOException -> ErrorResult.NetworkError
+         is UnknownHostException, is TimeoutException -> ErrorResult.NetworkError
          is MalformedJsonException -> ErrorResult.ServerError
          is HttpException -> this.handleServerError()
          else -> ErrorResult.GenericError()
