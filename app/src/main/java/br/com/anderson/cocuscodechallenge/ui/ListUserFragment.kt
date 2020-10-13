@@ -1,7 +1,7 @@
 package br.com.anderson.cocuscodechallenge.ui
 
 import android.os.Bundle
-import android.view.View
+import android.view.*
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
@@ -25,6 +25,15 @@ class ListUserFragment : Fragment(R.layout.fragment_list_user), Injectable, Sear
 
     @Inject
     lateinit var viewModel: ListUserViewModel
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        setHasOptionsMenu(true)
+        return super.onCreateView(inflater, container, savedInstanceState)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -114,6 +123,19 @@ class ListUserFragment : Fragment(R.layout.fragment_list_user), Injectable, Sear
 
     override fun onQueryTextChange(newText: String?): Boolean {
         return true
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.user_list_menu,menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            R.id.order_rank -> viewModel.orderByRank()
+            else -> viewModel.orderByLookUp()
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     /**

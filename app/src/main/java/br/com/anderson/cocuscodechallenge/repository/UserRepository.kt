@@ -24,6 +24,24 @@ class UserRepository @Inject constructor(
             .subscribeOn(Schedulers.io()).toFlowable()
     }
 
+    fun listOrderByRank(): Flowable<DataSourceResult<List<User>>> {
+        return localDataSouse.allUsers()
+            .map {
+                it.sortedBy { item -> item.leaderboardPosition }
+            }
+            .transformToDataSourceResult()
+            .subscribeOn(Schedulers.io()).toFlowable()
+    }
+
+    fun listOrderByLookUp(): Flowable<DataSourceResult<List<User>>> {
+        return localDataSouse.allUsers()
+            .map {
+                it.sortedByDescending { item -> item.datetime }
+            }
+            .transformToDataSourceResult()
+            .subscribeOn(Schedulers.io()).toFlowable()
+    }
+
     fun searchUser(username: String): Flowable<DataSourceResult<User>> {
         return remoteDataSource.getUser(username)
             .subscribeOn(Schedulers.io())

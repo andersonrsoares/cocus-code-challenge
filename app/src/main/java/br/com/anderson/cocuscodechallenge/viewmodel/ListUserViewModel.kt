@@ -40,6 +40,30 @@ class ListUserViewModel @Inject constructor(val repository: UserRepository) : Ba
         )
     }
 
+    fun orderByRank() {
+        disposable.add(
+            repository
+                .listOrderByRank()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe{
+                    _clean.postValue(true)
+                    _dataListLastUsers.postValue(it.body)
+                }
+        )
+    }
+
+    fun orderByLookUp() {
+        disposable.add(
+            repository
+                .listOrderByLookUp()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe{
+                    _clean.postValue(true)
+                    _dataListLastUsers.postValue(it.body)
+                }
+        )
+    }
+
     fun searchUser(username: String?) {
         if (!validateSearchField(username)) {
             return
