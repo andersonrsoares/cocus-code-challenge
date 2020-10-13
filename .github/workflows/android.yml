@@ -15,7 +15,8 @@ jobs:
         uses: actions/checkout@v2
       - name: Validate Gradle Wrapper
         uses: gradle/wrapper-validation-action@v1
-        
+      - name: ktlint
+        run: ./gradlew ktlint
   build:
     runs-on: ubuntu-latest
     steps:

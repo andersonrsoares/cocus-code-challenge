@@ -1,10 +1,10 @@
 package br.com.anderson.cocuscodechallenge.di
 
 import br.com.anderson.cocuscodechallenge.ui.ChallengeFragment
+import br.com.anderson.cocuscodechallenge.ui.ListAuthoredChallengeFragment
+import br.com.anderson.cocuscodechallenge.ui.ListCompletedChallengeFragment
 import br.com.anderson.cocuscodechallenge.ui.ListUserFragment
 import br.com.anderson.cocuscodechallenge.ui.UserDetailFragment
-import br.com.anderson.cocuscodechallenge.ui.ListCompletedChallengeFragment
-import br.com.anderson.cocuscodechallenge.ui.ListAuthoredChallengeFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
