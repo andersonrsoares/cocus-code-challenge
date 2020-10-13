@@ -10,7 +10,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.assertion.ViewAssertions
-import androidx.test.espresso.matcher.ViewMatchers.*
+import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import br.com.anderson.cocuscodechallenge.R
 import br.com.anderson.cocuscodechallenge.RecyclerViewMatcher
@@ -62,9 +62,10 @@ class ListCompletedChallengeFragmentFragmentTest {
         scenario.onFragment {
         }
 
-        onView(listMatcher().atPosition(0)).check(ViewAssertions.matches(isDisplayed()))
-        onView(listMatcher().atPosition(0)).check(ViewAssertions.matches(hasDescendant(withText("Name"))))
-        onView(withText("Name")).perform(ViewActions.click())
+        onView(listMatcher().atPosition(0)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        onView(listMatcher().atPosition(0)).check(ViewAssertions.matches(ViewMatchers.hasDescendant(
+            ViewMatchers.withText("Name"))))
+        onView(ViewMatchers.withText("Name")).perform(ViewActions.click())
 
         scenario.moveToState(Lifecycle.State.RESUMED)
         scenario.moveToState(Lifecycle.State.DESTROYED)

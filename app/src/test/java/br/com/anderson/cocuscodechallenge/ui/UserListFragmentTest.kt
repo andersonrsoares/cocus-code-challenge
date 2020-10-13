@@ -12,7 +12,7 @@ import androidx.navigation.Navigation
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.assertion.ViewAssertions
-import androidx.test.espresso.matcher.ViewMatchers.*
+import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import br.com.anderson.cocuscodechallenge.R
 import br.com.anderson.cocuscodechallenge.RecyclerViewMatcher
@@ -65,9 +65,10 @@ class UserListFragmentTest {
             Navigation.setViewNavController(it.requireView(), mockNavController)
         }
 
-        onView(listMatcher().atPosition(0)).check(ViewAssertions.matches(isDisplayed()))
-        onView(listMatcher().atPosition(0)).check(ViewAssertions.matches(hasDescendant(withText("username"))))
-        onView(withText("username")).perform(ViewActions.click())
+        onView(listMatcher().atPosition(0)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        onView(listMatcher().atPosition(0)).check(ViewAssertions.matches(ViewMatchers.hasDescendant(
+            ViewMatchers.withText("username"))))
+        onView(ViewMatchers.withText("username")).perform(ViewActions.click())
 
         Mockito.verify(mockNavController).navigate(ListUserFragmentDirections.actionListUserFragmentToUserDetailFragment("username"))
 
