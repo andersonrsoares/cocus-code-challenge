@@ -12,6 +12,10 @@ allOpen {
     annotation 'br.com.anderson.cocuscodechallenge.testing.OpenClass'
 }
 
+configurations {
+    ktlint
+}
+
 android {
     compileSdkVersion 30
 
@@ -59,7 +63,10 @@ android {
     }
 }
 
+
 dependencies {
+    ktlint "com.pinterest:ktlint:0.39.0"
+
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation "androidx.core:core-ktx:$core_ktx"
@@ -217,4 +224,23 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest']) {
     classDirectories.from = files([kotlinDebugTree])//javaDebugTree,
     executionData.from = fileTree(dir: project.buildDir, includes: [
             'jacoco/*.exec', 'outputs/code_coverage/debugAndroidTest/connected/**/*.ec'])
+}
+
+task ktlint(type: JavaExec, group: "verification") {
+    description = "Check Kotlin code style."
+    main = "com.pinterest.ktlint.Main"
+    classpath = configurations.ktlint
+    args "src/**/*.kt"
+    // to generate report in checkstyle format prepend following args:
+    // "--reporter=plain", "--reporter=checkstyle,output=${buildDir}/ktlint.xml"
+    // see https://github.com/pinterest/ktlint#usage for more
+}
+
+check.dependsOn ktlint
+
+task ktlintAutoCorrect(type: JavaExec, group: "formatting") {
+    description = "Fix Kotlin code style deviations."
+    main = "com.pinterest.ktlint.Main"
+    classpath = configurations.ktlint
+    args "-F", "src/**/*.kt"
 }

@@ -1,7 +1,5 @@
 package br.com.anderson.cocuscodechallenge.repository
 
-
-
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import br.com.anderson.cocuscodechallenge.any
 import br.com.anderson.cocuscodechallenge.dto.*
@@ -10,7 +8,6 @@ import br.com.anderson.cocuscodechallenge.persistence.CodeWarsDao
 import br.com.anderson.cocuscodechallenge.persistence.CodeWarsDb
 import br.com.anderson.cocuscodechallenge.services.CodeWarsService
 import io.reactivex.Completable
-import io.reactivex.Flowable
 import io.reactivex.Maybe
 import io.reactivex.Single
 import okhttp3.ResponseBody.Companion.toResponseBody
@@ -25,10 +22,8 @@ import retrofit2.HttpException
 import retrofit2.Response
 import java.util.concurrent.TimeUnit
 
-
 @RunWith(JUnit4::class)
 class ChallengeRepositoryTest {
-
 
     private val codeWarsService = Mockito.mock(CodeWarsService::class.java)
     private val codeWarsDao = Mockito.mock(CodeWarsDao::class.java)
@@ -38,14 +33,13 @@ class ChallengeRepositoryTest {
     @JvmField
     val instantExecutorRule = InstantTaskExecutorRule()
 
-
     @Before
-    fun setup(){
+    fun setup() {
         val db = Mockito.mock(CodeWarsDb::class.java)
         Mockito.`when`(db.codeWarsDao()).thenReturn(codeWarsDao)
         Mockito.`when`(db.runInTransaction(ArgumentMatchers.any())).thenCallRealMethod()
 
-        challengeRepository = ChallengeRepository(codeWarsDao,codeWarsService)
+        challengeRepository = ChallengeRepository(codeWarsDao, codeWarsService)
     }
 
     @Test
@@ -54,7 +48,7 @@ class ChallengeRepositoryTest {
         val id = "id"
 
         Mockito.`when`(codeWarsDao.getChallenge(id)).thenReturn(Maybe.empty())
-        val remoteData = ChallengeDTO(id = id )
+        val remoteData = ChallengeDTO(id = id)
 
         Mockito.`when`(codeWarsDao.insertChallenge(any())).thenReturn(Completable.complete())
         Mockito.`when`(codeWarsService.getChallenge(id)).thenReturn(Single.just(remoteData))
@@ -67,8 +61,6 @@ class ChallengeRepositoryTest {
         testSubscriber.assertSubscribed()
         testSubscriber.assertComplete()
         testSubscriber.assertValues(DataSourceResult.create(remoteData.toChallange()))
-
-
     }
 
     @Test
@@ -76,7 +68,7 @@ class ChallengeRepositoryTest {
 
         val id = "id"
 
-        val localData =  Challenge(id = id)
+        val localData = Challenge(id = id)
 
         Mockito.`when`(codeWarsDao.getChallenge(id)).thenReturn(Maybe.just(localData))
         val remoteData = ChallengeDTO(id = id)
@@ -92,9 +84,9 @@ class ChallengeRepositoryTest {
         testSubscriber.assertSubscribed()
         testSubscriber.assertComplete()
         testSubscriber.assertValues(
-            DataSourceResult.create(localData) ,
-            DataSourceResult.create(remoteData.toChallange()))
-
+            DataSourceResult.create(localData),
+            DataSourceResult.create(remoteData.toChallange())
+        )
     }
 
     @Test
@@ -105,10 +97,13 @@ class ChallengeRepositoryTest {
         Mockito.`when`(codeWarsDao.getChallenge(id)).thenReturn(Maybe.empty())
 
         Mockito.`when`(codeWarsDao.insertChallenge(any())).thenReturn(Completable.complete())
-        Mockito.`when`(codeWarsService.getChallenge(id)).thenReturn(Single.error(
-            HttpException(
-                Response.error<Single<CompletedChallengeDTO>>(500, "error".toResponseBody()))
-        ))
+        Mockito.`when`(codeWarsService.getChallenge(id)).thenReturn(
+            Single.error(
+                HttpException(
+                    Response.error<Single<CompletedChallengeDTO>>(500, "error".toResponseBody())
+                )
+            )
+        )
 
         val testSubscriber = challengeRepository.getChallenge(id).test()
 
@@ -120,6 +115,5 @@ class ChallengeRepositoryTest {
         testSubscriber.assertValue {
             it.error is ErrorResult.GenericError
         }
-
     }
 }

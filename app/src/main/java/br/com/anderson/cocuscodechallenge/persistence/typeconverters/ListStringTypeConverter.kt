@@ -8,18 +8,22 @@ class ListStringTypeConverter {
 
     @TypeConverter
     fun listToString(list: List<String>?): String {
-        if(list == null)
+        if (list == null)
             return ""
 
-        return try { Gson().toJson(list) } catch (e:Exception) { "" }
+        return try { Gson().toJson(list) } catch (e: Exception) { "" }
     }
 
     @TypeConverter
     fun stringToList(data: String?): List<String>? {
-        if(data.isNullOrBlank())
+        if (data.isNullOrBlank())
             return null
 
-        return try { Gson().fromJson<List<String>>(data,
-            object : TypeToken<List<String>>() {}.type) } catch (e:Exception) { null }
+        return try {
+            Gson().fromJson<List<String>>(
+                data,
+                object : TypeToken<List<String>>() {}.type
+            )
+        } catch (e: Exception) { null }
     }
 }

@@ -9,21 +9,13 @@ import com.google.gson.annotations.SerializedName
 @Entity
 @TypeConverters(value = [ListStringTypeConverter::class])
 data class AuthoredChallenge(
-    @SerializedName("description")
-    var description: String? =  null,
-    @SerializedName("id")
+    var description: String? = null,
     @PrimaryKey
     var id: String = "",
-    @SerializedName("languages")
     var languages: List<String> = listOf(),
-    @SerializedName("name")
-    var name: String? =  null,
-    @SerializedName("rank")
+    var name: String? = null,
     var rank: Int? = null,
-    @SerializedName("rankName")
-    var rankName: String? =  null,
-    @SerializedName("tags")
+    var rankName: String? = null,
     var tags: List<String> = listOf(),
-    @SerializedName("username")
     var username: String? = null
 )

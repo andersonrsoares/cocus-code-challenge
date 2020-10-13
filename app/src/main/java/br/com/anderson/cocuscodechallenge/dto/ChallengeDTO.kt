@@ -5,7 +5,6 @@ import br.com.anderson.cocuscodechallenge.model.Member
 import br.com.anderson.cocuscodechallenge.model.Rank
 import com.google.gson.annotations.SerializedName
 
-
 data class ChallengeDTO(
     @SerializedName("approvedAt")
     val approvedAt: String? = null,
@@ -39,18 +38,15 @@ data class ChallengeDTO(
     val totalStars: Int? = null,
     @SerializedName("url")
     val url: String = ""
-):BaseDTO(){
+) : BaseDTO() {
     fun toChallange(): Challenge {
-        return Challenge(publishedAt = publishedAt?.toTimestamp(),
-            languages = languages, tags = tags, description =  description,
+        return Challenge(
+            publishedAt = publishedAt?.toTimestamp(),
+            languages = languages, tags = tags, description = description,
             id = id.toString(), rank = rank, slug = slug, name = name,
             approvedAt = approvedAt?.toTimestamp(), approvedBy = approvedBy, category = category,
             createdBy = createdBy, totalAttempts = totalAttempts, totalCompleted = totalCompleted,
-            totalStars = totalStars, url = url)
+            totalStars = totalStars, url = url
+        )
     }
 }
-
-
-
-
-

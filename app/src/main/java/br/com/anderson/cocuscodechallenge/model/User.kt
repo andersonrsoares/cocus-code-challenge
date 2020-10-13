@@ -6,9 +6,8 @@ import br.com.anderson.cocuscodechallenge.persistence.typeconverters.CodeChallen
 import br.com.anderson.cocuscodechallenge.persistence.typeconverters.ListStringTypeConverter
 import br.com.anderson.cocuscodechallenge.persistence.typeconverters.RanksTypeConverter
 
-
 @Entity
-@TypeConverters(value = [CodeChallengesTypeConverter::class,RanksTypeConverter::class,ListStringTypeConverter::class])
+@TypeConverters(value = [CodeChallengesTypeConverter::class, RanksTypeConverter::class, ListStringTypeConverter::class])
 data class User(
     val clan: String? = null,
     val codeChallenges: CodeChallenges? = null,
@@ -19,16 +18,12 @@ data class User(
     val skills: List<String>? = null,
     @PrimaryKey
     val username: String = "",
-    val datetime:Long
-){
+    val datetime: Long
+) {
     fun bestLanguageAndPoints(): String {
-        val best = ranks?.languages?.language?.maxBy { it.score  }
+        val best = ranks?.languages?.language?.maxBy { it.score }
         return best?.let {
             "${it.languageName} - ${it.score}"
         } ?: ""
     }
 }
-
-
-
-

@@ -2,7 +2,6 @@ package br.com.anderson.cocuscodechallenge.model
 
 import br.com.anderson.cocuscodechallenge.extras.handleException
 
-
 data class DataSourceResult<T>(val body: T? = null, val error: ErrorResult? = null) {
     companion object {
         fun <T> error(error: Throwable): DataSourceResult<T> {
@@ -15,14 +14,12 @@ data class DataSourceResult<T>(val body: T? = null, val error: ErrorResult? = nu
     }
 }
 
-sealed class ErrorResult{
+sealed class ErrorResult {
     object NotFound : ErrorResult()
 
     object ServerError : ErrorResult()
 
     object NetworkError : ErrorResult()
 
-    data class GenericError(val errorMessage: String? = null): ErrorResult()
+    data class GenericError(val errorMessage: String? = null) : ErrorResult()
 }
-
-

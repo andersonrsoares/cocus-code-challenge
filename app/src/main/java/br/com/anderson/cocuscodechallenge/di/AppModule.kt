@@ -30,7 +30,7 @@ class AppModule {
 
     @Singleton
     @Provides
-    fun provideService(gson: Gson,okHttpClient: OkHttpClient): CodeWarsService {
+    fun provideService(gson: Gson, okHttpClient: OkHttpClient): CodeWarsService {
         return Retrofit.Builder()
             .baseUrl(URL)
             .addConverterFactory(GsonConverterFactory.create(gson))
@@ -39,7 +39,6 @@ class AppModule {
             .build()
             .create(CodeWarsService::class.java)
     }
-
 
     @Singleton
     @Provides
@@ -55,7 +54,7 @@ class AppModule {
 
     @Singleton
     @Provides
-    fun okHttpClientProvider(autorizationInterceptor: AutorizationInterceptor): OkHttpClient{
+    fun okHttpClientProvider(autorizationInterceptor: AutorizationInterceptor): OkHttpClient {
         return OkHttpClient().newBuilder()
             .connectTimeout(6000, TimeUnit.MILLISECONDS)
             .readTimeout((1000 * 60).toLong(), TimeUnit.MILLISECONDS)
@@ -71,12 +70,11 @@ class AppModule {
 
     @Singleton
     @Provides
-    fun gsonProvider() : Gson{
+    fun gsonProvider(): Gson {
         return GsonBuilder().apply {
-             registerTypeAdapter(Languages::class.java, LanguageDeserializer())
-         }.create()
+            registerTypeAdapter(Languages::class.java, LanguageDeserializer())
+        }.create()
     }
-
 
     @Singleton
     @Provides
@@ -98,6 +96,4 @@ class AppModule {
     fun provideResource(app: Application): ResourceProvider {
         return ResourceProvider(app)
     }
-
-
 }

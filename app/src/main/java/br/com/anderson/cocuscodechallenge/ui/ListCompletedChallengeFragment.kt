@@ -1,34 +1,28 @@
 package br.com.anderson.cocuscodechallenge.ui
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.View
 import android.widget.Toast
 import androidx.core.view.isVisible
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import br.com.anderson.cocuscodechallenge.R
 import br.com.anderson.cocuscodechallenge.adapter.CompletedChallengeAdapter
 import br.com.anderson.cocuscodechallenge.di.Injectable
-import br.com.anderson.cocuscodechallenge.extras.hideKeyboard
 import br.com.anderson.cocuscodechallenge.extras.observe
 import br.com.anderson.cocuscodechallenge.extras.setDivider
-import br.com.anderson.cocuscodechallenge.model.AuthoredChallenge
 import br.com.anderson.cocuscodechallenge.model.CompletedChallenge
 import br.com.anderson.cocuscodechallenge.viewmodel.ListCompletedChallengeViewModel
 import kotlinx.android.synthetic.main.fragment_list_completed_challenge.*
 import javax.inject.Inject
 
+class ListCompletedChallengeFragment : Fragment(R.layout.fragment_list_completed_challenge), Injectable {
 
-class ListCompletedChallengeFragment : Fragment(R.layout.fragment_list_completed_challenge), Injectable{
-
-
-    lateinit var adapter:CompletedChallengeAdapter
+    lateinit var adapter: CompletedChallengeAdapter
 
     @Inject
     lateinit var viewModel: ListCompletedChallengeViewModel
-
 
     var args: UserDetailFragmentArgs? = null
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -48,36 +42,36 @@ class ListCompletedChallengeFragment : Fragment(R.layout.fragment_list_completed
         }
     }
 
-    private fun initRetryButton(){
+    private fun initRetryButton() {
         retrybutton.setOnClickListener(this::onRetryClick)
     }
 
-    fun onRetryClick(view: View){
+    fun onRetryClick(view: View) {
         viewModel.refresh()
         view.isVisible = false
     }
 
-    private fun initrRefresh(){
+    private fun initrRefresh() {
         swiperefresh.setOnRefreshListener(this::onRefresh)
     }
 
-    fun onRefresh(){
+    fun onRefresh() {
         viewModel.refresh()
     }
 
-    private fun fetchCompletedChallenges(){
+    private fun fetchCompletedChallenges() {
         viewModel.listUserCompletedChallenge(args?.username ?: "")
     }
 
-    private fun initObservers(){
-        observe(viewModel.dataCompletedChallenge,this::onLoadDataCompletedChallenge)
-        observe(viewModel.message,this::onMessage)
-        observe(viewModel.loading,this::onLoading)
-        observe(viewModel.clean,this::onClean)
-        observe(viewModel.retry,this::onRetry)
+    private fun initObservers() {
+        observe(viewModel.dataCompletedChallenge, this::onLoadDataCompletedChallenge)
+        observe(viewModel.message, this::onMessage)
+        observe(viewModel.loading, this::onLoading)
+        observe(viewModel.clean, this::onClean)
+        observe(viewModel.retry, this::onRetry)
     }
 
-    private fun initRecycleView(){
+    private fun initRecycleView() {
         adapter = CompletedChallengeAdapter()
         recycleview.adapter = adapter
         recycleview.layoutManager = LinearLayoutManager(requireContext()).apply {
@@ -87,7 +81,7 @@ class ListCompletedChallengeFragment : Fragment(R.layout.fragment_list_completed
         adapter.itemOnClick = this::onItemClick
     }
 
-    private fun onItemClick(challange: CompletedChallenge){
+    private fun onItemClick(challange: CompletedChallenge) {
         (parentFragment as? UserDetailFragment)?.navigateToChallenge(challange.id)
     }
 
@@ -111,7 +105,7 @@ class ListCompletedChallengeFragment : Fragment(R.layout.fragment_list_completed
     }
 
     private fun onMessage(data: String) {
-        Toast.makeText(requireContext(),data, Toast.LENGTH_LONG).show()
+        Toast.makeText(requireContext(), data, Toast.LENGTH_LONG).show()
     }
 
     private fun onLoading(data: Boolean) {
@@ -120,12 +114,12 @@ class ListCompletedChallengeFragment : Fragment(R.layout.fragment_list_completed
     }
 
     private fun onClean(data: Boolean) {
-        if(data)
+        if (data)
             adapter.submitList(arrayListOf())
     }
 
     private fun onRetry(data: String) {
-        Toast.makeText(requireContext(),data, Toast.LENGTH_LONG).show()
+        Toast.makeText(requireContext(), data, Toast.LENGTH_LONG).show()
         retrybutton.isVisible = true
     }
 

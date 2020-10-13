@@ -1,16 +1,17 @@
 package br.com.anderson.cocuscodechallenge.repository
 
-
-
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import br.com.anderson.cocuscodechallenge.any
-import br.com.anderson.cocuscodechallenge.dto.*
-import br.com.anderson.cocuscodechallenge.model.*
+import br.com.anderson.cocuscodechallenge.dto.AuthoredChallengeDTO
+import br.com.anderson.cocuscodechallenge.dto.CompletedChallengeDTO
+import br.com.anderson.cocuscodechallenge.dto.DataAuthoredChallengeDTO
+import br.com.anderson.cocuscodechallenge.model.AuthoredChallenge
+import br.com.anderson.cocuscodechallenge.model.DataSourceResult
+import br.com.anderson.cocuscodechallenge.model.ErrorResult
 import br.com.anderson.cocuscodechallenge.persistence.CodeWarsDao
 import br.com.anderson.cocuscodechallenge.persistence.CodeWarsDb
 import br.com.anderson.cocuscodechallenge.services.CodeWarsService
 import io.reactivex.Completable
-import io.reactivex.Flowable
 import io.reactivex.Single
 import okhttp3.ResponseBody.Companion.toResponseBody
 import org.junit.Before
@@ -24,10 +25,8 @@ import retrofit2.HttpException
 import retrofit2.Response
 import java.util.concurrent.TimeUnit
 
-
 @RunWith(JUnit4::class)
 class AuthoredChallengeRepositoryTest {
-
 
     private val codeWarsService = Mockito.mock(CodeWarsService::class.java)
     private val codeWarsDao = Mockito.mock(CodeWarsDao::class.java)
@@ -37,17 +36,14 @@ class AuthoredChallengeRepositoryTest {
     @JvmField
     val instantExecutorRule = InstantTaskExecutorRule()
 
-
     @Before
-    fun setup(){
+    fun setup() {
         val db = Mockito.mock(CodeWarsDb::class.java)
         Mockito.`when`(db.codeWarsDao()).thenReturn(codeWarsDao)
         Mockito.`when`(db.runInTransaction(ArgumentMatchers.any())).thenCallRealMethod()
 
-        authoredChallengeRepository = AuthoredChallengeRepository(codeWarsDao,codeWarsService)
+        authoredChallengeRepository = AuthoredChallengeRepository(codeWarsDao, codeWarsService)
     }
-
-
 
     @Test
     fun `test get authored challenges empty database`() {
@@ -55,7 +51,7 @@ class AuthoredChallengeRepositoryTest {
         val username = "baz"
 
         Mockito.`when`(codeWarsDao.allAuthoredChallenges("baz")).thenReturn(Single.just(arrayListOf()))
-        val remoteData =  DataAuthoredChallengeDTO(data = arrayListOf(AuthoredChallengeDTO( id = "id" )))
+        val remoteData = DataAuthoredChallengeDTO(data = arrayListOf(AuthoredChallengeDTO(id = "id")))
 
         Mockito.`when`(codeWarsDao.insertAuthoredChallenge(any())).thenReturn(Completable.complete())
         Mockito.`when`(codeWarsService.getAuthoredChallenges(username)).thenReturn(Single.just(remoteData))
@@ -68,8 +64,6 @@ class AuthoredChallengeRepositoryTest {
         testSubscriber.assertSubscribed()
         testSubscriber.assertNotComplete()
         testSubscriber.assertValues(DataSourceResult.create(remoteData.toAuthoredChallengeList(username)))
-
-
     }
 
     @Test
@@ -77,7 +71,7 @@ class AuthoredChallengeRepositoryTest {
 
         val username = "baz"
 
-        val localData =  arrayListOf(AuthoredChallenge(id = "id"))
+        val localData = arrayListOf(AuthoredChallenge(id = "id"))
 
         Mockito.`when`(codeWarsDao.allAuthoredChallenges("baz")).thenReturn(Single.just(localData))
         val remoteData = DataAuthoredChallengeDTO(data = arrayListOf(AuthoredChallengeDTO(id = "id")))
@@ -92,27 +86,28 @@ class AuthoredChallengeRepositoryTest {
         testSubscriber.assertNoErrors()
         testSubscriber.assertSubscribed()
         testSubscriber.assertComplete()
-        testSubscriber.assertValues(DataSourceResult.create(localData),
-            DataSourceResult.create(remoteData.toAuthoredChallengeList(username)))
-
+        testSubscriber.assertValues(
+            DataSourceResult.create(localData),
+            DataSourceResult.create(remoteData.toAuthoredChallengeList(username))
+        )
     }
 
     @Test
     fun `test get authored challenges error remote database empty`() {
         val username = "baz"
 
-
         Mockito.`when`(codeWarsDao.allAuthoredChallenges("baz")).thenReturn(Single.just(arrayListOf()))
 
-
         Mockito.`when`(codeWarsDao.insertAuthoredChallenge(any())).thenReturn(Completable.complete())
-        Mockito.`when`(codeWarsService.getAuthoredChallenges(username)).thenReturn(Single.error(
-            HttpException(
-                Response.error<Single<CompletedChallengeDTO>>(500, "error".toResponseBody()))
-        ))
+        Mockito.`when`(codeWarsService.getAuthoredChallenges(username)).thenReturn(
+            Single.error(
+                HttpException(
+                    Response.error<Single<CompletedChallengeDTO>>(500, "error".toResponseBody())
+                )
+            )
+        )
 
-        val testSubscriber =  authoredChallengeRepository.getAuthoredChallenges(username).test()
-
+        val testSubscriber = authoredChallengeRepository.getAuthoredChallenges(username).test()
 
         testSubscriber.awaitDone(1, TimeUnit.SECONDS)
 
@@ -123,6 +118,4 @@ class AuthoredChallengeRepositoryTest {
             it.error is ErrorResult.GenericError
         }
     }
-
-
 }

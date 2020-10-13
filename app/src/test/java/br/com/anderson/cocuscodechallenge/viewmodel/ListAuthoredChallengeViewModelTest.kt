@@ -3,8 +3,8 @@ package br.com.anderson.cocuscodechallenge.viewmodel
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import br.com.anderson.cocuscodechallenge.mock
-import br.com.anderson.cocuscodechallenge.provider.ResourceProvider
-import br.com.anderson.cocuscodechallenge.repository.UserRepository
+import br.com.anderson.cocuscodechallenge.model.*
+import br.com.anderson.cocuscodechallenge.repository.AuthoredChallengeRepository
 import io.reactivex.Flowable
 import io.reactivex.android.plugins.RxAndroidPlugins
 import io.reactivex.schedulers.Schedulers
@@ -14,11 +14,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 import org.mockito.Mockito.*
-import br.com.anderson.cocuscodechallenge.any
-import br.com.anderson.cocuscodechallenge.model.*
-import br.com.anderson.cocuscodechallenge.repository.AuthoredChallengeRepository
-import br.com.anderson.cocuscodechallenge.repository.CompletedChallengeRepository
-import org.mockito.ArgumentMatchers
 
 @RunWith(JUnit4::class)
 class ListAuthoredChallengeViewModelTest {
@@ -28,9 +23,9 @@ class ListAuthoredChallengeViewModelTest {
 
     private val authoredChallengeRepository = mock<AuthoredChallengeRepository>()
 
-    private lateinit var  auhtoredChallengeViewModel: ListAuthoredChallengeViewModel
+    private lateinit var auhtoredChallengeViewModel: ListAuthoredChallengeViewModel
     @Before
-    fun init(){
+    fun init() {
         auhtoredChallengeViewModel = ListAuthoredChallengeViewModel(authoredChallengeRepository)
         RxAndroidPlugins.setInitMainThreadSchedulerHandler { Schedulers.trampoline() }
     }
@@ -63,7 +58,7 @@ class ListAuthoredChallengeViewModelTest {
 
         val repositoryResponse = listOf<AuthoredChallenge>()
 
-        `when`(authoredChallengeRepository.getAuthoredChallenges(username)).thenReturn(Flowable.just( DataSourceResult.create(repositoryResponse)))
+        `when`(authoredChallengeRepository.getAuthoredChallenges(username)).thenReturn(Flowable.just(DataSourceResult.create(repositoryResponse)))
 
         val observerData = mock<Observer<List<AuthoredChallenge>>>()
         val observerLoading = mock<Observer<Boolean>>()
@@ -76,5 +71,4 @@ class ListAuthoredChallengeViewModelTest {
         verify(observerData, never()).onChanged(repositoryResponse)
         verify(observerLoading, times(2)).onChanged(false)
     }
-
 }

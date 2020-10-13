@@ -30,6 +30,7 @@
     <string name="label_created_by">Created by</string>
     <string name="label_created">Published</string>
 
+    <string name="message_challenge_not_found">Challenge not found</string>
     <string name="message_error">An error has occurred</string>
     <string name="message_user_not_found">User not found</string>
     <string name="message_not_found">Resource not found</string>

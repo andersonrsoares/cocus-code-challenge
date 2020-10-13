@@ -5,26 +5,25 @@ import br.com.anderson.cocuscodechallenge.dto.DataAuthoredChallengeDTO
 import br.com.anderson.cocuscodechallenge.dto.PageCompletedChallengeDTO
 import br.com.anderson.cocuscodechallenge.dto.UserDTO
 import io.reactivex.Single
-
-import retrofit2.http.*
+import retrofit2.http.GET
+import retrofit2.http.Path
+import retrofit2.http.Query
 
 /**
  * REST API access points
  */
 
-
-interface  CodeWarsService {
+interface CodeWarsService {
 
     @GET("users/{username}")
-    fun getUser(@Path("username") username:String ): Single<UserDTO>
+    fun getUser(@Path("username") username: String): Single<UserDTO>
 
     @GET("users/{username}/code-challenges/completed")
-    fun getCompletedChallenges(@Path("username") username:String,@Query("page") page:Int = 0): Single<PageCompletedChallengeDTO>
+    fun getCompletedChallenges(@Path("username") username: String, @Query("page") page: Int = 0): Single<PageCompletedChallengeDTO>
 
     @GET("users/{username}/code-challenges/authored")
-    fun getAuthoredChallenges(@Path("username") username:String): Single<DataAuthoredChallengeDTO>
+    fun getAuthoredChallenges(@Path("username") username: String): Single<DataAuthoredChallengeDTO>
 
     @GET("code-challenges/{id}")
-    fun getChallenge(@Path("id") id:String): Single<ChallengeDTO>
-
+    fun getChallenge(@Path("id") id: String): Single<ChallengeDTO>
 }

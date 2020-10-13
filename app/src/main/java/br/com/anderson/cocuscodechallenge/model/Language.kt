@@ -2,7 +2,6 @@ package br.com.anderson.cocuscodechallenge.model
 
 import com.google.gson.annotations.SerializedName
 
-
 data class Languages(
     var language: List<Language>? = null
 )

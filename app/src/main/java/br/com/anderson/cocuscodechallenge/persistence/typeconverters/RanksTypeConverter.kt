@@ -8,17 +8,17 @@ class RanksTypeConverter {
 
     @TypeConverter
     fun ranksToString(ranks: Ranks?): String {
-        if(ranks == null)
+        if (ranks == null)
             return ""
 
-        return try { Gson().toJson(ranks) } catch (e:Exception) { "" }
+        return try { Gson().toJson(ranks) } catch (e: Exception) { "" }
     }
 
     @TypeConverter
     fun stringToRanks(data: String?): Ranks? {
-        if(data.isNullOrBlank())
+        if (data.isNullOrBlank())
             return null
 
-        return try { Gson().fromJson<Ranks>(data, Ranks::class.java) } catch (e:Exception) { null }
+        return try { Gson().fromJson<Ranks>(data, Ranks::class.java) } catch (e: Exception) { null }
     }
 }

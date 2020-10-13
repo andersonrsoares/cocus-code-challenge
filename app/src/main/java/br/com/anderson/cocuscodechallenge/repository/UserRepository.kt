@@ -1,7 +1,5 @@
 package br.com.anderson.cocuscodechallenge.repository
 
-
-
 import br.com.anderson.cocuscodechallenge.extras.transformToDataSourceResult
 import br.com.anderson.cocuscodechallenge.model.DataSourceResult
 import br.com.anderson.cocuscodechallenge.model.User
@@ -15,18 +13,19 @@ import javax.inject.Singleton
 
 @Singleton
 @OpenForTesting
-class UserRepository @Inject constructor(val localDataSouse: CodeWarsDao,
-                                         val remoteDataSource:CodeWarsService) {
+class UserRepository @Inject constructor(
+    val localDataSouse: CodeWarsDao,
+    val remoteDataSource: CodeWarsService
+) {
 
-
-    fun listLastUsers():Flowable<DataSourceResult<List<User>>>{
+    fun listLastUsers(): Flowable<DataSourceResult<List<User>>> {
         return localDataSouse.allUsers()
             .transformToDataSourceResult()
             .subscribeOn(Schedulers.io()).toFlowable()
     }
 
-    fun searchUser(username:String):Flowable<DataSourceResult<User>>{
-      return remoteDataSource.getUser(username)
+    fun searchUser(username: String): Flowable<DataSourceResult<User>> {
+        return remoteDataSource.getUser(username)
             .subscribeOn(Schedulers.io())
             .map {
                 it.toUser()

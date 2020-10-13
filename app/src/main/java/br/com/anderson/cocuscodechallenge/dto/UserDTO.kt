@@ -5,8 +5,7 @@ import br.com.anderson.cocuscodechallenge.model.CodeChallenges
 import br.com.anderson.cocuscodechallenge.model.Ranks
 import br.com.anderson.cocuscodechallenge.model.User
 import com.google.gson.annotations.SerializedName
-import java.util.*
-
+import java.util.Calendar
 
 data class UserDTO(
     @SerializedName("clan")
@@ -26,12 +25,14 @@ data class UserDTO(
     @PrimaryKey
     @SerializedName("username")
     val username: String = ""
-):BaseDTO(){
+) : BaseDTO() {
     fun toUser(): User {
-        return User(datetime = Calendar.getInstance().timeInMillis,
-                    clan = clan, name = name, username = username,
-                    codeChallenges = codeChallenges, honor = honor,
-                    leaderboardPosition = leaderboardPosition,
-                    ranks = ranks,skills = skills)
+        return User(
+            datetime = Calendar.getInstance().timeInMillis,
+            clan = clan, name = name, username = username,
+            codeChallenges = codeChallenges, honor = honor,
+            leaderboardPosition = leaderboardPosition,
+            ranks = ranks, skills = skills
+        )
     }
 }
