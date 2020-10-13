@@ -17,7 +17,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 import org.mockito.ArgumentMatchers
-import org.mockito.Mockito.*
+import org.mockito.Mockito
 
 @RunWith(JUnit4::class)
 class ListCompletedChallengeViewModelTest {
@@ -49,7 +49,7 @@ class ListCompletedChallengeViewModelTest {
             )
         )
 
-        `when`(completedChallengeRepository.getCompletedChallenges(username, 1)).thenReturn(Flowable.just(DataSourceResult.create(repositoryResponse)))
+        Mockito.`when`(completedChallengeRepository.getCompletedChallenges(username, 1)).thenReturn(Flowable.just(DataSourceResult.create(repositoryResponse)))
 
         val observerData = mock<Observer<List<CompletedChallenge>>>()
         val observerLoading = mock<Observer<Boolean>>()
@@ -57,10 +57,10 @@ class ListCompletedChallengeViewModelTest {
         completedChallengeViewModel.loading.observeForever(observerLoading)
         completedChallengeViewModel.dataCompletedChallenge.observeForever(observerData)
         completedChallengeViewModel.listUserCompletedChallenge(username)
-        verify(observerLoading).onChanged(true)
-        verify(completedChallengeRepository).getCompletedChallenges(username, 1)
-        verify(observerData).onChanged(repositoryResponse.data)
-        verify(observerLoading, times(2)).onChanged(false)
+        Mockito.verify(observerLoading).onChanged(true)
+        Mockito.verify(completedChallengeRepository).getCompletedChallenges(username, 1)
+        Mockito.verify(observerData).onChanged(repositoryResponse.data)
+        Mockito.verify(observerLoading, Mockito.times(2)).onChanged(false)
     }
 
     @Test
@@ -70,7 +70,7 @@ class ListCompletedChallengeViewModelTest {
 
         val repositoryResponse = PageCompletedChallenge(totalPages = 1, totalItems = 1, data = arrayListOf())
 
-        `when`(completedChallengeRepository.getCompletedChallenges(username, 1)).thenReturn(Flowable.just(DataSourceResult.create(repositoryResponse)))
+        Mockito.`when`(completedChallengeRepository.getCompletedChallenges(username, 1)).thenReturn(Flowable.just(DataSourceResult.create(repositoryResponse)))
 
         val observerData = mock<Observer<List<CompletedChallenge>>>()
         val observerLoading = mock<Observer<Boolean>>()
@@ -78,10 +78,10 @@ class ListCompletedChallengeViewModelTest {
         completedChallengeViewModel.loading.observeForever(observerLoading)
         completedChallengeViewModel.dataCompletedChallenge.observeForever(observerData)
         completedChallengeViewModel.listUserCompletedChallenge(username)
-        verify(observerLoading).onChanged(true)
-        verify(completedChallengeRepository).getCompletedChallenges(username, 1)
-        verify(observerData, never()).onChanged(repositoryResponse.data)
-        verify(observerLoading, times(2)).onChanged(false)
+        Mockito.verify(observerLoading).onChanged(true)
+        Mockito.verify(completedChallengeRepository).getCompletedChallenges(username, 1)
+        Mockito.verify(observerData, Mockito.never()).onChanged(repositoryResponse.data)
+        Mockito.verify(observerLoading, Mockito.times(2)).onChanged(false)
     }
 
     @Test
@@ -91,11 +91,11 @@ class ListCompletedChallengeViewModelTest {
 
         val repositoryResponse = PageCompletedChallenge(totalPages = 2, totalItems = 1, data = arrayListOf(CompletedChallenge(completedAt = 0, id = "id")))
 
-        `when`(completedChallengeRepository.getCompletedChallenges(username, 1)).thenReturn(Flowable.just(DataSourceResult.create(repositoryResponse)))
+        Mockito.`when`(completedChallengeRepository.getCompletedChallenges(username, 1)).thenReturn(Flowable.just(DataSourceResult.create(repositoryResponse)))
 
-        `when`(completedChallengeRepository.getCompletedChallenges(username, 2)).thenReturn(Flowable.just(DataSourceResult.create(repositoryResponse)))
+        Mockito.`when`(completedChallengeRepository.getCompletedChallenges(username, 2)).thenReturn(Flowable.just(DataSourceResult.create(repositoryResponse)))
 
-        `when`(resourceProvider.getString(ArgumentMatchers.anyInt())).thenReturn("end of list")
+        Mockito.`when`(resourceProvider.getString(ArgumentMatchers.anyInt())).thenReturn("end of list")
 
         val observerData = mock<Observer<List<CompletedChallenge>>>()
         val observerLoading = mock<Observer<Boolean>>()
@@ -106,14 +106,14 @@ class ListCompletedChallengeViewModelTest {
 
         completedChallengeViewModel.dataCompletedChallenge.observeForever(observerData)
         completedChallengeViewModel.listUserCompletedChallenge(username)
-        verify(observerLoading).onChanged(true)
-        verify(completedChallengeRepository).getCompletedChallenges(username, 1)
-        verify(observerData).onChanged(repositoryResponse.data)
-        verify(observerLoading, times(2)).onChanged(false)
+        Mockito.verify(observerLoading).onChanged(true)
+        Mockito.verify(completedChallengeRepository).getCompletedChallenges(username, 1)
+        Mockito.verify(observerData).onChanged(repositoryResponse.data)
+        Mockito.verify(observerLoading, Mockito.times(2)).onChanged(false)
         completedChallengeViewModel.listScrolled(2, 3, 5)
-        verify(observerLoading, times(2)).onChanged(true)
-        verify(observerData).onChanged(repositoryResponse.data)
-        verify(observerLoading, times(4)).onChanged(false)
-        verify(observerMessage).onChanged("end of list")
+        Mockito.verify(observerLoading, Mockito.times(2)).onChanged(true)
+        Mockito.verify(observerData).onChanged(repositoryResponse.data)
+        Mockito.verify(observerLoading, Mockito.times(4)).onChanged(false)
+        Mockito.verify(observerMessage).onChanged("end of list")
     }
 }

@@ -3,11 +3,12 @@ package br.com.anderson.cocuscodechallenge.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import br.com.anderson.cocuscodechallenge.R
-import br.com.anderson.cocuscodechallenge.model.*
+import br.com.anderson.cocuscodechallenge.model.CompletedChallenge
+import br.com.anderson.cocuscodechallenge.model.DataSourceResult
+import br.com.anderson.cocuscodechallenge.model.PageCompletedChallenge
 import br.com.anderson.cocuscodechallenge.repository.CompletedChallengeRepository
 import br.com.anderson.cocuscodechallenge.testing.OpenForTesting
 import io.reactivex.android.schedulers.AndroidSchedulers
-import java.util.*
 import javax.inject.Inject
 
 const val VISIBLE_THRESHOLD = 2

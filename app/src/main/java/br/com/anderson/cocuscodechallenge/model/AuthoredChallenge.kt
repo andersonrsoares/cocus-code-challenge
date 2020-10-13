@@ -4,7 +4,6 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 import br.com.anderson.cocuscodechallenge.persistence.typeconverters.ListStringTypeConverter
-import com.google.gson.annotations.SerializedName
 
 @Entity
 @TypeConverters(value = [ListStringTypeConverter::class])

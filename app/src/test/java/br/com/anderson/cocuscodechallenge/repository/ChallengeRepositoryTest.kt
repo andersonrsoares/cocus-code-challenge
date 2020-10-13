@@ -2,8 +2,11 @@ package br.com.anderson.cocuscodechallenge.repository
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import br.com.anderson.cocuscodechallenge.any
-import br.com.anderson.cocuscodechallenge.dto.*
-import br.com.anderson.cocuscodechallenge.model.*
+import br.com.anderson.cocuscodechallenge.dto.ChallengeDTO
+import br.com.anderson.cocuscodechallenge.dto.CompletedChallengeDTO
+import br.com.anderson.cocuscodechallenge.model.Challenge
+import br.com.anderson.cocuscodechallenge.model.DataSourceResult
+import br.com.anderson.cocuscodechallenge.model.ErrorResult
 import br.com.anderson.cocuscodechallenge.persistence.CodeWarsDao
 import br.com.anderson.cocuscodechallenge.persistence.CodeWarsDb
 import br.com.anderson.cocuscodechallenge.services.CodeWarsService
