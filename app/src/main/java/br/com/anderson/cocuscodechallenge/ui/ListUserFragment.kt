@@ -29,14 +29,15 @@ class ListUserFragment : Fragment(R.layout.fragment_list_user), Injectable, Sear
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initRecycleView()
+        initMessageEmpty()
         initObservers()
         loadUsers()
         initSearch()
+        fetchUsers()
     }
 
-    override fun onResume() {
-        super.onResume()
-        fetchUsers()
+    private fun initMessageEmpty() {
+        onEmpty(false)
     }
 
     private fun initSearch() {
@@ -49,9 +50,12 @@ class ListUserFragment : Fragment(R.layout.fragment_list_user), Injectable, Sear
 
     private fun initObservers() {
         observe(viewModel.dataListLastUsers, this::onLoadDataListUsers)
+        observe(viewModel.newUser, this::onNewUser)
         observe(viewModel.message, this::onMessage)
         observe(viewModel.loading, this::onLoading)
         observe(viewModel.retry, this::onRetry)
+        observe(viewModel.empty, this::onEmpty)
+        observe(viewModel.clean, this::onClean)
     }
 
     private fun initRecycleView() {
@@ -87,6 +91,20 @@ class ListUserFragment : Fragment(R.layout.fragment_list_user), Injectable, Sear
 
     private fun onLoading(data: Boolean) {
         progressloading.isVisible = data
+    }
+
+    private fun onEmpty(data: Boolean) {
+        messageempty.isVisible = data
+    }
+
+    private fun onClean(data: Boolean) {
+        if (data)
+            adapter.submitList(arrayListOf())
+    }
+
+    private fun onNewUser(data: Boolean) {
+        if (data)
+            recycleview.scrollToPosition(0)
     }
 
     override fun onQueryTextSubmit(query: String?): Boolean {
