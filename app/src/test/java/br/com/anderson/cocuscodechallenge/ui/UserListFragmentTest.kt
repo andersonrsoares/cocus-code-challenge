@@ -66,8 +66,7 @@ class UserListFragmentTest {
         }
 
         onView(listMatcher().atPosition(0)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-        onView(listMatcher().atPosition(0)).check(ViewAssertions.matches(ViewMatchers.hasDescendant(
-            ViewMatchers.withText("username"))))
+        onView(listMatcher().atPosition(0)).check(ViewAssertions.matches(ViewMatchers.hasDescendant(ViewMatchers.withText("username"))))
         onView(ViewMatchers.withText("username")).perform(ViewActions.click())
 
         Mockito.verify(mockNavController).navigate(ListUserFragmentDirections.actionListUserFragmentToUserDetailFragment("username"))

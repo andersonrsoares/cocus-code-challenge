@@ -63,8 +63,7 @@ class ListCompletedChallengeFragmentFragmentTest {
         }
 
         onView(listMatcher().atPosition(0)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-        onView(listMatcher().atPosition(0)).check(ViewAssertions.matches(ViewMatchers.hasDescendant(
-            ViewMatchers.withText("Name"))))
+        onView(listMatcher().atPosition(0)).check(ViewAssertions.matches(ViewMatchers.hasDescendant(ViewMatchers.withText("Name"))))
         onView(ViewMatchers.withText("Name")).perform(ViewActions.click())
 
         scenario.moveToState(Lifecycle.State.RESUMED)
