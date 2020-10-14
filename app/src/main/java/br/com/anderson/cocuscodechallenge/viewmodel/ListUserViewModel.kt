@@ -31,6 +31,10 @@ class ListUserViewModel @Inject constructor(val repository: UserRepository) : Ba
         get() = _dataListLastUsers
 
     fun listLastUsers() {
+        if(!_dataListLastUsers.value.isNullOrEmpty()){
+            return
+        }
+
         _loading.postValue(true)
         disposable.add(
             repository
@@ -40,10 +44,10 @@ class ListUserViewModel @Inject constructor(val repository: UserRepository) : Ba
         )
     }
 
-    fun orderByRank() {
+    fun orderByPosition() {
         disposable.add(
             repository
-                .listOrderByRank()
+                .listOrderByPosition()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe{
                     _clean.postValue(true)

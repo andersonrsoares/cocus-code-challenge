@@ -6,6 +6,7 @@ import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import br.com.anderson.cocuscodechallenge.R
@@ -19,12 +20,20 @@ import br.com.anderson.cocuscodechallenge.viewmodel.ListUserViewModel
 import kotlinx.android.synthetic.main.fragment_list_user.*
 import javax.inject.Inject
 
+
 class ListUserFragment : Fragment(R.layout.fragment_list_user), Injectable, SearchView.OnQueryTextListener {
 
     lateinit var adapter: ListUserAdapter
 
-    @Inject
     lateinit var viewModel: ListUserViewModel
+
+    @Inject
+    lateinit var factory: ViewModelProvider.Factory
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        initListAdapter()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,12 +46,16 @@ class ListUserFragment : Fragment(R.layout.fragment_list_user), Injectable, Sear
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel = ViewModelProvider(this, factory).get(ListUserViewModel::class.java)
+        init()
+    }
+
+    fun init(){
+        initSearch()
+        initObservers()
         initRecycleView()
         initMessageEmpty()
-        initObservers()
         loadUsers()
-        initSearch()
-        fetchUsers()
     }
 
     private fun initMessageEmpty() {
@@ -67,9 +80,12 @@ class ListUserFragment : Fragment(R.layout.fragment_list_user), Injectable, Sear
         observe(viewModel.clean, this::onClean)
     }
 
-    private fun initRecycleView() {
+    private fun initListAdapter(){
         adapter = ListUserAdapter()
         adapter.itemOnClick = this::onItemClick
+    }
+
+    private fun initRecycleView() {
         recycleview.adapter = adapter
         recycleview.layoutManager = LinearLayoutManager(requireContext()).apply {
             orientation = LinearLayoutManager.VERTICAL
@@ -84,10 +100,6 @@ class ListUserFragment : Fragment(R.layout.fragment_list_user), Injectable, Sear
 
     private fun onLoadDataListUsers(data: List<User>) {
         adapter.submitList(data)
-    }
-
-    private fun fetchUsers() {
-        viewModel.listLastUsers()
     }
 
     private fun onMessage(data: String) {
@@ -132,7 +144,7 @@ class ListUserFragment : Fragment(R.layout.fragment_list_user), Injectable, Sear
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
-            R.id.order_rank -> viewModel.orderByRank()
+            R.id.order_rank -> viewModel.orderByPosition()
             else -> viewModel.orderByLookUp()
         }
         return super.onOptionsItemSelected(item)

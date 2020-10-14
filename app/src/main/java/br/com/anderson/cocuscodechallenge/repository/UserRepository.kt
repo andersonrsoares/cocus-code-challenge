@@ -24,7 +24,7 @@ class UserRepository @Inject constructor(
             .subscribeOn(Schedulers.io()).toFlowable()
     }
 
-    fun listOrderByRank(): Flowable<DataSourceResult<List<User>>> {
+    fun listOrderByPosition(): Flowable<DataSourceResult<List<User>>> {
         return localDataSouse.allUsers()
             .map {
                 it.sortedBy { item -> item.leaderboardPosition }
