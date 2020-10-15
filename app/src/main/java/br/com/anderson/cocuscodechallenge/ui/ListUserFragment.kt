@@ -1,7 +1,12 @@
 package br.com.anderson.cocuscodechallenge.ui
 
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
@@ -19,7 +24,6 @@ import br.com.anderson.cocuscodechallenge.model.User
 import br.com.anderson.cocuscodechallenge.viewmodel.ListUserViewModel
 import kotlinx.android.synthetic.main.fragment_list_user.*
 import javax.inject.Inject
-
 
 class ListUserFragment : Fragment(R.layout.fragment_list_user), Injectable, SearchView.OnQueryTextListener {
 
@@ -50,7 +54,7 @@ class ListUserFragment : Fragment(R.layout.fragment_list_user), Injectable, Sear
         init()
     }
 
-    fun init(){
+    fun init() {
         initSearch()
         initObservers()
         initRecycleView()
@@ -80,7 +84,7 @@ class ListUserFragment : Fragment(R.layout.fragment_list_user), Injectable, Sear
         observe(viewModel.clean, this::onClean)
     }
 
-    private fun initListAdapter(){
+    private fun initListAdapter() {
         adapter = ListUserAdapter()
         adapter.itemOnClick = this::onItemClick
     }
@@ -139,11 +143,11 @@ class ListUserFragment : Fragment(R.layout.fragment_list_user), Injectable, Sear
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.user_list_menu,menu)
+        inflater.inflate(R.menu.user_list_menu, menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId){
+        when (item.itemId) {
             R.id.order_rank -> viewModel.orderByPosition()
             else -> viewModel.orderByLookUp()
         }

@@ -14,7 +14,9 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
+import org.mockito.BDDMockito
 import org.mockito.Mockito
+import org.mockito.verification.VerificationMode
 
 @RunWith(JUnit4::class)
 class ChallengeViewModelTest {
@@ -37,19 +39,35 @@ class ChallengeViewModelTest {
         val id = "id"
 
         val repositoryResponse = Challenge(id = "id")
-
-        Mockito.`when`(challengeRepository.getChallenge(id)).thenReturn(Flowable.just(DataSourceResult.create(repositoryResponse)))
+        //given
+        BDDMockito.given(challengeRepository.getChallenge(id)).willReturn(Flowable.just(DataSourceResult.create(repositoryResponse)))
 
         val observerData = mock<Observer<Challenge>>()
         val observerLoading = mock<Observer<Boolean>>()
 
+        //when
         challengeViewModel.loading.observeForever(observerLoading)
         challengeViewModel.dataChallenge.observeForever(observerData)
         challengeViewModel.listChallenge(id)
-        Mockito.verify(observerLoading).onChanged(true)
-        Mockito.verify(challengeRepository).getChallenge(id)
-        Mockito.verify(observerData).onChanged(repositoryResponse)
-        Mockito.verify(observerLoading, Mockito.times(2)).onChanged(false)
+
+        //then
+        BDDMockito.then(challengeRepository)
+            .should().getChallenge(id)
+
+        BDDMockito.then(observerLoading)
+            .should().onChanged(true)
+
+        BDDMockito.then(observerData)
+            .should().onChanged(repositoryResponse)
+
+       // Mockito.verify(observerLoading).onChanged(true)
+        //Mockito.verify(challengeRepository).getChallenge(id)
+        //Mockito.verify(observerData).onChanged(repositoryResponse)
+
+        BDDMockito.then(observerLoading)
+            .should(BDDMockito.times(2)).onChanged(false)
+
+      //  Mockito.verify(observerLoading, Mockito.times(2)).onChanged(false)
     }
 
     @Test

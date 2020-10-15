@@ -31,7 +31,7 @@ class ListUserViewModel @Inject constructor(val repository: UserRepository) : Ba
         get() = _dataListLastUsers
 
     fun listLastUsers() {
-        if(!_dataListLastUsers.value.isNullOrEmpty()){
+        if (!_dataListLastUsers.value.isNullOrEmpty()) {
             return
         }
 
@@ -49,7 +49,7 @@ class ListUserViewModel @Inject constructor(val repository: UserRepository) : Ba
             repository
                 .listOrderByPosition()
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe{
+                .subscribe {
                     _clean.postValue(true)
                     _dataListLastUsers.postValue(it.body)
                 }
@@ -61,7 +61,7 @@ class ListUserViewModel @Inject constructor(val repository: UserRepository) : Ba
             repository
                 .listOrderByLookUp()
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe{
+                .subscribe {
                     _clean.postValue(true)
                     _dataListLastUsers.postValue(it.body)
                 }
