@@ -14,9 +14,9 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
-import org.mockito.BDDMockito
-import org.mockito.Mockito
-import org.mockito.verification.VerificationMode
+import org.mockito.BDDMockito.given
+import org.mockito.BDDMockito.then
+import org.mockito.BDDMockito.times
 
 @RunWith(JUnit4::class)
 class ChallengeViewModelTest {
@@ -40,7 +40,7 @@ class ChallengeViewModelTest {
 
         val repositoryResponse = Challenge(id = "id")
         //given
-        BDDMockito.given(challengeRepository.getChallenge(id)).willReturn(Flowable.just(DataSourceResult.create(repositoryResponse)))
+        given(challengeRepository.getChallenge(id)).willReturn(Flowable.just(DataSourceResult.create(repositoryResponse)))
 
         val observerData = mock<Observer<Challenge>>()
         val observerLoading = mock<Observer<Boolean>>()
@@ -51,30 +51,25 @@ class ChallengeViewModelTest {
         challengeViewModel.listChallenge(id)
 
         //then
-        BDDMockito.then(challengeRepository)
+        then(challengeRepository)
             .should().getChallenge(id)
 
-        BDDMockito.then(observerLoading)
+        then(observerLoading)
             .should().onChanged(true)
 
-        BDDMockito.then(observerData)
+        then(observerData)
             .should().onChanged(repositoryResponse)
 
-       // Mockito.verify(observerLoading).onChanged(true)
-        //Mockito.verify(challengeRepository).getChallenge(id)
-        //Mockito.verify(observerData).onChanged(repositoryResponse)
+        then(observerLoading)
+            .should(times(2)).onChanged(false)
 
-        BDDMockito.then(observerLoading)
-            .should(BDDMockito.times(2)).onChanged(false)
-
-      //  Mockito.verify(observerLoading, Mockito.times(2)).onChanged(false)
     }
 
     @Test
     fun `list authored challenges data empty`() {
 
         val id = "id"
-        Mockito.`when`(challengeRepository.getChallenge(id)).thenReturn(Flowable.empty())
+        given(challengeRepository.getChallenge(id)).willReturn(Flowable.empty())
 
         val observerData = mock<Observer<Challenge>>()
         val observerLoading = mock<Observer<Boolean>>()
@@ -82,9 +77,10 @@ class ChallengeViewModelTest {
         challengeViewModel.loading.observeForever(observerLoading)
         challengeViewModel.dataChallenge.observeForever(observerData)
         challengeViewModel.listChallenge(id)
-        Mockito.verify(observerLoading).onChanged(true)
-        Mockito.verify(challengeRepository).getChallenge(id)
-        Mockito.verify(observerData, Mockito.never()).onChanged(null)
-        Mockito.verify(observerLoading).onChanged(false)
+
+        then(observerLoading).should().onChanged(true)
+        then(challengeRepository).should().getChallenge(id)
+        then(observerData).shouldHaveZeroInteractions()
+        then(observerLoading).should().onChanged(false)
     }
 }

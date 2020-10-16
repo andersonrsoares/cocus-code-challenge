@@ -16,7 +16,9 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 import org.mockito.ArgumentMatchers
-import org.mockito.Mockito
+import org.mockito.BDDMockito.given
+import org.mockito.BDDMockito.then
+import org.mockito.BDDMockito.times
 
 @RunWith(JUnit4::class)
 class ListUserViewModelTest {
@@ -42,7 +44,7 @@ class ListUserViewModelTest {
 
         val repositoryResponse = listOf(User(datetime = 0, username = username))
 
-        Mockito.`when`(userRepository.listLastUsers()).thenReturn(Flowable.just(DataSourceResult.create(repositoryResponse)))
+        given(userRepository.listLastUsers()).willReturn(Flowable.just(DataSourceResult.create(repositoryResponse)))
 
         val observerData = mock<Observer<List<User>>>()
         val observerLoading = mock<Observer<Boolean>>()
@@ -50,10 +52,10 @@ class ListUserViewModelTest {
         userViewModel.loading.observeForever(observerLoading)
         userViewModel.dataListLastUsers.observeForever(observerData)
         userViewModel.listLastUsers()
-        Mockito.verify(observerLoading).onChanged(true)
-        Mockito.verify(userRepository).listLastUsers()
-        Mockito.verify(observerData).onChanged(repositoryResponse)
-        Mockito.verify(observerLoading).onChanged(false)
+        then(observerLoading).should().onChanged(true)
+        then(userRepository).should().listLastUsers()
+        then(observerData).should().onChanged(repositoryResponse)
+        then(observerLoading).should().onChanged(false)
     }
 
     @Test
@@ -63,7 +65,7 @@ class ListUserViewModelTest {
 
         val repositoryResponse = User(datetime = 0, username = username)
 
-        Mockito.`when`(userRepository.searchUser(username)).thenReturn(Flowable.just(DataSourceResult.create(repositoryResponse)))
+        given(userRepository.searchUser(username)).willReturn(Flowable.just(DataSourceResult.create(repositoryResponse)))
 
         val observerData = mock<Observer<List<User>>>()
         val observerLoading = mock<Observer<Boolean>>()
@@ -71,22 +73,22 @@ class ListUserViewModelTest {
         userViewModel.loading.observeForever(observerLoading)
         userViewModel.dataListLastUsers.observeForever(observerData)
         userViewModel.searchUser(username)
-        Mockito.verify(observerLoading).onChanged(true)
-        Mockito.verify(userRepository).searchUser(username)
-        Mockito.verify(observerData).onChanged(listOf(repositoryResponse))
-        Mockito.verify(observerLoading, Mockito.times(2)).onChanged(false)
+        then(observerLoading).should().onChanged(true)
+        then(userRepository).should().searchUser(username)
+        then(observerData).should().onChanged(listOf(repositoryResponse))
+        then(observerLoading).should(times(2)).onChanged(false)
     }
 
     @Test
     fun `search user by name empty`() {
 
-        Mockito.`when`(resourceProvider.getString(ArgumentMatchers.anyInt())).thenReturn("message")
+        given(resourceProvider.getString(ArgumentMatchers.anyInt())).willReturn("message")
 
         val observerMessage = mock<Observer<String>>()
 
         userViewModel.message.observeForever(observerMessage)
 
         userViewModel.searchUser("")
-        Mockito.verify(observerMessage).onChanged("message")
+        then(observerMessage).should().onChanged("message")
     }
 }

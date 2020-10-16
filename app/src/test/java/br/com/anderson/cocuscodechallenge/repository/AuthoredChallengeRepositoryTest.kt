@@ -5,6 +5,7 @@ import br.com.anderson.cocuscodechallenge.any
 import br.com.anderson.cocuscodechallenge.dto.AuthoredChallengeDTO
 import br.com.anderson.cocuscodechallenge.dto.CompletedChallengeDTO
 import br.com.anderson.cocuscodechallenge.dto.DataAuthoredChallengeDTO
+import br.com.anderson.cocuscodechallenge.mock
 import br.com.anderson.cocuscodechallenge.model.AuthoredChallenge
 import br.com.anderson.cocuscodechallenge.model.DataSourceResult
 import br.com.anderson.cocuscodechallenge.model.ErrorResult
@@ -20,16 +21,17 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 import org.mockito.ArgumentMatchers
-import org.mockito.Mockito
 import retrofit2.HttpException
 import retrofit2.Response
 import java.util.concurrent.TimeUnit
+import org.mockito.BDDMockito.given
+
 
 @RunWith(JUnit4::class)
 class AuthoredChallengeRepositoryTest {
 
-    private val codeWarsService = Mockito.mock(CodeWarsService::class.java)
-    private val codeWarsDao = Mockito.mock(CodeWarsDao::class.java)
+    private val codeWarsService = mock<CodeWarsService>()
+    private val codeWarsDao = mock<CodeWarsDao>()
     private lateinit var authoredChallengeRepository: AuthoredChallengeRepository
 
     @Rule
@@ -38,9 +40,9 @@ class AuthoredChallengeRepositoryTest {
 
     @Before
     fun setup() {
-        val db = Mockito.mock(CodeWarsDb::class.java)
-        Mockito.`when`(db.codeWarsDao()).thenReturn(codeWarsDao)
-        Mockito.`when`(db.runInTransaction(ArgumentMatchers.any())).thenCallRealMethod()
+        val db = mock<CodeWarsDb>()
+        given(db.codeWarsDao()).willReturn(codeWarsDao)
+        given(db.runInTransaction(ArgumentMatchers.any())).willCallRealMethod()
 
         authoredChallengeRepository = AuthoredChallengeRepository(codeWarsDao, codeWarsService)
     }
@@ -50,11 +52,11 @@ class AuthoredChallengeRepositoryTest {
 
         val username = "baz"
 
-        Mockito.`when`(codeWarsDao.allAuthoredChallenges("baz")).thenReturn(Single.just(arrayListOf()))
+        given(codeWarsDao.allAuthoredChallenges("baz")).willReturn(Single.just(arrayListOf()))
         val remoteData = DataAuthoredChallengeDTO(data = arrayListOf(AuthoredChallengeDTO(id = "id")))
 
-        Mockito.`when`(codeWarsDao.insertAuthoredChallenge(any())).thenReturn(Completable.complete())
-        Mockito.`when`(codeWarsService.getAuthoredChallenges(username)).thenReturn(Single.just(remoteData))
+        given(codeWarsDao.insertAuthoredChallenge(any())).willReturn(Completable.complete())
+        given(codeWarsService.getAuthoredChallenges(username)).willReturn(Single.just(remoteData))
 
         val testSubscriber = authoredChallengeRepository.getAuthoredChallenges("baz").test()
 
@@ -73,11 +75,11 @@ class AuthoredChallengeRepositoryTest {
 
         val localData = arrayListOf(AuthoredChallenge(id = "id"))
 
-        Mockito.`when`(codeWarsDao.allAuthoredChallenges("baz")).thenReturn(Single.just(localData))
+        given(codeWarsDao.allAuthoredChallenges("baz")).willReturn(Single.just(localData))
         val remoteData = DataAuthoredChallengeDTO(data = arrayListOf(AuthoredChallengeDTO(id = "id")))
 
-        Mockito.`when`(codeWarsDao.insertAuthoredChallenge(any())).thenReturn(Completable.complete())
-        Mockito.`when`(codeWarsService.getAuthoredChallenges(username)).thenReturn(Single.just(remoteData))
+        given(codeWarsDao.insertAuthoredChallenge(any())).willReturn(Completable.complete())
+        given(codeWarsService.getAuthoredChallenges(username)).willReturn(Single.just(remoteData))
 
         val testSubscriber = authoredChallengeRepository.getAuthoredChallenges("baz").test()
 
@@ -96,10 +98,10 @@ class AuthoredChallengeRepositoryTest {
     fun `test get authored challenges error remote database empty`() {
         val username = "baz"
 
-        Mockito.`when`(codeWarsDao.allAuthoredChallenges("baz")).thenReturn(Single.just(arrayListOf()))
+        given(codeWarsDao.allAuthoredChallenges("baz")).willReturn(Single.just(arrayListOf()))
 
-        Mockito.`when`(codeWarsDao.insertAuthoredChallenge(any())).thenReturn(Completable.complete())
-        Mockito.`when`(codeWarsService.getAuthoredChallenges(username)).thenReturn(
+        given(codeWarsDao.insertAuthoredChallenge(any())).willReturn(Completable.complete())
+        given(codeWarsService.getAuthoredChallenges(username)).willReturn(
             Single.error(
                 HttpException(
                     Response.error<Single<CompletedChallengeDTO>>(500, "error".toResponseBody())

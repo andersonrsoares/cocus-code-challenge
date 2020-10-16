@@ -4,6 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import br.com.anderson.cocuscodechallenge.any
 import br.com.anderson.cocuscodechallenge.dto.CompletedChallengeDTO
 import br.com.anderson.cocuscodechallenge.dto.PageCompletedChallengeDTO
+import br.com.anderson.cocuscodechallenge.mock
 import br.com.anderson.cocuscodechallenge.model.CompletedChallenge
 import br.com.anderson.cocuscodechallenge.model.DataSourceResult
 import br.com.anderson.cocuscodechallenge.model.ErrorResult
@@ -24,12 +25,13 @@ import org.mockito.Mockito
 import retrofit2.HttpException
 import retrofit2.Response
 import java.util.concurrent.TimeUnit
+import org.mockito.BDDMockito.given
 
 @RunWith(JUnit4::class)
 class CompletedChallengeRepositoryTest {
 
-    private val codeWarsService = Mockito.mock(CodeWarsService::class.java)
-    private val codeWarsDao = Mockito.mock(CodeWarsDao::class.java)
+    private val codeWarsService = mock<CodeWarsService>()
+    private val codeWarsDao = mock<CodeWarsDao>()
     private lateinit var completedChallengeRepository: CompletedChallengeRepository
 
     @Rule
@@ -38,8 +40,8 @@ class CompletedChallengeRepositoryTest {
 
     @Before
     fun setup() {
-        val db = Mockito.mock(CodeWarsDb::class.java)
-        Mockito.`when`(db.codeWarsDao()).thenReturn(codeWarsDao)
+        val db = mock<CodeWarsDb>()
+        given(db.codeWarsDao()).willReturn(codeWarsDao)
         Mockito.`when`(db.runInTransaction(ArgumentMatchers.any())).thenCallRealMethod()
 
         completedChallengeRepository = CompletedChallengeRepository(codeWarsDao, codeWarsService)
@@ -50,7 +52,7 @@ class CompletedChallengeRepositoryTest {
 
         val username = "baz"
 
-        Mockito.`when`(codeWarsDao.allCompletedChallenges("baz")).thenReturn(Single.just(arrayListOf()))
+        given(codeWarsDao.allCompletedChallenges("baz")).willReturn(Single.just(arrayListOf()))
         val remoteData = PageCompletedChallengeDTO(
             totalPages = 1, totalItems = 1,
             data = arrayListOf(
@@ -58,8 +60,8 @@ class CompletedChallengeRepositoryTest {
             )
         )
 
-        Mockito.`when`(codeWarsDao.insertCompletedChallenge(any())).thenReturn(Completable.complete())
-        Mockito.`when`(codeWarsService.getCompletedChallenges(username, 1)).thenReturn(Single.just(remoteData))
+        given(codeWarsDao.insertCompletedChallenge(any())).willReturn(Completable.complete())
+        given(codeWarsService.getCompletedChallenges(username, 1)).willReturn(Single.just(remoteData))
 
         val testSubscriber = completedChallengeRepository.getCompletedChallenges("baz", 1).test()
 
@@ -83,7 +85,7 @@ class CompletedChallengeRepositoryTest {
             )
         )
 
-        Mockito.`when`(codeWarsDao.allCompletedChallenges("baz")).thenReturn(Single.just(localData.data))
+        given(codeWarsDao.allCompletedChallenges("baz")).willReturn(Single.just(localData.data))
         val remoteData = PageCompletedChallengeDTO(
             totalPages = 1, totalItems = 1,
             data = arrayListOf(
@@ -91,8 +93,8 @@ class CompletedChallengeRepositoryTest {
             )
         )
 
-        Mockito.`when`(codeWarsDao.insertCompletedChallenge(any())).thenReturn(Completable.complete())
-        Mockito.`when`(codeWarsService.getCompletedChallenges(username, 1)).thenReturn(Single.just(remoteData))
+        given(codeWarsDao.insertCompletedChallenge(any())).willReturn(Completable.complete())
+        given(codeWarsService.getCompletedChallenges(username, 1)).willReturn(Single.just(remoteData))
 
         val testSubscriber = completedChallengeRepository.getCompletedChallenges("baz", 1).test()
 
@@ -116,8 +118,8 @@ class CompletedChallengeRepositoryTest {
             )
         )
 
-        Mockito.`when`(codeWarsDao.insertCompletedChallenge(any())).thenReturn(Completable.complete())
-        Mockito.`when`(codeWarsService.getCompletedChallenges(username, 2)).thenReturn(Single.just(remoteData))
+        given(codeWarsDao.insertCompletedChallenge(any())).willReturn(Completable.complete())
+        given(codeWarsService.getCompletedChallenges(username, 2)).willReturn(Single.just(remoteData))
 
         val testSubscriber = completedChallengeRepository.getCompletedChallenges("baz", 2).test()
 
@@ -133,10 +135,10 @@ class CompletedChallengeRepositoryTest {
     fun `test get completed challenges error remote database empty`() {
         val username = "baz"
 
-        Mockito.`when`(codeWarsDao.allCompletedChallenges("baz")).thenReturn(Single.just(arrayListOf()))
+        given(codeWarsDao.allCompletedChallenges("baz")).willReturn(Single.just(arrayListOf()))
 
-        Mockito.`when`(codeWarsDao.insertCompletedChallenge(any())).thenReturn(Completable.complete())
-        Mockito.`when`(codeWarsService.getCompletedChallenges(username, 1)).thenReturn(
+        given(codeWarsDao.insertCompletedChallenge(any())).willReturn(Completable.complete())
+        given(codeWarsService.getCompletedChallenges(username, 1)).willReturn(
             Single.error(
                 HttpException(
                     Response.error<Single<CompletedChallengeDTO>>(500, "error".toResponseBody())

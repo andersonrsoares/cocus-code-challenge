@@ -14,7 +14,9 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
-import org.mockito.Mockito
+import org.mockito.BDDMockito.given
+import org.mockito.BDDMockito.then
+import org.mockito.BDDMockito.times
 
 @RunWith(JUnit4::class)
 class ListAuthoredChallengeViewModelTest {
@@ -38,7 +40,7 @@ class ListAuthoredChallengeViewModelTest {
 
         val repositoryResponse = listOf(AuthoredChallenge(id = "id"))
 
-        Mockito.`when`(authoredChallengeRepository.getAuthoredChallenges(username)).thenReturn(Flowable.just(DataSourceResult.create(repositoryResponse)))
+        given(authoredChallengeRepository.getAuthoredChallenges(username)).willReturn(Flowable.just(DataSourceResult.create(repositoryResponse)))
 
         val observerData = mock<Observer<List<AuthoredChallenge>>>()
         val observerLoading = mock<Observer<Boolean>>()
@@ -46,10 +48,10 @@ class ListAuthoredChallengeViewModelTest {
         auhtoredChallengeViewModel.loading.observeForever(observerLoading)
         auhtoredChallengeViewModel.dataAuthoredChallenge.observeForever(observerData)
         auhtoredChallengeViewModel.listUserAuthoredChallenge(username)
-        Mockito.verify(observerLoading).onChanged(true)
-        Mockito.verify(authoredChallengeRepository).getAuthoredChallenges(username)
-        Mockito.verify(observerData).onChanged(repositoryResponse)
-        Mockito.verify(observerLoading, Mockito.times(2)).onChanged(false)
+        then(observerLoading).should().onChanged(true)
+        then(authoredChallengeRepository).should().getAuthoredChallenges(username)
+        then(observerData).should().onChanged(repositoryResponse)
+        then(observerLoading).should(times(2)).onChanged(false)
     }
 
     @Test
@@ -59,7 +61,7 @@ class ListAuthoredChallengeViewModelTest {
 
         val repositoryResponse = listOf<AuthoredChallenge>()
 
-        Mockito.`when`(authoredChallengeRepository.getAuthoredChallenges(username)).thenReturn(Flowable.just(DataSourceResult.create(repositoryResponse)))
+        given(authoredChallengeRepository.getAuthoredChallenges(username)).willReturn(Flowable.just(DataSourceResult.create(repositoryResponse)))
 
         val observerData = mock<Observer<List<AuthoredChallenge>>>()
         val observerLoading = mock<Observer<Boolean>>()
@@ -67,9 +69,9 @@ class ListAuthoredChallengeViewModelTest {
         auhtoredChallengeViewModel.loading.observeForever(observerLoading)
         auhtoredChallengeViewModel.dataAuthoredChallenge.observeForever(observerData)
         auhtoredChallengeViewModel.listUserAuthoredChallenge(username)
-        Mockito.verify(observerLoading).onChanged(true)
-        Mockito.verify(authoredChallengeRepository).getAuthoredChallenges(username)
-        Mockito.verify(observerData, Mockito.never()).onChanged(repositoryResponse)
-        Mockito.verify(observerLoading, Mockito.times(2)).onChanged(false)
+        then(observerLoading).should().onChanged(true)
+        then(authoredChallengeRepository).should().getAuthoredChallenges(username)
+        then(observerData).shouldHaveZeroInteractions()
+        then(observerLoading).should(times(2)).onChanged(false)
     }
 }

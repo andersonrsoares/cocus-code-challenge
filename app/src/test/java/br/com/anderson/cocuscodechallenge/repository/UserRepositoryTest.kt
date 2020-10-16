@@ -4,6 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import br.com.anderson.cocuscodechallenge.ApiUtil
 import br.com.anderson.cocuscodechallenge.any
 import br.com.anderson.cocuscodechallenge.dto.UserDTO
+import br.com.anderson.cocuscodechallenge.mock
 import br.com.anderson.cocuscodechallenge.model.DataSourceResult
 import br.com.anderson.cocuscodechallenge.model.ErrorResult
 import br.com.anderson.cocuscodechallenge.model.User
@@ -23,12 +24,13 @@ import org.mockito.Mockito
 import retrofit2.HttpException
 import retrofit2.Response
 import java.util.concurrent.TimeUnit
+import org.mockito.BDDMockito.given
 
 @RunWith(JUnit4::class)
 class UserRepositoryTest {
 
-    private val codeWarsService = Mockito.mock(CodeWarsService::class.java)
-    private val codeWarsDao = Mockito.mock(CodeWarsDao::class.java)
+    private val codeWarsService = mock<CodeWarsService>()
+    private val codeWarsDao = mock<CodeWarsDao>()
     private lateinit var userRepository: UserRepository
 
     @Rule
@@ -37,8 +39,8 @@ class UserRepositoryTest {
 
     @Before
     fun setup() {
-        val db = Mockito.mock(CodeWarsDb::class.java)
-        Mockito.`when`(db.codeWarsDao()).thenReturn(codeWarsDao)
+        val db = mock<CodeWarsDb>()
+        given(db.codeWarsDao()).willReturn(codeWarsDao)
         Mockito.`when`(db.runInTransaction(ArgumentMatchers.any())).thenCallRealMethod()
 
         userRepository = UserRepository(codeWarsDao, codeWarsService)
@@ -50,7 +52,7 @@ class UserRepositoryTest {
         val username = "baz"
 
         val response = listOf(User(datetime = 0, username = username))
-        Mockito.`when`(codeWarsDao.allUsers()).thenReturn(Single.just(response))
+        given(codeWarsDao.allUsers()).willReturn(Single.just(response))
 
         val testSubscriber = userRepository.listLastUsers().test()
 
@@ -68,8 +70,8 @@ class UserRepositoryTest {
     fun `test get user`() {
         val username = "baz"
 
-        Mockito.`when`(codeWarsService.getUser(username)).thenReturn(Single.just(UserDTO(username = "foo")))
-        Mockito.`when`(codeWarsDao.insertUser(any())).thenReturn(Completable.complete())
+        given(codeWarsService.getUser(username)).willReturn(Single.just(UserDTO(username = "foo")))
+        given(codeWarsDao.insertUser(any())).willReturn(Completable.complete())
 
         val testSubscriber = userRepository.searchUser(username).test()
 
@@ -84,7 +86,7 @@ class UserRepositoryTest {
     fun `test get user error remote 404`() {
         val username = "baz"
 
-        Mockito.`when`(codeWarsService.getUser(username)).thenReturn(
+        given(codeWarsService.getUser(username)).willReturn(
             Single.error(
                 HttpException(
                     Response.error<Single<UserDTO>>(404, ApiUtil.loadfile("not_found_response.json").toResponseBody())
@@ -92,7 +94,7 @@ class UserRepositoryTest {
             )
         )
 
-        Mockito.`when`(codeWarsDao.insertUser(any())).thenReturn(Completable.complete())
+        given(codeWarsDao.insertUser(any())).willReturn(Completable.complete())
 
         val testSubscriber = userRepository.searchUser(username).test()
 
@@ -110,7 +112,7 @@ class UserRepositoryTest {
     fun `test get user error remote 500`() {
         val username = "baz"
 
-        Mockito.`when`(codeWarsService.getUser(username)).thenReturn(
+        given(codeWarsService.getUser(username)).willReturn(
             Single.error(
                 HttpException(
                     Response.error<Single<UserDTO>>(500, "error".toResponseBody())
@@ -118,7 +120,7 @@ class UserRepositoryTest {
             )
         )
 
-        Mockito.`when`(codeWarsDao.insertUser(any())).thenReturn(Completable.complete())
+        given(codeWarsDao.insertUser(any())).willReturn(Completable.complete())
 
         val testSubscriber = userRepository.searchUser(username).test()
 
