@@ -39,18 +39,18 @@ class ChallengeViewModelTest {
         val id = "id"
 
         val repositoryResponse = Challenge(id = "id")
-        //given
+        // given
         given(challengeRepository.getChallenge(id)).willReturn(Flowable.just(DataSourceResult.create(repositoryResponse)))
 
         val observerData = mock<Observer<Challenge>>()
         val observerLoading = mock<Observer<Boolean>>()
 
-        //when
+        // when
         challengeViewModel.loading.observeForever(observerLoading)
         challengeViewModel.dataChallenge.observeForever(observerData)
         challengeViewModel.listChallenge(id)
 
-        //then
+        // then
         then(challengeRepository)
             .should().getChallenge(id)
 
@@ -62,7 +62,6 @@ class ChallengeViewModelTest {
 
         then(observerLoading)
             .should(times(2)).onChanged(false)
-
     }
 
     @Test

@@ -13,12 +13,13 @@ import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import br.com.anderson.cocuscodechallenge.R
 import br.com.anderson.cocuscodechallenge.RecyclerViewMatcher
+import br.com.anderson.cocuscodechallenge.mock
 import br.com.anderson.cocuscodechallenge.model.AuthoredChallenge
 import br.com.anderson.cocuscodechallenge.viewmodel.ListAuthoredChallengeViewModel
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Mockito
+import org.mockito.BDDMockito.given
 import org.robolectric.annotation.Config
 import org.robolectric.annotation.LooperMode
 
@@ -33,7 +34,7 @@ class ListAuthoredChallengeFragmentFragmentTest {
 
     @Before
     fun setup() {
-        testviewModel = Mockito.mock(ListAuthoredChallengeViewModel::class.java)
+        testviewModel = mock()
         factory = object : FragmentFactory() {
             override fun instantiate(classLoader: ClassLoader, className: String): Fragment {
                 return ListAuthoredChallengeFragment().apply {
@@ -49,11 +50,11 @@ class ListAuthoredChallengeFragmentFragmentTest {
         val message = MutableLiveData<String>()
         val retry = MutableLiveData<String>()
         val clean = MutableLiveData<Boolean>()
-        Mockito.`when`(testviewModel.dataAuthoredChallenge).thenReturn(liveDataListAuthored)
-        Mockito.`when`(testviewModel.loading).thenReturn(loading)
-        Mockito.`when`(testviewModel.message).thenReturn(message)
-        Mockito.`when`(testviewModel.retry).thenReturn(retry)
-        Mockito.`when`(testviewModel.clean).thenReturn(clean)
+        given(testviewModel.dataAuthoredChallenge).willReturn(liveDataListAuthored)
+        given(testviewModel.loading).willReturn(loading)
+        given(testviewModel.message).willReturn(message)
+        given(testviewModel.retry).willReturn(retry)
+        given(testviewModel.clean).willReturn(clean)
 
         liveDataListAuthored.value = arrayListOf(AuthoredChallenge(rankName = "rankName", name = "Name", username = "username"))
         val scenario = launchFragmentInContainer<ListAuthoredChallengeFragment>(themeResId = R.style.AppTheme, factory = factory)

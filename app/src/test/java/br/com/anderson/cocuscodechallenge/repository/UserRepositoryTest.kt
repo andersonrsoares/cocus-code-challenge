@@ -20,11 +20,10 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 import org.mockito.ArgumentMatchers
-import org.mockito.Mockito
+import org.mockito.BDDMockito.given
 import retrofit2.HttpException
 import retrofit2.Response
 import java.util.concurrent.TimeUnit
-import org.mockito.BDDMockito.given
 
 @RunWith(JUnit4::class)
 class UserRepositoryTest {
@@ -41,7 +40,7 @@ class UserRepositoryTest {
     fun setup() {
         val db = mock<CodeWarsDb>()
         given(db.codeWarsDao()).willReturn(codeWarsDao)
-        Mockito.`when`(db.runInTransaction(ArgumentMatchers.any())).thenCallRealMethod()
+        given(db.runInTransaction(ArgumentMatchers.any())).willCallRealMethod()
 
         userRepository = UserRepository(codeWarsDao, codeWarsService)
     }

@@ -16,11 +16,13 @@ import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import br.com.anderson.cocuscodechallenge.R
 import br.com.anderson.cocuscodechallenge.RecyclerViewMatcher
+import br.com.anderson.cocuscodechallenge.ViewModelUtil
 import br.com.anderson.cocuscodechallenge.model.User
 import br.com.anderson.cocuscodechallenge.viewmodel.ListUserViewModel
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.mockito.BDDMockito.given
 import org.mockito.Mockito
 import org.robolectric.annotation.Config
 import org.robolectric.annotation.LooperMode
@@ -42,7 +44,7 @@ class UserListFragmentTest {
         factory = object : FragmentFactory() {
             override fun instantiate(classLoader: ClassLoader, className: String): Fragment {
                 return ListUserFragment().apply {
-                    this.viewModel = testviewModel
+                    this.factory = ViewModelUtil.createFor(testviewModel)
                 }
             }
         }
@@ -53,10 +55,17 @@ class UserListFragmentTest {
         val loading = MutableLiveData<Boolean>()
         val message = MutableLiveData<String>()
         val retry = MutableLiveData<String>()
-        Mockito.`when`(testviewModel.dataListLastUsers).thenReturn(liveDataListUser)
-        Mockito.`when`(testviewModel.loading).thenReturn(loading)
-        Mockito.`when`(testviewModel.message).thenReturn(message)
-        Mockito.`when`(testviewModel.retry).thenReturn(retry)
+        val newUser = MutableLiveData<Boolean>()
+        val empty = MutableLiveData<Boolean>()
+        val clean = MutableLiveData<Boolean>()
+        given(testviewModel.dataListLastUsers).willReturn(liveDataListUser)
+        given(testviewModel.loading).willReturn(loading)
+        given(testviewModel.message).willReturn(message)
+        given(testviewModel.retry).willReturn(retry)
+        given(testviewModel.newUser).willReturn(newUser)
+        given(testviewModel.empty).willReturn(empty)
+        given(testviewModel.clean).willReturn(clean)
+
 
         liveDataListUser.value = arrayListOf(User(datetime = 0, clan = "clan", honor = 100, leaderboardPosition = 1, name = "Name", username = "username"))
         val scenario = launchFragmentInContainer<ListUserFragment>(themeResId = R.style.AppTheme, factory = factory)

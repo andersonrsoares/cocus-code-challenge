@@ -14,12 +14,13 @@ import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import br.com.anderson.cocuscodechallenge.R
 import br.com.anderson.cocuscodechallenge.RecyclerViewMatcher
+import br.com.anderson.cocuscodechallenge.mock
 import br.com.anderson.cocuscodechallenge.model.CompletedChallenge
 import br.com.anderson.cocuscodechallenge.viewmodel.ListCompletedChallengeViewModel
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Mockito
+import org.mockito.BDDMockito.given
 import org.robolectric.annotation.Config
 import org.robolectric.annotation.LooperMode
 
@@ -34,7 +35,7 @@ class ListCompletedChallengeFragmentFragmentTest {
 
     @Before
     fun setup() {
-        testviewModel = Mockito.mock(ListCompletedChallengeViewModel::class.java)
+        testviewModel = mock()
         factory = object : FragmentFactory() {
             override fun instantiate(classLoader: ClassLoader, className: String): Fragment {
                 return ListCompletedChallengeFragment().apply {
@@ -50,11 +51,11 @@ class ListCompletedChallengeFragmentFragmentTest {
         val message = MutableLiveData<String>()
         val retry = MutableLiveData<String>()
         val clean = MutableLiveData<Boolean>()
-        Mockito.`when`(testviewModel.dataCompletedChallenge).thenReturn(liveDataListCompleted)
-        Mockito.`when`(testviewModel.loading).thenReturn(loading)
-        Mockito.`when`(testviewModel.message).thenReturn(message)
-        Mockito.`when`(testviewModel.retry).thenReturn(retry)
-        Mockito.`when`(testviewModel.clean).thenReturn(clean)
+        given(testviewModel.dataCompletedChallenge).willReturn(liveDataListCompleted)
+        given(testviewModel.loading).willReturn(loading)
+        given(testviewModel.message).willReturn(message)
+        given(testviewModel.retry).willReturn(retry)
+        given(testviewModel.clean).willReturn(clean)
 
         liveDataListCompleted.value = arrayListOf(CompletedChallenge(id = "id", name = "Name", username = "username"))
         val scenario = launchFragmentInContainer<ListCompletedChallengeFragment>(themeResId = R.style.AppTheme, factory = factory)

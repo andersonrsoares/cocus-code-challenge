@@ -12,12 +12,13 @@ import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import br.com.anderson.cocuscodechallenge.R
+import br.com.anderson.cocuscodechallenge.mock
 import br.com.anderson.cocuscodechallenge.model.Challenge
 import br.com.anderson.cocuscodechallenge.viewmodel.ChallengeViewModel
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Mockito
+import org.mockito.BDDMockito.given
 import org.robolectric.annotation.Config
 import org.robolectric.annotation.LooperMode
 
@@ -32,7 +33,7 @@ class ChallengeFragmentFragmentTest {
 
     @Before
     fun setup() {
-        testviewModel = Mockito.mock(ChallengeViewModel::class.java)
+        testviewModel = mock()
         factory = object : FragmentFactory() {
             override fun instantiate(classLoader: ClassLoader, className: String): Fragment {
                 return ChallengeFragment().apply {
@@ -48,11 +49,11 @@ class ChallengeFragmentFragmentTest {
         val message = MutableLiveData<String>()
         val retry = MutableLiveData<String>()
         val clean = MutableLiveData<Boolean>()
-        Mockito.`when`(testviewModel.dataChallenge).thenReturn(liveDataListUser)
-        Mockito.`when`(testviewModel.loading).thenReturn(loading)
-        Mockito.`when`(testviewModel.message).thenReturn(message)
-        Mockito.`when`(testviewModel.retry).thenReturn(retry)
-        Mockito.`when`(testviewModel.clean).thenReturn(clean)
+        given(testviewModel.dataChallenge).willReturn(liveDataListUser)
+        given(testviewModel.loading).willReturn(loading)
+        given(testviewModel.message).willReturn(message)
+        given(testviewModel.retry).willReturn(retry)
+        given(testviewModel.clean).willReturn(clean)
 
         liveDataListUser.value = Challenge(name = "Name", description = "description", id = "id")
         val scenario = launchFragmentInContainer<ChallengeFragment>(themeResId = R.style.AppTheme, factory = factory)
