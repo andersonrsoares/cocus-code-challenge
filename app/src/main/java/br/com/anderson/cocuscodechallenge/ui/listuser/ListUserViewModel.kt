@@ -1,47 +1,55 @@
 package br.com.anderson.cocuscodechallenge.ui.listuser
 
+import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import br.com.anderson.cocuscodechallenge.R
 import br.com.anderson.cocuscodechallenge.model.DataSourceResult
 import br.com.anderson.cocuscodechallenge.model.ErrorResult
 import br.com.anderson.cocuscodechallenge.model.User
+import br.com.anderson.cocuscodechallenge.model.ViewState
+import br.com.anderson.cocuscodechallenge.provider.ResourceProvider
 import br.com.anderson.cocuscodechallenge.repository.UserRepository
 import br.com.anderson.cocuscodechallenge.testing.OpenForTesting
 import br.com.anderson.cocuscodechallenge.viewmodel.BaseViewModel
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @OpenForTesting
-class ListUserViewModel @Inject constructor(val repository: UserRepository) : BaseViewModel() {
+class ListUserViewModel @Inject constructor(val repository: UserRepository) : ViewModel() {
 
-    protected var _empty = MutableLiveData<Boolean>()
-    val empty: LiveData<Boolean>
-        get() = _empty
+    @Inject
+    lateinit var resourceProvider: ResourceProvider
 
-    protected var _newUser = MutableLiveData<Boolean>()
-    val newUser: LiveData<Boolean>
+    protected val disposable = CompositeDisposable()
+
+    protected var _newUser = MutableLiveData<ViewState<*>>()
+    val newUser: LiveData<ViewState<*>>
         get() = _newUser
 
-    private var _dataListLastUsers = MutableLiveData<List<User>>()
+    private var _dataListLastUsers = MutableLiveData<ViewState<List<User>>>()
 
-    val dataListLastUsers: LiveData<List<User>>
+    val dataListLastUsers: LiveData<ViewState<List<User>>>
         get() = _dataListLastUsers
 
+    private var currentListUser = arrayListOf<User>()
+
     fun listLastUsers() {
-        if (!_dataListLastUsers.value.isNullOrEmpty()) {
+        if (currentListUser.isNotEmpty()) {
             return
         }
 
-        _loading.postValue(true)
+        _dataListLastUsers.postValue(ViewState.Loading(true))
         disposable.add(
             repository
                 .listLastUsers()
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::subscribleLastUsers, this::error)
+                .subscribe(this::subscribleLastUsers, this::errorListLastUser)
         )
     }
 
@@ -51,8 +59,8 @@ class ListUserViewModel @Inject constructor(val repository: UserRepository) : Ba
                 .listOrderByPosition()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe {
-                    _clean.postValue(true)
-                    _dataListLastUsers.postValue(it.body)
+                    _dataListLastUsers.postValue(ViewState.Clean)
+                    _dataListLastUsers.postValue(ViewState.Success(it.body.orEmpty()))
                 }
         )
     }
@@ -63,8 +71,8 @@ class ListUserViewModel @Inject constructor(val repository: UserRepository) : Ba
                 .listOrderByLookUp()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe {
-                    _clean.postValue(true)
-                    _dataListLastUsers.postValue(it.body)
+                    _dataListLastUsers.postValue(ViewState.Empty)
+                    _dataListLastUsers.postValue(ViewState.Success(it.body.orEmpty()))
                 }
         )
     }
@@ -73,18 +81,18 @@ class ListUserViewModel @Inject constructor(val repository: UserRepository) : Ba
         if (!validateSearchField(username)) {
             return
         }
-        _loading.postValue(true)
+        _newUser.value = ViewState.Loading(true)
         disposable.add(
             repository
                 .searchUser(username ?: "")
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::subscribleNewUser, this::error, this::complete)
+                .subscribe(this::subscribleNewUser, this::errorSearchUser, this::completeSearchUser)
         )
     }
 
     private fun validateSearchField(username: String?): Boolean {
         if (username.isNullOrBlank()) {
-            _message.postValue(resourceProvider.getString(R.string.username_field_black))
+            _newUser.postValue(ViewState.Error(resourceProvider.getString(R.string.username_field_black)))
             return false
         } else {
             return true
@@ -94,29 +102,29 @@ class ListUserViewModel @Inject constructor(val repository: UserRepository) : Ba
     private fun subscribleNewUser(result: DataSourceResult<User>) {
         when {
             result.body != null -> {
-                _clean.postValue(true)
+                _dataListLastUsers.value  = ViewState.Clean
                 delayToNewUser()
-                _dataListLastUsers.postValue(replaceIfExists(result.body))
+                _dataListLastUsers.value = ViewState.Success(replaceIfExists(result.body))
             }
-            result.error is ErrorResult.NotFound -> _message.postValue(resourceProvider.getString(R.string.message_user_not_found))
-            result.error != null -> error(result.error)
+            result.error is ErrorResult.NotFound -> _newUser.postValue(ViewState.Error(resourceProvider.getString(R.string.message_user_not_found)))
+            result.error != null -> emitError(_newUser,result.error)
         }
-        complete()
+        completeSearchUser()
     }
 
     private fun delayToNewUser() {
         disposable.add(
-            Observable.timer(500, TimeUnit.MILLISECONDS)
+            Observable.timer(300, TimeUnit.MILLISECONDS)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe {
-                    _newUser.postValue(true)
+                    _newUser.postValue(ViewState.Success(null))
                 }
         )
     }
 
     private fun replaceIfExists(result: User?): List<User> {
-        val list = _dataListLastUsers.value.orEmpty().take(5).toMutableList()
+        val list = currentListUser.take(5).toMutableList()
         result?.let {
             val index = list.indexOfFirst { user -> user.username == result.username }
             if (index >= 0) {
@@ -128,8 +136,47 @@ class ListUserViewModel @Inject constructor(val repository: UserRepository) : Ba
     }
 
     private fun subscribleLastUsers(result: DataSourceResult<List<User>>) {
-        _dataListLastUsers.postValue(result.body)
-        _empty.postValue(result.body?.isNullOrEmpty())
-        complete()
+        _dataListLastUsers.value = ViewState.Success(result.body.orEmpty())
+        if(result.body.isNullOrEmpty())
+            _dataListLastUsers.value  = ViewState.Empty
+
+        completeLastUser()
     }
+
+    protected fun errorListLastUser(error: Throwable) {
+        _dataListLastUsers.postValue(ViewState.Error(resourceProvider.getString(R.string.message_error)))
+        error.printStackTrace()
+        completeLastUser()
+    }
+
+    protected fun errorSearchUser(error: Throwable) {
+        _newUser.postValue(ViewState.Error(resourceProvider.getString(R.string.message_error)))
+        error.printStackTrace()
+    }
+
+    protected fun emitError(liveData: MutableLiveData<ViewState<*>>, error: ErrorResult) {
+        when (error) {
+            is ErrorResult.GenericError -> liveData.postValue(ViewState.Error(error.errorMessage))
+            is ErrorResult.ServerError -> liveData.postValue(ViewState.Error(resourceProvider.getString(R.string.message_server_error)))
+            is ErrorResult.NetworkError -> liveData.postValue(ViewState.Retry(resourceProvider.getString(R.string.message_server_network_error_retry)))
+            is ErrorResult.NotFound -> liveData.postValue(ViewState.Error(resourceProvider.getString(R.string.message_not_found)))
+        }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        disposable.clear()
+        currentListUser.clear()
+
+    }
+
+    protected fun completeSearchUser() {
+        _newUser.value  = ViewState.Loading(false)
+    }
+
+    protected fun completeLastUser() {
+        _dataListLastUsers.value  = ViewState.Loading(false)
+    }
+
+
 }

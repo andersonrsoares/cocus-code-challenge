@@ -21,5 +21,5 @@ sealed class ErrorResult {
 
     object NetworkError : ErrorResult()
 
-    data class GenericError(val errorMessage: String? = null) : ErrorResult()
+    data class GenericError(val errorMessage: String = "") : ErrorResult()
 }

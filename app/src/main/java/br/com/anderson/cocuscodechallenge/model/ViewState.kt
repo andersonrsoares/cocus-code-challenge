@@ -1,15 +1,15 @@
 package br.com.anderson.cocuscodechallenge.model
 
-sealed class ViewState {
-    object Empty : ViewState()
+sealed class ViewState<out T> {
+    object Empty : ViewState<Nothing>()
 
-    object Clean : ViewState()
+    object Clean : ViewState<Nothing>()
 
-    object Retry : ViewState()
+    data class Retry(val message: String) : ViewState<Nothing>()
 
-    data class Loading(val value: Boolean) : ViewState()
+    data class Loading(val value: Boolean) : ViewState<Nothing>()
 
-    data class Message(val errorMessage: String) : ViewState()
+    data class Error(val errorMessage: String) : ViewState<Nothing>()
 
-    data class Data<T>(val body: T) : ViewState()
+    data class Success<out T>(val value: T): ViewState<T>()
 }

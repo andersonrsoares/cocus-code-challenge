@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import br.com.anderson.cocuscodechallenge.R
 import br.com.anderson.cocuscodechallenge.model.ErrorResult
+import br.com.anderson.cocuscodechallenge.model.ViewState
 import br.com.anderson.cocuscodechallenge.provider.ResourceProvider
 import br.com.anderson.cocuscodechallenge.testing.OpenForTesting
 import io.reactivex.disposables.CompositeDisposable
@@ -43,12 +44,6 @@ open class BaseViewModel @Inject constructor() : ViewModel() {
         _loading.postValue(false)
     }
 
-    protected fun error(error: Throwable) {
-        _message.postValue(resourceProvider.getString(R.string.message_error))
-        complete()
-        error.printStackTrace()
-    }
-
     protected fun error(error: ErrorResult) {
         when (error) {
             is ErrorResult.GenericError -> _message.postValue(error.errorMessage)
@@ -58,6 +53,34 @@ open class BaseViewModel @Inject constructor() : ViewModel() {
         }
         complete()
     }
+
+    protected fun error(error: Throwable) {
+        _message.postValue(resourceProvider.getString(R.string.message_error))
+        complete()
+        error.printStackTrace()
+    }
+
+    protected fun emitError(liveData: MutableLiveData<ViewState<*>>, error: Throwable) {
+        _message.postValue(resourceProvider.getString(R.string.message_error))
+        complete()
+        error.printStackTrace()
+    }
+
+    protected fun emitError(liveData: MutableLiveData<ViewState<*>>, error: ErrorResult) {
+        when (error) {
+            is ErrorResult.GenericError -> liveData.postValue(ViewState.Error(error.errorMessage))
+            is ErrorResult.ServerError -> liveData.postValue(ViewState.Error(resourceProvider.getString(R.string.message_server_error)))
+            is ErrorResult.NetworkError -> liveData.postValue(ViewState.Retry(resourceProvider.getString(R.string.message_server_network_error_retry)))
+            is ErrorResult.NotFound -> liveData.postValue(ViewState.Error(resourceProvider.getString(R.string.message_not_found)))
+        }
+        complete()
+    }
+
+    fun emmitRefresh(liveData: MutableLiveData<ViewState<*>>) {
+        liveData.postValue(ViewState.Clean)
+    }
+
+
 
     fun refresh() {
         _clean.postValue(true)

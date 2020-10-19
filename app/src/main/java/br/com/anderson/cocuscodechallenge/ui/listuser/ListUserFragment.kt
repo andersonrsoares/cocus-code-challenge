@@ -21,6 +21,7 @@ import br.com.anderson.cocuscodechallenge.extras.hideKeyboard
 import br.com.anderson.cocuscodechallenge.extras.observe
 import br.com.anderson.cocuscodechallenge.extras.setDivider
 import br.com.anderson.cocuscodechallenge.model.User
+import br.com.anderson.cocuscodechallenge.model.ViewState
 import kotlinx.android.synthetic.main.fragment_list_user.*
 import javax.inject.Inject
 
@@ -76,11 +77,6 @@ class ListUserFragment : Fragment(R.layout.fragment_list_user), Injectable, Sear
     private fun initObservers() {
         observe(viewModel.dataListLastUsers, this::onLoadDataListUsers)
         observe(viewModel.newUser, this::onNewUser)
-        observe(viewModel.message, this::onMessage)
-        observe(viewModel.loading, this::onLoading)
-        observe(viewModel.retry, this::onRetry)
-        observe(viewModel.empty, this::onEmpty)
-        observe(viewModel.clean, this::onClean)
     }
 
     private fun initListAdapter() {
@@ -105,8 +101,15 @@ class ListUserFragment : Fragment(R.layout.fragment_list_user), Injectable, Sear
         )
     }
 
-    private fun onLoadDataListUsers(data: List<User>) {
-        adapter.submitList(data)
+    private fun onLoadDataListUsers(viewState: ViewState<List<User>>) {
+        when(viewState){
+            is ViewState.Error -> onMessage(viewState.errorMessage)
+            is ViewState.Loading -> onLoading(viewState.value)
+            is ViewState.Empty -> onEmpty(true)
+            is ViewState.Clean -> onClean(true)
+            is ViewState.Retry -> onRetry(viewState.message)
+            is ViewState.Success -> adapter.submitList(viewState.value)
+        }
     }
 
     private fun onMessage(data: String) {
@@ -130,9 +133,15 @@ class ListUserFragment : Fragment(R.layout.fragment_list_user), Injectable, Sear
             adapter.submitList(arrayListOf())
     }
 
-    private fun onNewUser(data: Boolean) {
-        if (data)
-            recycleview.scrollToPosition(0)
+    private fun onNewUser(viewState: ViewState<*>) {
+        when(viewState) {
+            is ViewState.Error -> onMessage(viewState.errorMessage)
+            is ViewState.Loading -> onLoading(viewState.value)
+            is ViewState.Empty -> onEmpty(true)
+            is ViewState.Clean -> onClean(true)
+            is ViewState.Retry -> onRetry(viewState.message)
+            is ViewState.Success -> recycleview.scrollToPosition(0)
+        }
     }
 
     override fun onQueryTextSubmit(query: String?): Boolean {
