@@ -1,6 +1,7 @@
 package br.com.anderson.cocuscodechallenge.repository
 
 import br.com.anderson.cocuscodechallenge.extras.transformToDataSourceResult
+import br.com.anderson.cocuscodechallenge.mapper.DataAuthoredChallengeMapper
 import br.com.anderson.cocuscodechallenge.model.AuthoredChallenge
 import br.com.anderson.cocuscodechallenge.model.DataSourceResult
 import br.com.anderson.cocuscodechallenge.persistence.CodeWarsDao
@@ -16,7 +17,8 @@ import javax.inject.Singleton
 @OpenForTesting
 class AuthoredChallengeRepository @Inject constructor(
     val localDataSouse: CodeWarsDao,
-    val remoteDataSource: CodeWarsService
+    val remoteDataSource: CodeWarsService,
+    val dataAuthoredChallengeMapper: DataAuthoredChallengeMapper
 ) {
 
     fun getAuthoredChallenges(username: String): Flowable<DataSourceResult<List<AuthoredChallenge>>> {
@@ -30,8 +32,11 @@ class AuthoredChallengeRepository @Inject constructor(
         return remoteDataSource.getAuthoredChallenges(username)
             .subscribeOn(Schedulers.io())
             .map {
-                it.toAuthoredChallengeList(username)
-            }.doOnSuccess {
+                dataAuthoredChallengeMapper.map(it).apply {
+                    this.forEach { f-> f.username = username }
+                }
+            }
+            .doOnSuccess {
                 it.forEach { completed ->
                     localDataSouse.insertAuthoredChallenge(completed).subscribe()
                 }

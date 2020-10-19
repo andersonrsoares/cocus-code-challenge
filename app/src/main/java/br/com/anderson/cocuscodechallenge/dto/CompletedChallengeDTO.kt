@@ -15,11 +15,4 @@ data class CompletedChallengeDTO(
     val name: String = "",
     @SerializedName("slug")
     val slug: String = ""
-) {
-    fun toCompletedChallenge(): CompletedChallenge {
-        return CompletedChallenge(
-            completedAt = completedAt.toTimestamp(),
-            name = name, completedLanguages = completedLanguages, id = id, slug = slug
-        )
-    }
-}
+)

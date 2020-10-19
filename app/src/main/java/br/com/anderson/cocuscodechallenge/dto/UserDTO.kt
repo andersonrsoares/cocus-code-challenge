@@ -25,14 +25,4 @@ data class UserDTO(
     @PrimaryKey
     @SerializedName("username")
     val username: String = ""
-) : BaseDTO() {
-    fun toUser(): User {
-        return User(
-            datetime = Calendar.getInstance().timeInMillis,
-            clan = clan, name = name, username = username,
-            codeChallenges = codeChallenges, honor = honor,
-            leaderboardPosition = leaderboardPosition,
-            ranks = ranks, skills = skills
-        )
-    }
-}
+) : BaseDTO()

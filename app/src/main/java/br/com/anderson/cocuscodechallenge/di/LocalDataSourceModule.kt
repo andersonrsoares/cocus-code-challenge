@@ -9,12 +9,21 @@ import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
 
-@Module(includes = [ViewModelModule::class,MapperModule::class,NetworkDataSourceModule::class,LocalDataSourceModule::class])
-class AppModule {
+@Module
+class LocalDataSourceModule {
 
     @Singleton
     @Provides
-    fun provideResource(app: Application): ResourceProvider {
-        return ResourceProvider(app)
+    fun provideCodeWarsDb(app: Application): CodeWarsDb {
+        return Room
+            .databaseBuilder(app, CodeWarsDb::class.java, "codewars.db")
+            .fallbackToDestructiveMigration()
+            .build()
+    }
+
+    @Singleton
+    @Provides
+    fun provideCodeWarsDao(db: CodeWarsDb): CodeWarsDao {
+        return db.codeWarsDao()
     }
 }

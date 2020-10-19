@@ -1,6 +1,7 @@
 package br.com.anderson.cocuscodechallenge.repository
 
 import br.com.anderson.cocuscodechallenge.extras.transformToDataSourceResult
+import br.com.anderson.cocuscodechallenge.mapper.PageCompletedChallengeMapper
 import br.com.anderson.cocuscodechallenge.model.DataSourceResult
 import br.com.anderson.cocuscodechallenge.model.PageCompletedChallenge
 import br.com.anderson.cocuscodechallenge.persistence.CodeWarsDao
@@ -16,7 +17,8 @@ import javax.inject.Singleton
 @OpenForTesting
 class CompletedChallengeRepository @Inject constructor(
     val localDataSouse: CodeWarsDao,
-    val remoteDataSource: CodeWarsService
+    val remoteDataSource: CodeWarsService,
+    val pageCompletedChallengeMapper: PageCompletedChallengeMapper
 ) {
 
     fun getCompletedChallenges(username: String, page: Int): Flowable<DataSourceResult<PageCompletedChallenge>> {
@@ -53,7 +55,7 @@ class CompletedChallengeRepository @Inject constructor(
         return remoteDataSource.getCompletedChallenges(username, page)
             .subscribeOn(Schedulers.io())
             .map {
-                it.toPageCompletedChallenge(username)
+                pageCompletedChallengeMapper.map(it)
             }
             .doOnSuccess {
                 it.data?.forEach { completed ->

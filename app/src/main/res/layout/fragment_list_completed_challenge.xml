@@ -7,7 +7,7 @@
     tools:context=".ui.listuser.ListUserFragment">
 
     <Button
-        android:visibility="visible"
+        android:visibility="gone"
         android:layout_margin="@dimen/retry_button_margin"
         android:backgroundTint="@color/colorPrimary"
         android:id="@+id/retrybutton"

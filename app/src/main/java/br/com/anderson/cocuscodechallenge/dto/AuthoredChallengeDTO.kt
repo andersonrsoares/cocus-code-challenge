@@ -18,8 +18,4 @@ data class AuthoredChallengeDTO(
     val rankName: String? = null,
     @SerializedName("tags")
     val tags: List<String>? = null
-) {
-    fun toAuthoredChallenge(): AuthoredChallenge {
-        return AuthoredChallenge(rank = rank, rankName = rankName, id = id.toString(), name = name, description = description, tags = tags.orEmpty(), languages = languages.orEmpty())
-    }
-}
+)
