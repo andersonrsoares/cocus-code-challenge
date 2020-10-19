@@ -8,7 +8,7 @@
 
     <Button
         android:visibility="gone"
-        android:layout_margin="10dp"
+        android:layout_margin="@dimen/retry_button_margin"
         android:backgroundTint="@color/colorPrimary"
         android:id="@+id/retrybutton"
         android:textSize="12sp"

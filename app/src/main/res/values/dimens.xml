@@ -1,4 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="adapter_padding">15dp</dimen>
+    <dimen name="content_fragment_padding">16dp</dimen>
+    <dimen name="label_right_margin">10dp</dimen>
+    <dimen name="label_left_margin">10dp</dimen>
+    <dimen name="retry_button_margin">10dp</dimen>
+    <dimen name="rank_width">130dp</dimen>
+    <dimen name="date_width">130dp</dimen>
+    <dimen name="honor_width">100dp</dimen>
+    <dimen name="position_width">100dp</dimen>
+
+
+    <dimen name="bestlanguage_width">200dp</dimen>
+
+    <dimen name="label_content_title_top_margin">3dp</dimen>
+    <dimen name="label_title_content_top_margin">12dp</dimen>
+    <dimen name="progress_margin_top">5dp</dimen>
+    <dimen name="view_pager_margin_botton">10dp</dimen>
+
 </resources>
