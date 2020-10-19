@@ -21,7 +21,6 @@ import br.com.anderson.cocuscodechallenge.extras.hideKeyboard
 import br.com.anderson.cocuscodechallenge.extras.observe
 import br.com.anderson.cocuscodechallenge.extras.setDivider
 import br.com.anderson.cocuscodechallenge.model.User
-import br.com.anderson.cocuscodechallenge.ui.ListUserFragmentDirections
 import kotlinx.android.synthetic.main.fragment_list_user.*
 import javax.inject.Inject
 

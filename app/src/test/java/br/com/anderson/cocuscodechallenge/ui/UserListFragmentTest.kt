@@ -19,6 +19,7 @@ import br.com.anderson.cocuscodechallenge.RecyclerViewMatcher
 import br.com.anderson.cocuscodechallenge.ViewModelUtil
 import br.com.anderson.cocuscodechallenge.model.User
 import br.com.anderson.cocuscodechallenge.ui.listuser.ListUserFragment
+import br.com.anderson.cocuscodechallenge.ui.listuser.ListUserFragmentDirections
 import br.com.anderson.cocuscodechallenge.ui.listuser.ListUserViewModel
 import org.junit.Before
 import org.junit.Test

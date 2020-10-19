@@ -9,7 +9,6 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import br.com.anderson.cocuscodechallenge.R
 import br.com.anderson.cocuscodechallenge.di.Injectable
 import br.com.anderson.cocuscodechallenge.testing.OpenForTesting
-import br.com.anderson.cocuscodechallenge.ui.UserDetailFragmentDirections
 import br.com.anderson.cocuscodechallenge.ui.listauthored.ListAuthoredChallengeFragment
 import br.com.anderson.cocuscodechallenge.ui.listcompleted.ListCompletedChallengeFragment
 import kotlinx.android.synthetic.main.fragment_user_detail.*

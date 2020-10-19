@@ -10,7 +10,6 @@ import br.com.anderson.cocuscodechallenge.di.Injectable
 import br.com.anderson.cocuscodechallenge.extras.observe
 import br.com.anderson.cocuscodechallenge.extras.toDateFormat
 import br.com.anderson.cocuscodechallenge.model.Challenge
-import br.com.anderson.cocuscodechallenge.ui.ChallengeFragmentArgs
 import kotlinx.android.synthetic.main.fragment_challange.*
 import kotlinx.android.synthetic.main.fragment_list_user.progressloading
 import javax.inject.Inject

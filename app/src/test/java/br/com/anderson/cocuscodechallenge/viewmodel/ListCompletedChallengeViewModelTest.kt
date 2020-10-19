@@ -86,7 +86,7 @@ class ListCompletedChallengeViewModelTest {
         completedChallengeViewModel.listUserCompletedChallenge(username)
         then(observerLoading).should().onChanged(true)
         then(completedChallengeRepository).should().getCompletedChallenges(username, 1)
-        then(observerData).shouldHaveZeroInteractions()
+        then(observerData).should(org.mockito.BDDMockito.never()).onChanged(null)
         then(observerLoading).should(times(2)).onChanged(false)
     }
 

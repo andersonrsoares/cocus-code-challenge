@@ -13,8 +13,8 @@ import br.com.anderson.cocuscodechallenge.di.Injectable
 import br.com.anderson.cocuscodechallenge.extras.observe
 import br.com.anderson.cocuscodechallenge.extras.setDivider
 import br.com.anderson.cocuscodechallenge.model.CompletedChallenge
-import br.com.anderson.cocuscodechallenge.ui.UserDetailFragmentArgs
 import br.com.anderson.cocuscodechallenge.ui.userdetail.UserDetailFragment
+import br.com.anderson.cocuscodechallenge.ui.userdetail.UserDetailFragmentArgs
 import kotlinx.android.synthetic.main.fragment_list_completed_challenge.*
 import javax.inject.Inject
 
