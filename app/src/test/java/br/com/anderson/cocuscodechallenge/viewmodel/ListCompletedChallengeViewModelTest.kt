@@ -8,6 +8,7 @@ import br.com.anderson.cocuscodechallenge.model.DataSourceResult
 import br.com.anderson.cocuscodechallenge.model.PageCompletedChallenge
 import br.com.anderson.cocuscodechallenge.provider.ResourceProvider
 import br.com.anderson.cocuscodechallenge.repository.CompletedChallengeRepository
+import br.com.anderson.cocuscodechallenge.ui.listcompleted.ListCompletedChallengeViewModel
 import io.reactivex.Flowable
 import io.reactivex.android.plugins.RxAndroidPlugins
 import io.reactivex.schedulers.Schedulers
@@ -34,7 +35,10 @@ class ListCompletedChallengeViewModelTest {
 
     @Before
     fun init() {
-        completedChallengeViewModel = ListCompletedChallengeViewModel(completedChallengeRepository)
+        completedChallengeViewModel =
+            ListCompletedChallengeViewModel(
+                completedChallengeRepository
+            )
         completedChallengeViewModel.resourceProvider = resourceProvider
         RxAndroidPlugins.setInitMainThreadSchedulerHandler { Schedulers.trampoline() }
     }

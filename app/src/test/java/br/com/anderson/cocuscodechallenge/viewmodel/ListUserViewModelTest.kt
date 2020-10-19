@@ -7,6 +7,7 @@ import br.com.anderson.cocuscodechallenge.model.DataSourceResult
 import br.com.anderson.cocuscodechallenge.model.User
 import br.com.anderson.cocuscodechallenge.provider.ResourceProvider
 import br.com.anderson.cocuscodechallenge.repository.UserRepository
+import br.com.anderson.cocuscodechallenge.ui.listuser.ListUserViewModel
 import io.reactivex.Flowable
 import io.reactivex.android.plugins.RxAndroidPlugins
 import io.reactivex.schedulers.Schedulers
@@ -32,7 +33,10 @@ class ListUserViewModelTest {
     private lateinit var userViewModel: ListUserViewModel
     @Before
     fun init() {
-        userViewModel = ListUserViewModel(userRepository)
+        userViewModel =
+            ListUserViewModel(
+                userRepository
+            )
         userViewModel.resourceProvider = resourceProvider
         RxAndroidPlugins.setInitMainThreadSchedulerHandler { Schedulers.trampoline() }
     }

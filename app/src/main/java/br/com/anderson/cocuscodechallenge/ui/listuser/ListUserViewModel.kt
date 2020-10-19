@@ -1,4 +1,4 @@
-package br.com.anderson.cocuscodechallenge.viewmodel
+package br.com.anderson.cocuscodechallenge.ui.listuser
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -8,6 +8,7 @@ import br.com.anderson.cocuscodechallenge.model.ErrorResult
 import br.com.anderson.cocuscodechallenge.model.User
 import br.com.anderson.cocuscodechallenge.repository.UserRepository
 import br.com.anderson.cocuscodechallenge.testing.OpenForTesting
+import br.com.anderson.cocuscodechallenge.viewmodel.BaseViewModel
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers

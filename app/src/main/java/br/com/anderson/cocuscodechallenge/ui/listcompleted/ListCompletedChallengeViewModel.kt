@@ -1,4 +1,4 @@
-package br.com.anderson.cocuscodechallenge.viewmodel
+package br.com.anderson.cocuscodechallenge.ui.listcompleted
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -8,6 +8,7 @@ import br.com.anderson.cocuscodechallenge.model.DataSourceResult
 import br.com.anderson.cocuscodechallenge.model.PageCompletedChallenge
 import br.com.anderson.cocuscodechallenge.repository.CompletedChallengeRepository
 import br.com.anderson.cocuscodechallenge.testing.OpenForTesting
+import br.com.anderson.cocuscodechallenge.viewmodel.BaseViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import javax.inject.Inject
 

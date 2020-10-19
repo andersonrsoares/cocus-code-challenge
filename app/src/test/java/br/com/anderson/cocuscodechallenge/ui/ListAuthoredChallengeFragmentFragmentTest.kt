@@ -15,7 +15,8 @@ import br.com.anderson.cocuscodechallenge.R
 import br.com.anderson.cocuscodechallenge.RecyclerViewMatcher
 import br.com.anderson.cocuscodechallenge.mock
 import br.com.anderson.cocuscodechallenge.model.AuthoredChallenge
-import br.com.anderson.cocuscodechallenge.viewmodel.ListAuthoredChallengeViewModel
+import br.com.anderson.cocuscodechallenge.ui.listauthored.ListAuthoredChallengeFragment
+import br.com.anderson.cocuscodechallenge.ui.listauthored.ListAuthoredChallengeViewModel
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -37,9 +38,10 @@ class ListAuthoredChallengeFragmentFragmentTest {
         testviewModel = mock()
         factory = object : FragmentFactory() {
             override fun instantiate(classLoader: ClassLoader, className: String): Fragment {
-                return ListAuthoredChallengeFragment().apply {
-                    this.viewModel = testviewModel
-                }
+                return ListAuthoredChallengeFragment()
+                    .apply {
+                        this.viewModel = testviewModel
+                    }
             }
         }
     }

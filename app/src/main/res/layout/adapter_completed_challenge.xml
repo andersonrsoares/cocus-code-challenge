@@ -7,7 +7,7 @@
     android:layout_height="wrap_content"
     android:background="#fff"
     android:foreground="?android:attr/selectableItemBackground"
-    android:padding="15dp">
+    android:padding="@dimen/adapter_padding">
 
 
 

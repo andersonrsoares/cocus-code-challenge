@@ -18,7 +18,8 @@ import br.com.anderson.cocuscodechallenge.R
 import br.com.anderson.cocuscodechallenge.RecyclerViewMatcher
 import br.com.anderson.cocuscodechallenge.ViewModelUtil
 import br.com.anderson.cocuscodechallenge.model.User
-import br.com.anderson.cocuscodechallenge.viewmodel.ListUserViewModel
+import br.com.anderson.cocuscodechallenge.ui.listuser.ListUserFragment
+import br.com.anderson.cocuscodechallenge.ui.listuser.ListUserViewModel
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -43,9 +44,10 @@ class UserListFragmentTest {
         testviewModel = Mockito.mock(ListUserViewModel::class.java)
         factory = object : FragmentFactory() {
             override fun instantiate(classLoader: ClassLoader, className: String): Fragment {
-                return ListUserFragment().apply {
-                    this.factory = ViewModelUtil.createFor(testviewModel)
-                }
+                return ListUserFragment()
+                    .apply {
+                        this.factory = ViewModelUtil.createFor(testviewModel)
+                    }
             }
         }
     }
@@ -65,7 +67,6 @@ class UserListFragmentTest {
         given(testviewModel.newUser).willReturn(newUser)
         given(testviewModel.empty).willReturn(empty)
         given(testviewModel.clean).willReturn(clean)
-
 
         liveDataListUser.value = arrayListOf(User(datetime = 0, clan = "clan", honor = 100, leaderboardPosition = 1, name = "Name", username = "username"))
         val scenario = launchFragmentInContainer<ListUserFragment>(themeResId = R.style.AppTheme, factory = factory)

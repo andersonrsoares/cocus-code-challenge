@@ -1,4 +1,4 @@
-package br.com.anderson.cocuscodechallenge.ui
+package br.com.anderson.cocuscodechallenge.ui.listauthored
 
 import android.os.Bundle
 import android.view.View
@@ -6,39 +6,42 @@ import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import br.com.anderson.cocuscodechallenge.R
-import br.com.anderson.cocuscodechallenge.adapter.CompletedChallengeAdapter
+import br.com.anderson.cocuscodechallenge.adapter.AuthoredChallengeAdapter
 import br.com.anderson.cocuscodechallenge.di.Injectable
+import br.com.anderson.cocuscodechallenge.extras.hideKeyboard
 import br.com.anderson.cocuscodechallenge.extras.observe
 import br.com.anderson.cocuscodechallenge.extras.setDivider
-import br.com.anderson.cocuscodechallenge.model.CompletedChallenge
-import br.com.anderson.cocuscodechallenge.viewmodel.ListCompletedChallengeViewModel
+import br.com.anderson.cocuscodechallenge.model.AuthoredChallenge
+import br.com.anderson.cocuscodechallenge.ui.UserDetailFragmentArgs
+import br.com.anderson.cocuscodechallenge.ui.userdetail.UserDetailFragment
 import kotlinx.android.synthetic.main.fragment_list_completed_challenge.*
 import javax.inject.Inject
 
-class ListCompletedChallengeFragment : Fragment(R.layout.fragment_list_completed_challenge), Injectable {
+class ListAuthoredChallengeFragment : Fragment(R.layout.fragment_list_authored_challenge), Injectable {
 
-    lateinit var adapter: CompletedChallengeAdapter
+    lateinit var adapter: AuthoredChallengeAdapter
 
     @Inject
-    lateinit var viewModel: ListCompletedChallengeViewModel
+    lateinit var viewModel: ListAuthoredChallengeViewModel
 
     var args: UserDetailFragmentArgs? = null
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initRecycleView()
+        initObservers()
         initrRefresh()
         initRetryButton()
-        initScrollListener()
-        initObservers()
         fetchCompletedChallenges()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            args = UserDetailFragmentArgs.fromBundle(it)
+            args =
+                UserDetailFragmentArgs.fromBundle(
+                    it
+                )
         }
     }
 
@@ -60,11 +63,11 @@ class ListCompletedChallengeFragment : Fragment(R.layout.fragment_list_completed
     }
 
     private fun fetchCompletedChallenges() {
-        viewModel.listUserCompletedChallenge(args?.username ?: "")
+        viewModel.listUserAuthoredChallenge(args?.username)
     }
 
     private fun initObservers() {
-        observe(viewModel.dataCompletedChallenge, this::onLoadDataCompletedChallenge)
+        observe(viewModel.dataAuthoredChallenge, this::onLoadDataCompletedChallenge)
         observe(viewModel.message, this::onMessage)
         observe(viewModel.loading, this::onLoading)
         observe(viewModel.clean, this::onClean)
@@ -72,7 +75,7 @@ class ListCompletedChallengeFragment : Fragment(R.layout.fragment_list_completed
     }
 
     private fun initRecycleView() {
-        adapter = CompletedChallengeAdapter()
+        adapter = AuthoredChallengeAdapter()
         recycleview.adapter = adapter
         recycleview.layoutManager = LinearLayoutManager(requireContext()).apply {
             orientation = LinearLayoutManager.VERTICAL
@@ -81,26 +84,12 @@ class ListCompletedChallengeFragment : Fragment(R.layout.fragment_list_completed
         adapter.itemOnClick = this::onItemClick
     }
 
-    private fun onItemClick(challange: CompletedChallenge) {
+    private fun onItemClick(challange: AuthoredChallenge) {
+        hideKeyboard()
         (parentFragment as? UserDetailFragment)?.navigateToChallenge(challange.id)
     }
 
-    private fun initScrollListener() {
-        val layoutManager = recycleview.layoutManager as LinearLayoutManager
-        recycleview.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy)
-                val totalItemCount = layoutManager.itemCount
-                val visibleItemCount = layoutManager.childCount
-                val lastVisibleItem = layoutManager.findLastVisibleItemPosition()
-
-                viewModel.listScrolled(visibleItemCount, lastVisibleItem, totalItemCount)
-            }
-        })
-    }
-
-    private fun onLoadDataCompletedChallenge(data: List<CompletedChallenge>) {
-        println("data - print onLoadDataCompletedChallenge")
+    private fun onLoadDataCompletedChallenge(data: List<AuthoredChallenge>) {
         adapter.submitList(data)
     }
 
@@ -108,8 +97,12 @@ class ListCompletedChallengeFragment : Fragment(R.layout.fragment_list_completed
         Toast.makeText(requireContext(), data, Toast.LENGTH_LONG).show()
     }
 
+    private fun onRetry(data: String) {
+        Toast.makeText(requireContext(), data, Toast.LENGTH_LONG).show()
+        retrybutton.isVisible = true
+    }
+
     private fun onLoading(data: Boolean) {
-        progressloadingnextpage.isVisible = data && adapter.currentList.isNotEmpty()
         swiperefresh.isRefreshing = data && adapter.currentList.isEmpty()
     }
 
@@ -118,16 +111,12 @@ class ListCompletedChallengeFragment : Fragment(R.layout.fragment_list_completed
             adapter.submitList(arrayListOf())
     }
 
-    private fun onRetry(data: String) {
-        Toast.makeText(requireContext(), data, Toast.LENGTH_LONG).show()
-        retrybutton.isVisible = true
-    }
-
     companion object {
         @JvmStatic
         fun newInstance(args: Bundle?) =
-            ListCompletedChallengeFragment().apply {
-                arguments = args
-            }
+            ListAuthoredChallengeFragment()
+                .apply {
+                    arguments = args
+                }
     }
 }

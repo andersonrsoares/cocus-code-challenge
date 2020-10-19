@@ -1,4 +1,4 @@
-package br.com.anderson.cocuscodechallenge.ui
+package br.com.anderson.cocuscodechallenge.ui.listuser
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -21,7 +21,7 @@ import br.com.anderson.cocuscodechallenge.extras.hideKeyboard
 import br.com.anderson.cocuscodechallenge.extras.observe
 import br.com.anderson.cocuscodechallenge.extras.setDivider
 import br.com.anderson.cocuscodechallenge.model.User
-import br.com.anderson.cocuscodechallenge.viewmodel.ListUserViewModel
+import br.com.anderson.cocuscodechallenge.ui.ListUserFragmentDirections
 import kotlinx.android.synthetic.main.fragment_list_user.*
 import javax.inject.Inject
 
@@ -99,7 +99,11 @@ class ListUserFragment : Fragment(R.layout.fragment_list_user), Injectable, Sear
 
     private fun onItemClick(user: User) {
         hideKeyboard()
-        navController().navigate(ListUserFragmentDirections.actionListUserFragmentToUserDetailFragment(user.username))
+        navController().navigate(
+            ListUserFragmentDirections.actionListUserFragmentToUserDetailFragment(
+                user.username
+            )
+        )
     }
 
     private fun onLoadDataListUsers(data: List<User>) {

@@ -1,4 +1,4 @@
-package br.com.anderson.cocuscodechallenge.ui
+package br.com.anderson.cocuscodechallenge.ui.main
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

@@ -16,7 +16,8 @@ import br.com.anderson.cocuscodechallenge.R
 import br.com.anderson.cocuscodechallenge.RecyclerViewMatcher
 import br.com.anderson.cocuscodechallenge.mock
 import br.com.anderson.cocuscodechallenge.model.CompletedChallenge
-import br.com.anderson.cocuscodechallenge.viewmodel.ListCompletedChallengeViewModel
+import br.com.anderson.cocuscodechallenge.ui.listcompleted.ListCompletedChallengeFragment
+import br.com.anderson.cocuscodechallenge.ui.listcompleted.ListCompletedChallengeViewModel
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -38,9 +39,10 @@ class ListCompletedChallengeFragmentFragmentTest {
         testviewModel = mock()
         factory = object : FragmentFactory() {
             override fun instantiate(classLoader: ClassLoader, className: String): Fragment {
-                return ListCompletedChallengeFragment().apply {
-                    this.viewModel = testviewModel
-                }
+                return ListCompletedChallengeFragment()
+                    .apply {
+                        this.viewModel = testviewModel
+                    }
             }
         }
     }

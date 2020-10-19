@@ -1,4 +1,4 @@
-package br.com.anderson.cocuscodechallenge.ui
+package br.com.anderson.cocuscodechallenge.ui.challenge
 
 import android.os.Bundle
 import android.view.View
@@ -10,9 +10,8 @@ import br.com.anderson.cocuscodechallenge.di.Injectable
 import br.com.anderson.cocuscodechallenge.extras.observe
 import br.com.anderson.cocuscodechallenge.extras.toDateFormat
 import br.com.anderson.cocuscodechallenge.model.Challenge
-import br.com.anderson.cocuscodechallenge.viewmodel.ChallengeViewModel
+import br.com.anderson.cocuscodechallenge.ui.ChallengeFragmentArgs
 import kotlinx.android.synthetic.main.fragment_challange.*
-import kotlinx.android.synthetic.main.fragment_list_user.*
 import kotlinx.android.synthetic.main.fragment_list_user.progressloading
 import javax.inject.Inject
 
@@ -26,7 +25,10 @@ class ChallengeFragment : Fragment(R.layout.fragment_challange), Injectable {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            args = ChallengeFragmentArgs.fromBundle(it)
+            args =
+                ChallengeFragmentArgs.fromBundle(
+                    it
+                )
         }
     }
 

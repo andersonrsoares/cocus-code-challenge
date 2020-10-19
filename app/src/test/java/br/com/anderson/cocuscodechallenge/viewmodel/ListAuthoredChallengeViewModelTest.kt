@@ -6,6 +6,7 @@ import br.com.anderson.cocuscodechallenge.mock
 import br.com.anderson.cocuscodechallenge.model.AuthoredChallenge
 import br.com.anderson.cocuscodechallenge.model.DataSourceResult
 import br.com.anderson.cocuscodechallenge.repository.AuthoredChallengeRepository
+import br.com.anderson.cocuscodechallenge.ui.listauthored.ListAuthoredChallengeViewModel
 import io.reactivex.Flowable
 import io.reactivex.android.plugins.RxAndroidPlugins
 import io.reactivex.schedulers.Schedulers
@@ -29,7 +30,10 @@ class ListAuthoredChallengeViewModelTest {
     private lateinit var auhtoredChallengeViewModel: ListAuthoredChallengeViewModel
     @Before
     fun init() {
-        auhtoredChallengeViewModel = ListAuthoredChallengeViewModel(authoredChallengeRepository)
+        auhtoredChallengeViewModel =
+            ListAuthoredChallengeViewModel(
+                authoredChallengeRepository
+            )
         RxAndroidPlugins.setInitMainThreadSchedulerHandler { Schedulers.trampoline() }
     }
 

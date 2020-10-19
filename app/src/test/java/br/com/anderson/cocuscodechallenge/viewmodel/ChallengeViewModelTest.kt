@@ -6,6 +6,7 @@ import br.com.anderson.cocuscodechallenge.mock
 import br.com.anderson.cocuscodechallenge.model.Challenge
 import br.com.anderson.cocuscodechallenge.model.DataSourceResult
 import br.com.anderson.cocuscodechallenge.repository.ChallengeRepository
+import br.com.anderson.cocuscodechallenge.ui.challenge.ChallengeViewModel
 import io.reactivex.Flowable
 import io.reactivex.android.plugins.RxAndroidPlugins
 import io.reactivex.schedulers.Schedulers
@@ -29,7 +30,10 @@ class ChallengeViewModelTest {
     private lateinit var challengeViewModel: ChallengeViewModel
     @Before
     fun init() {
-        challengeViewModel = ChallengeViewModel(challengeRepository)
+        challengeViewModel =
+            ChallengeViewModel(
+                challengeRepository
+            )
         RxAndroidPlugins.setInitMainThreadSchedulerHandler { Schedulers.trampoline() }
     }
 

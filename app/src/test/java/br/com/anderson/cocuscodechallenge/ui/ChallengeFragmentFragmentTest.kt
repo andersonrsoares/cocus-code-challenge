@@ -14,7 +14,8 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import br.com.anderson.cocuscodechallenge.R
 import br.com.anderson.cocuscodechallenge.mock
 import br.com.anderson.cocuscodechallenge.model.Challenge
-import br.com.anderson.cocuscodechallenge.viewmodel.ChallengeViewModel
+import br.com.anderson.cocuscodechallenge.ui.challenge.ChallengeFragment
+import br.com.anderson.cocuscodechallenge.ui.challenge.ChallengeViewModel
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -36,9 +37,10 @@ class ChallengeFragmentFragmentTest {
         testviewModel = mock()
         factory = object : FragmentFactory() {
             override fun instantiate(classLoader: ClassLoader, className: String): Fragment {
-                return ChallengeFragment().apply {
-                    this.viewModel = testviewModel
-                }
+                return ChallengeFragment()
+                    .apply {
+                        this.viewModel = testviewModel
+                    }
             }
         }
     }
