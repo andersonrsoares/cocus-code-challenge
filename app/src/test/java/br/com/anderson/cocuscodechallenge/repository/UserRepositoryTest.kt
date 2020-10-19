@@ -65,6 +65,43 @@ class UserRepositoryTest {
         }
     }
 
+
+    @Test
+    fun `test order users by rank`() {
+
+        val response = listOf(User(datetime = 0, leaderboardPosition = 2, username = "baz"),User(datetime = 1, leaderboardPosition = 1, username = "foo"))
+        given(codeWarsDao.allUsers()).willReturn(Single.just(response))
+
+        val testSubscriber = userRepository.listOrderByPosition().test()
+
+        testSubscriber.awaitDone(1, TimeUnit.SECONDS)
+
+        testSubscriber.assertNoErrors()
+        testSubscriber.assertSubscribed()
+        testSubscriber.assertComplete()
+        testSubscriber.assertValue {
+            it.body?.firstOrNull()?.leaderboardPosition == 1
+        }
+    }
+
+    @Test
+    fun `test order users by lookup`() {
+
+        val response = listOf(User(datetime = 1, leaderboardPosition = 2, username = "baz"),User(datetime = 0, leaderboardPosition = 1, username = "foo"))
+        given(codeWarsDao.allUsers()).willReturn(Single.just(response))
+
+        val testSubscriber = userRepository.listOrderByLookUp().test()
+
+        testSubscriber.awaitDone(1, TimeUnit.SECONDS)
+
+        testSubscriber.assertNoErrors()
+        testSubscriber.assertSubscribed()
+        testSubscriber.assertComplete()
+        testSubscriber.assertValue {
+            it.body?.firstOrNull()?.datetime == 1L
+        }
+    }
+
     @Test
     fun `test get user`() {
         val username = "baz"
