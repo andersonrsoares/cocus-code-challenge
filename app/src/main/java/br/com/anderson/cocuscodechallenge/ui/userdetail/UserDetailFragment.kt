@@ -16,9 +16,13 @@ import kotlinx.android.synthetic.main.fragment_user_detail.*
 @OpenForTesting
 class UserDetailFragment : Fragment(R.layout.fragment_user_detail), Injectable {
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        initFragments()
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initFragments()
         initViewPager()
         initNavigationBottom()
     }
