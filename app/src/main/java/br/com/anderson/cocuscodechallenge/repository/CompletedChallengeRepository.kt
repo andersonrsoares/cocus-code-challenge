@@ -6,7 +6,6 @@ import br.com.anderson.cocuscodechallenge.model.DataSourceResult
 import br.com.anderson.cocuscodechallenge.model.PageCompletedChallenge
 import br.com.anderson.cocuscodechallenge.persistence.CodeWarsDao
 import br.com.anderson.cocuscodechallenge.services.CodeWarsService
-import br.com.anderson.cocuscodechallenge.testing.OpenForTesting
 import io.reactivex.Flowable
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
@@ -14,7 +13,6 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-@OpenForTesting
 class CompletedChallengeRepository @Inject constructor(
     val localDataSouse: CodeWarsDao,
     val remoteDataSource: CodeWarsService,

@@ -7,7 +7,6 @@ import br.com.anderson.cocuscodechallenge.model.DataSourceResult
 import br.com.anderson.cocuscodechallenge.model.ErrorResult
 import br.com.anderson.cocuscodechallenge.model.User
 import br.com.anderson.cocuscodechallenge.repository.UserRepository
-import br.com.anderson.cocuscodechallenge.testing.OpenForTesting
 import br.com.anderson.cocuscodechallenge.viewmodel.BaseViewModel
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -15,7 +14,6 @@ import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-@OpenForTesting
 class ListUserViewModel @Inject constructor(val repository: UserRepository) : BaseViewModel() {
 
     protected var _empty = MutableLiveData<Boolean>()

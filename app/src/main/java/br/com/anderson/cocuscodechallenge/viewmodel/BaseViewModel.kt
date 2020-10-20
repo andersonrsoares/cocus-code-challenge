@@ -6,11 +6,10 @@ import androidx.lifecycle.ViewModel
 import br.com.anderson.cocuscodechallenge.R
 import br.com.anderson.cocuscodechallenge.model.ErrorResult
 import br.com.anderson.cocuscodechallenge.provider.ResourceProvider
-import br.com.anderson.cocuscodechallenge.testing.OpenForTesting
 import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
 
-@OpenForTesting
+
 open class BaseViewModel @Inject constructor() : ViewModel() {
 
     @Inject

@@ -38,7 +38,9 @@ class ListUserFragment : Fragment(R.layout.fragment_list_user), Injectable, Sear
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        initObservers()
         initListAdapter()
+        loadUsers()
     }
 
     override fun onCreateView(
@@ -57,10 +59,8 @@ class ListUserFragment : Fragment(R.layout.fragment_list_user), Injectable, Sear
 
     fun init() {
         initSearch()
-        initObservers()
         initRecycleView()
         initMessageEmpty()
-        loadUsers()
     }
 
     private fun initMessageEmpty() {

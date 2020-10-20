@@ -6,7 +6,6 @@ import br.com.anderson.cocuscodechallenge.model.DataSourceResult
 import br.com.anderson.cocuscodechallenge.model.User
 import br.com.anderson.cocuscodechallenge.persistence.CodeWarsDao
 import br.com.anderson.cocuscodechallenge.services.CodeWarsService
-import br.com.anderson.cocuscodechallenge.testing.OpenForTesting
 import io.reactivex.Flowable
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject

@@ -5,12 +5,10 @@ import androidx.lifecycle.MutableLiveData
 import br.com.anderson.cocuscodechallenge.model.AuthoredChallenge
 import br.com.anderson.cocuscodechallenge.model.DataSourceResult
 import br.com.anderson.cocuscodechallenge.repository.AuthoredChallengeRepository
-import br.com.anderson.cocuscodechallenge.testing.OpenForTesting
 import br.com.anderson.cocuscodechallenge.viewmodel.BaseViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import javax.inject.Inject
 
-@OpenForTesting
 class ListAuthoredChallengeViewModel @Inject constructor(val repository: AuthoredChallengeRepository) : BaseViewModel() {
 
     private var _dataAuthoredChallenge = MutableLiveData<List<AuthoredChallenge>>()

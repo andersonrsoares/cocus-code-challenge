@@ -8,13 +8,11 @@ import br.com.anderson.cocuscodechallenge.model.AuthoredChallenge
 import br.com.anderson.cocuscodechallenge.model.Challenge
 import br.com.anderson.cocuscodechallenge.model.CompletedChallenge
 import br.com.anderson.cocuscodechallenge.model.User
-import br.com.anderson.cocuscodechallenge.testing.OpenForTesting
 import io.reactivex.Completable
 import io.reactivex.Maybe
 import io.reactivex.Single
 
 @Dao
-@OpenForTesting
 abstract class CodeWarsDao {
 
     @Query("SELECT * from User order by datetime desc limit 5")

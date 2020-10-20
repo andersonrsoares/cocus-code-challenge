@@ -8,12 +8,11 @@ import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import br.com.anderson.cocuscodechallenge.R
 import br.com.anderson.cocuscodechallenge.di.Injectable
-import br.com.anderson.cocuscodechallenge.testing.OpenForTesting
 import br.com.anderson.cocuscodechallenge.ui.listauthored.ListAuthoredChallengeFragment
 import br.com.anderson.cocuscodechallenge.ui.listcompleted.ListCompletedChallengeFragment
 import kotlinx.android.synthetic.main.fragment_user_detail.*
 
-@OpenForTesting
+
 class UserDetailFragment : Fragment(R.layout.fragment_user_detail), Injectable {
 
     override fun onCreate(savedInstanceState: Bundle?) {

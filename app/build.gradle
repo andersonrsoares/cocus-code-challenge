@@ -3,14 +3,9 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'androidx.navigation.safeargs.kotlin'
-apply plugin: 'kotlin-allopen'
 apply plugin: 'jacoco'
 apply plugin: 'org.sonarqube'
 
-allOpen {
-    // allows mocking for classes w/o directly opening them for release builds
-    annotation 'br.com.anderson.cocuscodechallenge.testing.OpenClass'
-}
 
 configurations {
     ktlint
@@ -88,7 +83,6 @@ dependencies {
     implementation "androidx.annotation:annotation:$support"
     implementation "androidx.recyclerview:recyclerview:$support"
 
-    implementation "androidx.fragment:fragment:$fragment"
     implementation "androidx.fragment:fragment-ktx:$fragment"
 
     //room

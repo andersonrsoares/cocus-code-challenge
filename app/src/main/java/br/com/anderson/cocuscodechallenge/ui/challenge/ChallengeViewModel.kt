@@ -7,12 +7,11 @@ import br.com.anderson.cocuscodechallenge.model.Challenge
 import br.com.anderson.cocuscodechallenge.model.DataSourceResult
 import br.com.anderson.cocuscodechallenge.model.ErrorResult
 import br.com.anderson.cocuscodechallenge.repository.ChallengeRepository
-import br.com.anderson.cocuscodechallenge.testing.OpenForTesting
 import br.com.anderson.cocuscodechallenge.viewmodel.BaseViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import javax.inject.Inject
 
-@OpenForTesting
+
 class ChallengeViewModel @Inject constructor(val repository: ChallengeRepository) : BaseViewModel() {
 
     private var _dataChallenge = MutableLiveData<Challenge>()

@@ -7,14 +7,13 @@ import br.com.anderson.cocuscodechallenge.model.CompletedChallenge
 import br.com.anderson.cocuscodechallenge.model.DataSourceResult
 import br.com.anderson.cocuscodechallenge.model.PageCompletedChallenge
 import br.com.anderson.cocuscodechallenge.repository.CompletedChallengeRepository
-import br.com.anderson.cocuscodechallenge.testing.OpenForTesting
 import br.com.anderson.cocuscodechallenge.viewmodel.BaseViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import javax.inject.Inject
 
 const val VISIBLE_THRESHOLD = 2
 
-@OpenForTesting
+
 class ListCompletedChallengeViewModel @Inject constructor(val repository: CompletedChallengeRepository) : BaseViewModel() {
 
     private var _dataCompletedChallenge = MutableLiveData<List<CompletedChallenge>>()
