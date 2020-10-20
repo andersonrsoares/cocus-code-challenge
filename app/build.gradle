@@ -3,16 +3,23 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'androidx.navigation.safeargs.kotlin'
-apply plugin: 'kotlin-allopen'
 apply plugin: 'jacoco'
 apply plugin: 'org.sonarqube'
 
-allOpen {
-    // allows mocking for classes w/o directly opening them for release builds
-    annotation 'br.com.anderson.cocuscodechallenge.testing.OpenClass'
+
+configurations {
+    ktlint
 }
 
 android {
+    signingConfigs {
+        debug {
+            storeFile file('app.jks')
+            storePassword 'android'
+            keyAlias 'key'
+            keyPassword 'android'
+        }
+    }
     compileSdkVersion 30
 
     defaultConfig {
@@ -26,10 +33,11 @@ android {
 
     buildTypes {
         debug {
+            minifyEnabled false
             testCoverageEnabled true
         }
         release {
-            minifyEnabled false
+            minifyEnabled true// obfuscation
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -59,7 +67,10 @@ android {
     }
 }
 
+
 dependencies {
+    ktlint "com.pinterest:ktlint:0.39.0"
+
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation "androidx.core:core-ktx:$core_ktx"
@@ -72,7 +83,6 @@ dependencies {
     implementation "androidx.annotation:annotation:$support"
     implementation "androidx.recyclerview:recyclerview:$support"
 
-    implementation "androidx.fragment:fragment:$fragment"
     implementation "androidx.fragment:fragment-ktx:$fragment"
 
     //room
@@ -81,7 +91,7 @@ dependencies {
     implementation "androidx.room:room-rxjava2:$room"
 
     //lifecicle
-    implementation "androidx.lifecycle:lifecycle-runtime:$lifecycle"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle"
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle"
     implementation "androidx.lifecycle:lifecycle-common-java8:$lifecycle"
 
@@ -90,9 +100,7 @@ dependencies {
 
     //navigation
     implementation "androidx.navigation:navigation-fragment-ktx:$navigation"//
-    implementation "androidx.navigation:navigation-runtime:$navigation"//
     implementation "androidx.navigation:navigation-runtime-ktx:$navigation"
-    implementation "androidx.navigation:navigation-fragment:$navigation"
     implementation "androidx.navigation:navigation-ui-ktx:$navigation"
     //retrofit
     implementation "com.squareup.retrofit2:retrofit:$retrofit"
@@ -143,9 +151,8 @@ dependencies {
     testImplementation "androidx.test.espresso:espresso-intents:$espresso"
     testImplementation "androidx.arch.core:core-testing:$arch_core"
 
-    debugImplementation "androidx.fragment:fragment:$fragment"
+    debugImplementation "androidx.fragment:fragment-ktx:$fragment"
     debugImplementation("androidx.fragment:fragment-testing:$fragment")
-    debugImplementation("androidx.fragment:fragment-ktx:$fragment")
     debugImplementation "androidx.test:core:$test_core"
     debugImplementation "androidx.test:core-ktx:$test_core"
     debugImplementation "androidx.test:runner:$atsl_runner"
@@ -184,7 +191,6 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest']) {
         xml.destination file("${buildDir}/reports/jacoco/report.xml")
     }
 
-
     def fileFilters =
             ['android/databinding/**/*.class',
              '**/android/databinding/*Binding.class',
@@ -217,4 +223,23 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest']) {
     classDirectories.from = files([kotlinDebugTree])//javaDebugTree,
     executionData.from = fileTree(dir: project.buildDir, includes: [
             'jacoco/*.exec', 'outputs/code_coverage/debugAndroidTest/connected/**/*.ec'])
+}
+
+task ktlint(type: JavaExec, group: "verification") {
+    description = "Check Kotlin code style."
+    main = "com.pinterest.ktlint.Main"
+    classpath = configurations.ktlint
+    args "src/**/*.kt"
+    // to generate report in checkstyle format prepend following args:
+    // "--reporter=plain", "--reporter=checkstyle,output=${buildDir}/ktlint.xml"
+    // see https://github.com/pinterest/ktlint#usage for more
+}
+
+check.dependsOn ktlint
+
+task ktlintAutoCorrect(type: JavaExec, group: "formatting") {
+    description = "Fix Kotlin code style deviations."
+    main = "com.pinterest.ktlint.Main"
+    classpath = configurations.ktlint
+    args "-F", "src/**/*.kt"
 }

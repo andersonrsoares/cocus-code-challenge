@@ -1,12 +1,12 @@
 package br.com.anderson.cocuscodechallenge
-import okhttp3.mockwebserver.MockWebServer
 import okhttp3.mockwebserver.MockResponse
+import okhttp3.mockwebserver.MockWebServer
 import okio.buffer
 import okio.source
 
 object ApiUtil {
 
-    fun enqueueResponse(mockWebServer:MockWebServer,fileName: String, headers: Map<String, String> = emptyMap(), statuscode:Int = 200) {
+    fun enqueueResponse(mockWebServer: MockWebServer, fileName: String, headers: Map<String, String> = emptyMap(), statuscode: Int = 200) {
         val mockResponse = MockResponse()
         for ((key, value) in headers) {
             mockResponse.addHeader(key, value)
@@ -18,8 +18,5 @@ object ApiUtil {
         )
     }
 
-    fun loadfile(fileName: String):String = javaClass.classLoader?.getResourceAsStream("api-response/$fileName")?.source()?.buffer()?.readString(Charsets.UTF_8) ?: ""
-
+    fun loadfile(fileName: String): String = javaClass.classLoader?.getResourceAsStream("api-response/$fileName")?.source()?.buffer()?.readString(Charsets.UTF_8) ?: ""
 }
-
-

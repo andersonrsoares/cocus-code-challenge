@@ -1,10 +1,9 @@
 package br.com.anderson.cocuscodechallenge.services
 
-
 import br.com.anderson.cocuscodechallenge.ApiUtil
-import org.junit.*
 import com.google.common.truth.Truth.assertThat
 import com.google.gson.stream.MalformedJsonException
+import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 import retrofit2.HttpException
@@ -14,18 +13,18 @@ class ServiceUserTest : BaseServiceTest() {
 
     @Test
     fun `test user response success full data`() {
-        //GIVEN
-        ApiUtil.enqueueResponse(mockWebServer,"user.json")
+        // GIVEN
+        ApiUtil.enqueueResponse(mockWebServer, "user.json")
 
         val response = service.getUser("username").test()
 
-        //when
+        // when
         val request = mockWebServer.takeRequest()
         assertThat(request.path).isEqualTo("/users/username")
-        //THEN
+        // THEN
 
         response.assertNoErrors()
-        val user =  response.values().first()
+        val user = response.values().first()
         assertThat(user.name).isEqualTo("Some Person")
         assertThat(user.username).isEqualTo("some_user")
         assertThat(user.honor).isEqualTo(544)
@@ -47,17 +46,16 @@ class ServiceUserTest : BaseServiceTest() {
         assertThat(user.codeChallenges?.totalCompleted).isEqualTo(230)
     }
 
-
     @Test
     fun `test user response not json`() {
-        //GIVEN
-        ApiUtil.enqueueResponse(mockWebServer,"error_json_response.html")
+        // GIVEN
+        ApiUtil.enqueueResponse(mockWebServer, "error_json_response.html")
 
         val response = service.getUser("username").test()
-        //when
+        // when
         val request = mockWebServer.takeRequest()
         assertThat(request.path).isEqualTo("/users/username")
-        //THEN
+        // THEN
 
         response.assertError {
             it is MalformedJsonException
@@ -66,21 +64,18 @@ class ServiceUserTest : BaseServiceTest() {
 
     @Test
     fun `test user not found`() {
-        //GIVEN
-        ApiUtil.enqueueResponse(mockWebServer =  mockWebServer,fileName = "not_found_response.json",statuscode = 404)
+        // GIVEN
+        ApiUtil.enqueueResponse(mockWebServer = mockWebServer, fileName = "not_found_response.json", statuscode = 404)
 
         val response = service.getUser("notfound").test()
-        //when
+        // when
         val request = mockWebServer.takeRequest()
         assertThat(request.path).isEqualTo("/users/notfound")
 
-        //THEN
+        // THEN
         response.assertError {
-            //print((it as? HttpException)?.response()?.errorBody()?.string())
+            // print((it as? HttpException)?.response()?.errorBody()?.string())
             it is HttpException && (it as? HttpException)?.code() == 404
         }
     }
-
-
-
 }

@@ -4,12 +4,12 @@ import android.app.Application
 import br.com.anderson.cocuscodechallenge.di.AppInjector
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
+import dagger.android.HasAndroidInjector
 import javax.inject.Inject
-import  dagger.android.HasAndroidInjector
 
 class ChallengeApp : Application(), HasAndroidInjector {
 
-    @Inject lateinit var dispatchingAndroidInjector : DispatchingAndroidInjector<Any>
+    @Inject lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Any>
 
     override fun onCreate() {
         super.onCreate()
@@ -17,10 +17,4 @@ class ChallengeApp : Application(), HasAndroidInjector {
     }
 
     override fun androidInjector(): AndroidInjector<Any> = dispatchingAndroidInjector
-
 }
-
-
-
-
-

@@ -8,4 +8,3 @@ open class BaseDTO(
     @SerializedName("success")
     val success: Boolean? = null
 )
-

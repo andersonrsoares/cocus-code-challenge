@@ -3,7 +3,11 @@ package br.com.anderson.cocuscodechallenge.di
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import br.com.anderson.cocuscodechallenge.viewmodel.*
+import br.com.anderson.cocuscodechallenge.ui.challenge.ChallengeViewModel
+import br.com.anderson.cocuscodechallenge.ui.listauthored.ListAuthoredChallengeViewModel
+import br.com.anderson.cocuscodechallenge.ui.listcompleted.ListCompletedChallengeViewModel
+import br.com.anderson.cocuscodechallenge.ui.listuser.ListUserViewModel
+import br.com.anderson.cocuscodechallenge.viewmodel.ViewModelFactory
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap

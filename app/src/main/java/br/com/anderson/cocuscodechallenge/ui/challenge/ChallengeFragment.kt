@@ -1,45 +1,39 @@
-package br.com.anderson.cocuscodechallenge.ui
+package br.com.anderson.cocuscodechallenge.ui.challenge
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.View
 import android.widget.Toast
-import androidx.appcompat.widget.SearchView
-import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.NavOptions
-import androidx.navigation.NavOptionsBuilder
-import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
 import br.com.anderson.cocuscodechallenge.R
-import br.com.anderson.cocuscodechallenge.adapter.ListUserAdapter
 import br.com.anderson.cocuscodechallenge.di.Injectable
-import br.com.anderson.cocuscodechallenge.extras.hideKeyboard
 import br.com.anderson.cocuscodechallenge.extras.observe
-import br.com.anderson.cocuscodechallenge.extras.setDivider
 import br.com.anderson.cocuscodechallenge.extras.toDateFormat
 import br.com.anderson.cocuscodechallenge.model.Challenge
-import br.com.anderson.cocuscodechallenge.model.User
-import br.com.anderson.cocuscodechallenge.viewmodel.ChallengeViewModel
-import br.com.anderson.cocuscodechallenge.viewmodel.ListUserViewModel
 import kotlinx.android.synthetic.main.fragment_challange.*
-import kotlinx.android.synthetic.main.fragment_list_user.*
 import kotlinx.android.synthetic.main.fragment_list_user.progressloading
 import javax.inject.Inject
 
-
 class ChallengeFragment : Fragment(R.layout.fragment_challange), Injectable {
 
+    val viewModel: ChallengeViewModel by viewModels {
+        factory
+    }
+
     @Inject
-    lateinit var viewModel: ChallengeViewModel
+    lateinit var factory: ViewModelProvider.Factory
 
     var args: ChallengeFragmentArgs? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            args = ChallengeFragmentArgs.fromBundle(it)
+            args =
+                ChallengeFragmentArgs.fromBundle(
+                    it
+                )
         }
     }
 
@@ -49,18 +43,17 @@ class ChallengeFragment : Fragment(R.layout.fragment_challange), Injectable {
         fetchChallenge()
     }
 
-    private fun initObservers(){
-        observe(viewModel.dataChallenge,this::onLoadChallenge)
-        observe(viewModel.message,this::onMessage)
-        observe(viewModel.loading,this::onLoading)
+    private fun initObservers() {
+        observe(viewModel.dataChallenge, this::onLoadChallenge)
+        observe(viewModel.message, this::onMessage)
+        observe(viewModel.loading, this::onLoading)
     }
 
-
-    private fun fetchChallenge(){
+    private fun fetchChallenge() {
         viewModel.listChallenge(args?.id)
     }
 
-    private fun onLoadChallenge(data: Challenge){
+    private fun onLoadChallenge(data: Challenge) {
         description.text = data.description
         name.text = data.name
         rank.text = data.rank?.name
@@ -75,7 +68,7 @@ class ChallengeFragment : Fragment(R.layout.fragment_challange), Injectable {
     }
 
     private fun onMessage(data: String) {
-        Toast.makeText(requireContext(),data, Toast.LENGTH_LONG).show()
+        Toast.makeText(requireContext(), data, Toast.LENGTH_LONG).show()
     }
 
     private fun onLoading(data: Boolean) {

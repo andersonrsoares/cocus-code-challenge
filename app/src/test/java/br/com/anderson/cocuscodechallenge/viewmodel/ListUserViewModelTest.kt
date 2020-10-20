@@ -3,9 +3,11 @@ package br.com.anderson.cocuscodechallenge.viewmodel
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import br.com.anderson.cocuscodechallenge.mock
+import br.com.anderson.cocuscodechallenge.model.DataSourceResult
 import br.com.anderson.cocuscodechallenge.model.User
 import br.com.anderson.cocuscodechallenge.provider.ResourceProvider
 import br.com.anderson.cocuscodechallenge.repository.UserRepository
+import br.com.anderson.cocuscodechallenge.ui.listuser.ListUserViewModel
 import io.reactivex.Flowable
 import io.reactivex.android.plugins.RxAndroidPlugins
 import io.reactivex.schedulers.Schedulers
@@ -14,10 +16,10 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
-import org.mockito.Mockito.*
-import br.com.anderson.cocuscodechallenge.any
-import br.com.anderson.cocuscodechallenge.model.DataSourceResult
 import org.mockito.ArgumentMatchers
+import org.mockito.BDDMockito.given
+import org.mockito.BDDMockito.then
+import org.mockito.BDDMockito.times
 
 @RunWith(JUnit4::class)
 class ListUserViewModelTest {
@@ -28,24 +30,25 @@ class ListUserViewModelTest {
     private val userRepository = mock<UserRepository>()
     private val resourceProvider = mock<ResourceProvider>()
 
-    private lateinit var  userViewModel: ListUserViewModel
+    private lateinit var userViewModel: ListUserViewModel
     @Before
-    fun init(){
-        userViewModel = ListUserViewModel(userRepository)
+    fun init() {
+        userViewModel =
+            ListUserViewModel(
+                userRepository
+            )
         userViewModel.resourceProvider = resourceProvider
         RxAndroidPlugins.setInitMainThreadSchedulerHandler { Schedulers.trampoline() }
     }
-
-
 
     @Test
     fun `list last user searched success`() {
 
         val username = "baz"
 
-        val repositoryResponse = listOf(User(datetime = 0,username = username))
+        val repositoryResponse = listOf(User(datetime = 0, username = username))
 
-        `when`(userRepository.listLastUsers()).thenReturn(Flowable.just(DataSourceResult.create(repositoryResponse)))
+        given(userRepository.listLastUsers()).willReturn(Flowable.just(DataSourceResult.create(repositoryResponse)))
 
         val observerData = mock<Observer<List<User>>>()
         val observerLoading = mock<Observer<Boolean>>()
@@ -53,21 +56,20 @@ class ListUserViewModelTest {
         userViewModel.loading.observeForever(observerLoading)
         userViewModel.dataListLastUsers.observeForever(observerData)
         userViewModel.listLastUsers()
-        verify(observerLoading).onChanged(true)
-        verify(userRepository).listLastUsers()
-        verify(observerData).onChanged(repositoryResponse)
-        verify(observerLoading).onChanged(false)
+        then(observerLoading).should().onChanged(true)
+        then(userRepository).should().listLastUsers()
+        then(observerData).should().onChanged(repositoryResponse)
+        then(observerLoading).should().onChanged(false)
     }
-
 
     @Test
     fun `search user by name success`() {
 
         val username = "baz"
 
-        val repositoryResponse = User(datetime = 0,username = username)
+        val repositoryResponse = User(datetime = 0, username = username)
 
-        `when`(userRepository.searchUser(username)).thenReturn(Flowable.just(DataSourceResult.create(repositoryResponse)))
+        given(userRepository.searchUser(username)).willReturn(Flowable.just(DataSourceResult.create(repositoryResponse)))
 
         val observerData = mock<Observer<List<User>>>()
         val observerLoading = mock<Observer<Boolean>>()
@@ -75,24 +77,22 @@ class ListUserViewModelTest {
         userViewModel.loading.observeForever(observerLoading)
         userViewModel.dataListLastUsers.observeForever(observerData)
         userViewModel.searchUser(username)
-        verify(observerLoading).onChanged(true)
-        verify(userRepository).searchUser(username)
-        verify(observerData).onChanged(listOf(repositoryResponse))
-        verify(observerLoading, times(2)).onChanged(false)
+        then(observerLoading).should().onChanged(true)
+        then(userRepository).should().searchUser(username)
+        then(observerData).should().onChanged(listOf(repositoryResponse))
+        then(observerLoading).should(times(2)).onChanged(false)
     }
 
     @Test
     fun `search user by name empty`() {
 
-        `when`(resourceProvider.getString(ArgumentMatchers.anyInt())).thenReturn("message")
+        given(resourceProvider.getString(ArgumentMatchers.anyInt())).willReturn("message")
 
         val observerMessage = mock<Observer<String>>()
 
         userViewModel.message.observeForever(observerMessage)
 
         userViewModel.searchUser("")
-        verify(observerMessage).onChanged("message")
-
+        then(observerMessage).should().onChanged("message")
     }
-
 }

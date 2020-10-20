@@ -15,21 +15,23 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.core.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="-56dp">
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="400dp"
-            android:padding="16dp">
+            android:layout_height="match_parent"
+            android:padding="@dimen/content_fragment_padding">
 
             <TextView
                 android:id="@+id/labelusername"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="10dp"
+                android:layout_marginEnd="@dimen/label_right_margin"
                 android:text="@string/label_challenge_name"
                 android:textAlignment="textStart"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
@@ -45,8 +47,8 @@
                 android:id="@+id/name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="3dp"
-                android:layout_marginEnd="10dp"
+                android:layout_marginTop="@dimen/label_content_title_top_margin"
+                android:layout_marginEnd="@dimen/label_right_margin"
                 android:text=""
                 android:textAlignment="textStart"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
@@ -58,7 +60,7 @@
 
             <TextView
                 android:id="@+id/labelrank"
-                android:layout_width="130dp"
+                android:layout_width="@dimen/rank_width"
                 android:layout_height="wrap_content"
                 android:text="@string/label_rank"
                 android:textAlignment="textStart"
@@ -71,9 +73,9 @@
 
             <TextView
                 android:id="@+id/rank"
-                android:layout_width="130dp"
+                android:layout_width="@dimen/rank_width"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="3dp"
+                android:layout_marginTop="@dimen/label_content_title_top_margin"
                 android:text=""
                 android:textAlignment="textStart"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
@@ -102,7 +104,7 @@
                 android:id="@+id/starts"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="3dp"
+                android:layout_marginTop="@dimen/label_content_title_top_margin"
                 android:text=""
                 android:textAlignment="textStart"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
@@ -130,10 +132,10 @@
 
 
             <TextView
-                android:layout_marginTop="3dp"
                 android:id="@+id/attempts"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/label_content_title_top_margin"
                 android:text=""
                 android:textAlignment="textStart"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
@@ -162,7 +164,7 @@
                 android:id="@+id/completed"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="3dp"
+                android:layout_marginTop="@dimen/label_content_title_top_margin"
                 android:text=""
                 android:textAlignment="textStart"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
@@ -174,11 +176,11 @@
 
 
             <TextView
-                android:layout_marginEnd="10dp"
                 android:id="@+id/labelcreatedby"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="@dimen/label_title_content_top_margin"
+                android:layout_marginEnd="@dimen/label_right_margin"
                 android:text="@string/label_created_by"
                 android:textAlignment="textStart"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
@@ -195,7 +197,7 @@
                 android:id="@+id/createdby"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="3dp"
+                android:layout_marginTop="@dimen/label_content_title_top_margin"
                 android:text=""
                 android:textAlignment="textStart"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
@@ -207,9 +209,9 @@
 
             <TextView
                 android:id="@+id/labelcreatedat"
-                android:layout_width="130dp"
+                android:layout_width="@dimen/date_width"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="@dimen/label_title_content_top_margin"
                 android:text="@string/label_created"
                 android:textAlignment="textStart"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
@@ -225,7 +227,7 @@
                 android:id="@+id/createdat"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="3dp"
+                android:layout_marginTop="@dimen/label_content_title_top_margin"
                 android:text=""
                 android:textAlignment="textStart"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
@@ -237,10 +239,10 @@
 
 
             <TextView
-                android:layout_marginTop="12dp"
                 android:id="@+id/labelcategory"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/label_title_content_top_margin"
                 android:text="@string/label_category"
                 android:textAlignment="textStart"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
@@ -252,13 +254,11 @@
             </TextView>
 
 
-
-
             <TextView
-                android:layout_marginTop="3dp"
                 android:id="@+id/category"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/label_content_title_top_margin"
                 android:text=""
                 android:textAlignment="textStart"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
@@ -272,7 +272,7 @@
                 android:id="@+id/labeldescription"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="@dimen/label_title_content_top_margin"
                 android:text="@string/label_description"
                 android:textAlignment="textStart"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
@@ -301,7 +301,7 @@
                 android:id="@+id/labellanguages"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="@dimen/label_title_content_top_margin"
                 android:text="@string/label_languages"
                 android:textAlignment="textStart"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
@@ -331,7 +331,7 @@
                 android:id="@+id/labeltags"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="@dimen/label_title_content_top_margin"
                 android:text="@string/label_tags"
                 android:textAlignment="textStart"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"

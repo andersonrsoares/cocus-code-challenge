@@ -1,6 +1,5 @@
 package br.com.anderson.cocuscodechallenge.dto
 
-import br.com.anderson.cocuscodechallenge.model.AuthoredChallenge
 import com.google.gson.annotations.SerializedName
 
 data class AuthoredChallengeDTO(
@@ -17,9 +16,5 @@ data class AuthoredChallengeDTO(
     @SerializedName("rankName")
     val rankName: String? = null,
     @SerializedName("tags")
-    val tags: List<String>?= null
-){
-    fun toAuthoredChallenge(): AuthoredChallenge{
-        return AuthoredChallenge(rank = rank,rankName = rankName, id = id.toString(), name = name,description = description, tags = tags.orEmpty(), languages = languages.orEmpty() )
-    }
-}
+    val tags: List<String>? = null
+)

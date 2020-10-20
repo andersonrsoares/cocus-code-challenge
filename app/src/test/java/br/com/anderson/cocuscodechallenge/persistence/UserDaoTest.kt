@@ -7,17 +7,14 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.annotation.Config
 
-
 @RunWith(AndroidJUnit4::class)
 @Config(sdk = [Build.VERSION_CODES.P])
-class UserDaoTest : BaseDaoTest(){
-
-
+class UserDaoTest : BaseDaoTest() {
 
     @Test fun `test empty db`() {
         database.codeWarsDao().allUsers()
-                .test()
-                .assertValue { it.isEmpty() }
+            .test()
+            .assertValue { it.isEmpty() }
     }
 
     @Test fun `test insert and get user`() {
@@ -25,8 +22,8 @@ class UserDaoTest : BaseDaoTest(){
         database.codeWarsDao().insertUser(USER).blockingAwait()
 
         database.codeWarsDao().allUsers()
-                .test()
-                .assertValue { it.find { f-> f.username == "username" } != null }
+            .test()
+            .assertValue { it.find { f -> f.username == "username" } != null }
     }
 
     @Test fun `test update and get user`() {
@@ -38,13 +35,12 @@ class UserDaoTest : BaseDaoTest(){
         database.codeWarsDao().insertUser(updatedUser).blockingAwait()
 
         database.codeWarsDao().allUsers()
-                .test()
-                // assertValue asserts that there was only one emission of the user
-                .assertValue { it.find { f->  f.datetime  == datetime} != null }
+            .test()
+            // assertValue asserts that there was only one emission of the user
+            .assertValue { it.find { f -> f.datetime == datetime } != null }
     }
 
-
     companion object {
-        private val USER = User(datetime = 946692000000L,username = "username",name = "Name", clan = "clean")
+        private val USER = User(datetime = 946692000000L, username = "username", name = "Name", clan = "clean")
     }
 }

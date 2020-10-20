@@ -4,11 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.ListUserFragment">
+    tools:context=".ui.listuser.ListUserFragment">
 
     <Button
         android:visibility="gone"
-        android:layout_margin="10dp"
+        android:layout_margin="@dimen/retry_button_margin"
         android:backgroundTint="@color/colorPrimary"
         android:id="@+id/retrybutton"
         android:textSize="12sp"

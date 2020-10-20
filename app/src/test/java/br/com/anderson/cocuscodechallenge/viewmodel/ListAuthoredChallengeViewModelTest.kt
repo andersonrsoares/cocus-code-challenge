@@ -3,8 +3,10 @@ package br.com.anderson.cocuscodechallenge.viewmodel
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import br.com.anderson.cocuscodechallenge.mock
-import br.com.anderson.cocuscodechallenge.provider.ResourceProvider
-import br.com.anderson.cocuscodechallenge.repository.UserRepository
+import br.com.anderson.cocuscodechallenge.model.AuthoredChallenge
+import br.com.anderson.cocuscodechallenge.model.DataSourceResult
+import br.com.anderson.cocuscodechallenge.repository.AuthoredChallengeRepository
+import br.com.anderson.cocuscodechallenge.ui.listauthored.ListAuthoredChallengeViewModel
 import io.reactivex.Flowable
 import io.reactivex.android.plugins.RxAndroidPlugins
 import io.reactivex.schedulers.Schedulers
@@ -13,12 +15,9 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
-import org.mockito.Mockito.*
-import br.com.anderson.cocuscodechallenge.any
-import br.com.anderson.cocuscodechallenge.model.*
-import br.com.anderson.cocuscodechallenge.repository.AuthoredChallengeRepository
-import br.com.anderson.cocuscodechallenge.repository.CompletedChallengeRepository
-import org.mockito.ArgumentMatchers
+import org.mockito.BDDMockito.given
+import org.mockito.BDDMockito.then
+import org.mockito.BDDMockito.times
 
 @RunWith(JUnit4::class)
 class ListAuthoredChallengeViewModelTest {
@@ -28,10 +27,13 @@ class ListAuthoredChallengeViewModelTest {
 
     private val authoredChallengeRepository = mock<AuthoredChallengeRepository>()
 
-    private lateinit var  auhtoredChallengeViewModel: ListAuthoredChallengeViewModel
+    private lateinit var auhtoredChallengeViewModel: ListAuthoredChallengeViewModel
     @Before
-    fun init(){
-        auhtoredChallengeViewModel = ListAuthoredChallengeViewModel(authoredChallengeRepository)
+    fun init() {
+        auhtoredChallengeViewModel =
+            ListAuthoredChallengeViewModel(
+                authoredChallengeRepository
+            )
         RxAndroidPlugins.setInitMainThreadSchedulerHandler { Schedulers.trampoline() }
     }
 
@@ -42,7 +44,7 @@ class ListAuthoredChallengeViewModelTest {
 
         val repositoryResponse = listOf(AuthoredChallenge(id = "id"))
 
-        `when`(authoredChallengeRepository.getAuthoredChallenges(username)).thenReturn(Flowable.just(DataSourceResult.create(repositoryResponse)))
+        given(authoredChallengeRepository.getAuthoredChallenges(username)).willReturn(Flowable.just(DataSourceResult.create(repositoryResponse)))
 
         val observerData = mock<Observer<List<AuthoredChallenge>>>()
         val observerLoading = mock<Observer<Boolean>>()
@@ -50,10 +52,10 @@ class ListAuthoredChallengeViewModelTest {
         auhtoredChallengeViewModel.loading.observeForever(observerLoading)
         auhtoredChallengeViewModel.dataAuthoredChallenge.observeForever(observerData)
         auhtoredChallengeViewModel.listUserAuthoredChallenge(username)
-        verify(observerLoading).onChanged(true)
-        verify(authoredChallengeRepository).getAuthoredChallenges(username)
-        verify(observerData).onChanged(repositoryResponse)
-        verify(observerLoading, times(2)).onChanged(false)
+        then(observerLoading).should().onChanged(true)
+        then(authoredChallengeRepository).should().getAuthoredChallenges(username)
+        then(observerData).should().onChanged(repositoryResponse)
+        then(observerLoading).should(times(2)).onChanged(false)
     }
 
     @Test
@@ -63,7 +65,7 @@ class ListAuthoredChallengeViewModelTest {
 
         val repositoryResponse = listOf<AuthoredChallenge>()
 
-        `when`(authoredChallengeRepository.getAuthoredChallenges(username)).thenReturn(Flowable.just( DataSourceResult.create(repositoryResponse)))
+        given(authoredChallengeRepository.getAuthoredChallenges(username)).willReturn(Flowable.just(DataSourceResult.create(repositoryResponse)))
 
         val observerData = mock<Observer<List<AuthoredChallenge>>>()
         val observerLoading = mock<Observer<Boolean>>()
@@ -71,10 +73,9 @@ class ListAuthoredChallengeViewModelTest {
         auhtoredChallengeViewModel.loading.observeForever(observerLoading)
         auhtoredChallengeViewModel.dataAuthoredChallenge.observeForever(observerData)
         auhtoredChallengeViewModel.listUserAuthoredChallenge(username)
-        verify(observerLoading).onChanged(true)
-        verify(authoredChallengeRepository).getAuthoredChallenges(username)
-        verify(observerData, never()).onChanged(repositoryResponse)
-        verify(observerLoading, times(2)).onChanged(false)
+        then(observerLoading).should().onChanged(true)
+        then(authoredChallengeRepository).should().getAuthoredChallenges(username)
+        then(observerData).should(org.mockito.BDDMockito.never()).onChanged(null)
+        then(observerLoading).should(times(2)).onChanged(false)
     }
-
 }

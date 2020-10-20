@@ -1,4 +1,4 @@
-package br.com.anderson.cocuscodechallenge.ui
+package br.com.anderson.cocuscodechallenge.ui.main
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -16,7 +16,7 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
     @Inject
     lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Any>
 
-    lateinit var  navController : NavController
+    lateinit var navController: NavController
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -25,14 +25,13 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
             supportFragmentManager.findFragmentById(R.id.container) as NavHostFragment
         navController = navHostFragment.navController
         val appBarConfiguration = AppBarConfiguration(navController.graph)
-        setupActionBarWithNavController(navController,appBarConfiguration)
+        setupActionBarWithNavController(navController, appBarConfiguration)
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        navController.popBackStack()
+        navController.navigateUp()
         return true
     }
-
 
     override fun androidInjector() = dispatchingAndroidInjector
 }

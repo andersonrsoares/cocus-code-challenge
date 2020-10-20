@@ -1,32 +1,33 @@
 package br.com.anderson.cocuscodechallenge.adapter
 
-
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.recyclerview.widget.*
+import androidx.recyclerview.widget.AsyncDifferConfig
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView
 import br.com.anderson.cocuscodechallenge.R
 import br.com.anderson.cocuscodechallenge.extras.toDateFormat
-import br.com.anderson.cocuscodechallenge.extras.toTimestamp
 import br.com.anderson.cocuscodechallenge.model.CompletedChallenge
 import java.util.concurrent.Executors
 
-
-class CompletedChallengeAdapter : ListAdapter<CompletedChallenge,CompletedChallengeAdapter.Holder>(
+class CompletedChallengeAdapter : ListAdapter<CompletedChallenge, CompletedChallengeAdapter.Holder>(
     AsyncDifferConfig.Builder<CompletedChallenge>(diffCallback)
-    .setBackgroundThreadExecutor(Executors.newSingleThreadExecutor())
-    .build()){
+        .setBackgroundThreadExecutor(Executors.newSingleThreadExecutor())
+        .build()
+) {
 
-    var itemOnClick: (CompletedChallenge) -> Unit = {_ ->  }
+    var itemOnClick: (CompletedChallenge) -> Unit = { _ -> }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CompletedChallengeAdapter.Holder {
         val view = LayoutInflater.from(parent.context)
-                .inflate(R.layout.adapter_completed_challenge, parent, false)
+            .inflate(R.layout.adapter_completed_challenge, parent, false)
         return Holder(view)
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
-        binds(holder,getItem(position))
+        binds(holder, getItem(position))
     }
 
     override fun getItemCount(): Int {
@@ -34,7 +35,7 @@ class CompletedChallengeAdapter : ListAdapter<CompletedChallenge,CompletedChalle
     }
 
     private fun binds(holder: Holder, data: CompletedChallenge) {
-        with(holder){
+        with(holder) {
             itemView.setOnClickListener {
                 itemOnClick(data)
             }
@@ -42,7 +43,6 @@ class CompletedChallengeAdapter : ListAdapter<CompletedChallenge,CompletedChalle
             name.text = data.name
             date.text = data.completedAt?.toDateFormat()
         }
-
     }
 
     inner class Holder(view: View) : RecyclerView.ViewHolder(view) {
@@ -53,15 +53,14 @@ class CompletedChallengeAdapter : ListAdapter<CompletedChallenge,CompletedChalle
 
     companion object {
         private val diffCallback: DiffUtil.ItemCallback<CompletedChallenge> =
-                object : DiffUtil.ItemCallback<CompletedChallenge>() {
-                    override fun areItemsTheSame(oldItem: CompletedChallenge, newItem: CompletedChallenge): Boolean {
-                        return oldItem == newItem
-                    }
-
-                    override fun areContentsTheSame(oldItem: CompletedChallenge, newItem: CompletedChallenge): Boolean {
-                        return oldItem == newItem
-                    }
+            object : DiffUtil.ItemCallback<CompletedChallenge>() {
+                override fun areItemsTheSame(oldItem: CompletedChallenge, newItem: CompletedChallenge): Boolean {
+                    return oldItem == newItem
                 }
+
+                override fun areContentsTheSame(oldItem: CompletedChallenge, newItem: CompletedChallenge): Boolean {
+                    return oldItem == newItem
+                }
+            }
     }
 }
-

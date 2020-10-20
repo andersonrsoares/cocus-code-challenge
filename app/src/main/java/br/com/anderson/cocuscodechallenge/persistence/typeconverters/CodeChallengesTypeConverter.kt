@@ -8,17 +8,17 @@ class CodeChallengesTypeConverter {
 
     @TypeConverter
     fun codeChallengesToString(codeChallenges: CodeChallenges?): String {
-        if(codeChallenges == null)
+        if (codeChallenges == null)
             return ""
 
-        return try { Gson().toJson(codeChallenges) } catch (e:Exception) { "" }
+        return try { Gson().toJson(codeChallenges) } catch (e: Exception) { "" }
     }
 
     @TypeConverter
     fun stringToCodeChallenges(data: String?): CodeChallenges? {
-        if(data.isNullOrBlank())
+        if (data.isNullOrBlank())
             return null
 
-        return try { Gson().fromJson<CodeChallenges>(data,CodeChallenges::class.java) } catch (e:Exception) { null }
+        return try { Gson().fromJson<CodeChallenges>(data, CodeChallenges::class.java) } catch (e: Exception) { null }
     }
 }

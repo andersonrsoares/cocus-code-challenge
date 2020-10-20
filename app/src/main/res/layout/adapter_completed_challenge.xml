@@ -7,12 +7,12 @@
     android:layout_height="wrap_content"
     android:background="#fff"
     android:foreground="?android:attr/selectableItemBackground"
-    android:padding="15dp">
+    android:padding="@dimen/adapter_padding">
 
 
 
     <TextView
-        android:layout_marginEnd="10dp"
+        android:layout_marginEnd="@dimen/label_right_margin"
         android:id="@+id/labelusername"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -28,11 +28,11 @@
 
 
     <TextView
-        android:layout_marginEnd="10dp"
+        android:layout_marginEnd="@dimen/label_right_margin"
         android:id="@+id/name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="3dp"
+        android:layout_marginTop="@dimen/label_content_title_top_margin"
         android:text=""
         android:textAlignment="textStart"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
@@ -45,7 +45,7 @@
     <TextView
         android:textStyle="bold"
         android:id="@+id/labeldate"
-        android:layout_width="130dp"
+        android:layout_width="@dimen/date_width"
         android:layout_height="wrap_content"
         android:text="@string/label_date"
         android:textAlignment="textStart"
@@ -56,9 +56,9 @@
     </TextView>
 
     <TextView
-        android:layout_marginTop="3dp"
+        android:layout_marginTop="@dimen/label_content_title_top_margin"
         android:id="@+id/date"
-        android:layout_width="130dp"
+        android:layout_width="@dimen/date_width"
         android:layout_height="wrap_content"
         android:text=""
         android:textAlignment="textStart"
@@ -73,7 +73,7 @@
         android:id="@+id/labelcompletedlanguage"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="@dimen/label_title_content_top_margin"
         android:text="@string/label_completed_languages"
         android:textAlignment="textStart"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"

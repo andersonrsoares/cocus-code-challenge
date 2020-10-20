@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.ListUserFragment">
+    tools:context=".ui.listuser.ListUserFragment">
 
     <androidx.appcompat.widget.SearchView
         android:id="@+id/searchview"
@@ -19,7 +19,7 @@
 
     <ProgressBar
         android:visibility="gone"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="@dimen/progress_margin_top"
         android:id="@+id/progressloading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -40,4 +40,16 @@
 
     </androidx.recyclerview.widget.RecyclerView>
 
+    <TextView
+        android:id="@+id/messageempty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/user_found"
+        android:textSize="22sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </TextView>
 </androidx.constraintlayout.widget.ConstraintLayout>
