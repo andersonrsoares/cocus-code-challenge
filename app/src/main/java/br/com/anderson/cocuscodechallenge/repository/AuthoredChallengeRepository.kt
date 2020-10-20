@@ -33,7 +33,7 @@ class AuthoredChallengeRepository @Inject constructor(
             .subscribeOn(Schedulers.io())
             .map {
                 dataAuthoredChallengeMapper.map(it).apply {
-                    this.forEach { f-> f.username = username }
+                    this.forEach { f -> f.username = username }
                 }
             }
             .doOnSuccess {

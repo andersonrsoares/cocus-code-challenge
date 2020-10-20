@@ -4,6 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import br.com.anderson.cocuscodechallenge.ApiUtil
 import br.com.anderson.cocuscodechallenge.any
 import br.com.anderson.cocuscodechallenge.dto.UserDTO
+import br.com.anderson.cocuscodechallenge.mapper.UserMapper
 import br.com.anderson.cocuscodechallenge.mock
 import br.com.anderson.cocuscodechallenge.model.DataSourceResult
 import br.com.anderson.cocuscodechallenge.model.ErrorResult
@@ -31,6 +32,7 @@ class UserRepositoryTest {
     private val codeWarsService = mock<CodeWarsService>()
     private val codeWarsDao = mock<CodeWarsDao>()
     private lateinit var userRepository: UserRepository
+    private val mapper = UserMapper()
 
     @Rule
     @JvmField
@@ -42,7 +44,7 @@ class UserRepositoryTest {
         given(db.codeWarsDao()).willReturn(codeWarsDao)
         given(db.runInTransaction(ArgumentMatchers.any())).willCallRealMethod()
 
-        userRepository = UserRepository(codeWarsDao, codeWarsService)
+        userRepository = UserRepository(codeWarsDao, codeWarsService, mapper)
     }
 
     @Test
@@ -65,11 +67,10 @@ class UserRepositoryTest {
         }
     }
 
-
     @Test
     fun `test order users by rank`() {
 
-        val response = listOf(User(datetime = 0, leaderboardPosition = 2, username = "baz"),User(datetime = 1, leaderboardPosition = 1, username = "foo"))
+        val response = listOf(User(datetime = 0, leaderboardPosition = 2, username = "baz"), User(datetime = 1, leaderboardPosition = 1, username = "foo"))
         given(codeWarsDao.allUsers()).willReturn(Single.just(response))
 
         val testSubscriber = userRepository.listOrderByPosition().test()
@@ -87,7 +88,7 @@ class UserRepositoryTest {
     @Test
     fun `test order users by lookup`() {
 
-        val response = listOf(User(datetime = 1, leaderboardPosition = 2, username = "baz"),User(datetime = 0, leaderboardPosition = 1, username = "foo"))
+        val response = listOf(User(datetime = 1, leaderboardPosition = 2, username = "baz"), User(datetime = 0, leaderboardPosition = 1, username = "foo"))
         given(codeWarsDao.allUsers()).willReturn(Single.just(response))
 
         val testSubscriber = userRepository.listOrderByLookUp().test()

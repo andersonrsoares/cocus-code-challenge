@@ -13,5 +13,4 @@ class UserMapper : Mapper<UserDTO, User>() {
         leaderboardPosition = from.leaderboardPosition,
         ranks = from.ranks, skills = from.skills
     )
-    
 }

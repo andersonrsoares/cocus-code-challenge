@@ -4,6 +4,8 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import br.com.anderson.cocuscodechallenge.any
 import br.com.anderson.cocuscodechallenge.dto.CompletedChallengeDTO
 import br.com.anderson.cocuscodechallenge.dto.PageCompletedChallengeDTO
+import br.com.anderson.cocuscodechallenge.mapper.CompletedChallengeMapper
+import br.com.anderson.cocuscodechallenge.mapper.PageCompletedChallengeMapper
 import br.com.anderson.cocuscodechallenge.mock
 import br.com.anderson.cocuscodechallenge.model.CompletedChallenge
 import br.com.anderson.cocuscodechallenge.model.DataSourceResult
@@ -32,6 +34,7 @@ class CompletedChallengeRepositoryTest {
     private val codeWarsService = mock<CodeWarsService>()
     private val codeWarsDao = mock<CodeWarsDao>()
     private lateinit var completedChallengeRepository: CompletedChallengeRepository
+    private val mapper = PageCompletedChallengeMapper(CompletedChallengeMapper())
 
     @Rule
     @JvmField
@@ -43,7 +46,7 @@ class CompletedChallengeRepositoryTest {
         given(db.codeWarsDao()).willReturn(codeWarsDao)
         given(db.runInTransaction(ArgumentMatchers.any())).willCallRealMethod()
 
-        completedChallengeRepository = CompletedChallengeRepository(codeWarsDao, codeWarsService)
+        completedChallengeRepository = CompletedChallengeRepository(codeWarsDao, codeWarsService, mapper)
     }
 
     @Test
@@ -69,7 +72,7 @@ class CompletedChallengeRepositoryTest {
         testSubscriber.assertNoErrors()
         testSubscriber.assertSubscribed()
         testSubscriber.assertNotComplete()
-        testSubscriber.assertValues(DataSourceResult.create(remoteData.toPageCompletedChallenge(username)))
+        testSubscriber.assertValues(DataSourceResult.create(mapper.map(remoteData)))
     }
 
     @Test
@@ -102,7 +105,7 @@ class CompletedChallengeRepositoryTest {
         testSubscriber.assertNoErrors()
         testSubscriber.assertSubscribed()
         testSubscriber.assertComplete()
-        testSubscriber.assertValues(DataSourceResult.create(localData), DataSourceResult.create(remoteData.toPageCompletedChallenge(username)))
+        testSubscriber.assertValues(DataSourceResult.create(localData), DataSourceResult.create(mapper.map(remoteData)))
     }
 
     @Test
@@ -127,7 +130,7 @@ class CompletedChallengeRepositoryTest {
         testSubscriber.assertNoErrors()
         testSubscriber.assertSubscribed()
         testSubscriber.assertComplete()
-        testSubscriber.assertValues(DataSourceResult.create(remoteData.toPageCompletedChallenge(username)))
+        testSubscriber.assertValues(DataSourceResult.create(mapper.map(remoteData)))
     }
 
     @Test

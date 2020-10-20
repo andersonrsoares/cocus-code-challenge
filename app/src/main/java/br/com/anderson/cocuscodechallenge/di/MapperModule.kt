@@ -1,6 +1,11 @@
 package br.com.anderson.cocuscodechallenge.di
 
-import br.com.anderson.cocuscodechallenge.mapper.*
+import br.com.anderson.cocuscodechallenge.mapper.AuthoredChallengeMapper
+import br.com.anderson.cocuscodechallenge.mapper.ChallengeMapper
+import br.com.anderson.cocuscodechallenge.mapper.CompletedChallengeMapper
+import br.com.anderson.cocuscodechallenge.mapper.DataAuthoredChallengeMapper
+import br.com.anderson.cocuscodechallenge.mapper.PageCompletedChallengeMapper
+import br.com.anderson.cocuscodechallenge.mapper.UserMapper
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -10,15 +15,15 @@ class MapperModule {
 
     @Singleton
     @Provides
-    fun provideUserMapper(): UserMapper  = UserMapper()
+    fun provideUserMapper(): UserMapper = UserMapper()
 
     @Singleton
     @Provides
-    fun provideChallengeMapper(): ChallengeMapper  = ChallengeMapper()
+    fun provideChallengeMapper(): ChallengeMapper = ChallengeMapper()
 
     @Singleton
     @Provides
-    fun provideCompletedChallengeMapper(): CompletedChallengeMapper  = CompletedChallengeMapper()
+    fun provideCompletedChallengeMapper(): CompletedChallengeMapper = CompletedChallengeMapper()
 
     @Singleton
     @Provides
@@ -28,9 +33,7 @@ class MapperModule {
     @Provides
     fun provideAuthoredChallengeMapper(): AuthoredChallengeMapper = AuthoredChallengeMapper()
 
-
     @Singleton
     @Provides
     fun provideDataAuthoredChallengeMapper(authoredChallengeMapper: AuthoredChallengeMapper): DataAuthoredChallengeMapper = DataAuthoredChallengeMapper(authoredChallengeMapper)
-
 }

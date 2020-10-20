@@ -1,6 +1,5 @@
 package br.com.anderson.cocuscodechallenge.dto
 
-import br.com.anderson.cocuscodechallenge.model.PageCompletedChallenge
 import com.google.gson.annotations.SerializedName
 
 data class PageCompletedChallengeDTO(

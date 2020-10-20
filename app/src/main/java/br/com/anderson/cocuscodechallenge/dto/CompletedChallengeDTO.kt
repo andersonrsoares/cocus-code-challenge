@@ -1,7 +1,5 @@
 package br.com.anderson.cocuscodechallenge.dto
 
-import br.com.anderson.cocuscodechallenge.extras.toTimestamp
-import br.com.anderson.cocuscodechallenge.model.CompletedChallenge
 import com.google.gson.annotations.SerializedName
 
 data class CompletedChallengeDTO(

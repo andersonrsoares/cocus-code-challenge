@@ -1,14 +1,10 @@
 package br.com.anderson.cocuscodechallenge.di
 
 import android.app.Application
-import androidx.room.Room
 import br.com.anderson.cocuscodechallenge.BuildConfig
 import br.com.anderson.cocuscodechallenge.extras.AutorizationInterceptor
 import br.com.anderson.cocuscodechallenge.extras.LanguageDeserializer
 import br.com.anderson.cocuscodechallenge.model.Languages
-import br.com.anderson.cocuscodechallenge.persistence.CodeWarsDao
-import br.com.anderson.cocuscodechallenge.persistence.CodeWarsDb
-import br.com.anderson.cocuscodechallenge.provider.ResourceProvider
 import br.com.anderson.cocuscodechallenge.services.CodeWarsService
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder

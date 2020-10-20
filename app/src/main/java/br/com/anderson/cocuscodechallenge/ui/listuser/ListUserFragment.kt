@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -28,7 +29,9 @@ class ListUserFragment : Fragment(R.layout.fragment_list_user), Injectable, Sear
 
     lateinit var adapter: ListUserAdapter
 
-    lateinit var viewModel: ListUserViewModel
+    val viewModel: ListUserViewModel by viewModels {
+        factory
+    }
 
     @Inject
     lateinit var factory: ViewModelProvider.Factory
@@ -49,7 +52,6 @@ class ListUserFragment : Fragment(R.layout.fragment_list_user), Injectable, Sear
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(this, factory).get(ListUserViewModel::class.java)
         init()
     }
 

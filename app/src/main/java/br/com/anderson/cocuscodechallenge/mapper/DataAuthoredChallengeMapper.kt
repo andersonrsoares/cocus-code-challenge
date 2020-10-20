@@ -5,6 +5,5 @@ import br.com.anderson.cocuscodechallenge.model.AuthoredChallenge
 
 class DataAuthoredChallengeMapper(private val authoredChallengeMapper: AuthoredChallengeMapper) : Mapper<DataAuthoredChallengeDTO, List<AuthoredChallenge>>() {
 
-    override fun map(from: DataAuthoredChallengeDTO): List<AuthoredChallenge> = from.data?.map {  authoredChallengeMapper.map(it) }.orEmpty()
-
+    override fun map(from: DataAuthoredChallengeDTO): List<AuthoredChallenge> = from.data?.map { authoredChallengeMapper.map(it) }.orEmpty()
 }

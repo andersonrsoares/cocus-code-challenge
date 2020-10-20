@@ -4,6 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import br.com.anderson.cocuscodechallenge.any
 import br.com.anderson.cocuscodechallenge.dto.ChallengeDTO
 import br.com.anderson.cocuscodechallenge.dto.CompletedChallengeDTO
+import br.com.anderson.cocuscodechallenge.mapper.ChallengeMapper
 import br.com.anderson.cocuscodechallenge.mock
 import br.com.anderson.cocuscodechallenge.model.Challenge
 import br.com.anderson.cocuscodechallenge.model.DataSourceResult
@@ -32,6 +33,7 @@ class ChallengeRepositoryTest {
     private val codeWarsService = mock<CodeWarsService>()
     private val codeWarsDao = mock<CodeWarsDao>()
     private lateinit var challengeRepository: ChallengeRepository
+    private val mapper = ChallengeMapper()
 
     @Rule
     @JvmField
@@ -43,7 +45,7 @@ class ChallengeRepositoryTest {
         given(db.codeWarsDao()).willReturn(codeWarsDao)
         given(db.runInTransaction(ArgumentMatchers.any())).willCallRealMethod()
 
-        challengeRepository = ChallengeRepository(codeWarsDao, codeWarsService)
+        challengeRepository = ChallengeRepository(codeWarsDao, codeWarsService, mapper)
     }
 
     @Test
@@ -64,7 +66,7 @@ class ChallengeRepositoryTest {
         testSubscriber.assertNoErrors()
         testSubscriber.assertSubscribed()
         testSubscriber.assertComplete()
-        testSubscriber.assertValues(DataSourceResult.create(remoteData.toChallange()))
+        testSubscriber.assertValues(DataSourceResult.create(mapper.map(remoteData)))
     }
 
     @Test
@@ -89,7 +91,7 @@ class ChallengeRepositoryTest {
         testSubscriber.assertComplete()
         testSubscriber.assertValues(
             DataSourceResult.create(localData),
-            DataSourceResult.create(remoteData.toChallange())
+            DataSourceResult.create(mapper.map(remoteData))
         )
     }
 

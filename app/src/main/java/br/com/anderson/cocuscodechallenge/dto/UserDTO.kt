@@ -3,9 +3,7 @@ package br.com.anderson.cocuscodechallenge.dto
 import androidx.room.PrimaryKey
 import br.com.anderson.cocuscodechallenge.model.CodeChallenges
 import br.com.anderson.cocuscodechallenge.model.Ranks
-import br.com.anderson.cocuscodechallenge.model.User
 import com.google.gson.annotations.SerializedName
-import java.util.Calendar
 
 data class UserDTO(
     @SerializedName("clan")

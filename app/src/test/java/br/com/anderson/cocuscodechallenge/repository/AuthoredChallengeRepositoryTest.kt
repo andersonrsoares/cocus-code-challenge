@@ -5,6 +5,8 @@ import br.com.anderson.cocuscodechallenge.any
 import br.com.anderson.cocuscodechallenge.dto.AuthoredChallengeDTO
 import br.com.anderson.cocuscodechallenge.dto.CompletedChallengeDTO
 import br.com.anderson.cocuscodechallenge.dto.DataAuthoredChallengeDTO
+import br.com.anderson.cocuscodechallenge.mapper.AuthoredChallengeMapper
+import br.com.anderson.cocuscodechallenge.mapper.DataAuthoredChallengeMapper
 import br.com.anderson.cocuscodechallenge.mock
 import br.com.anderson.cocuscodechallenge.model.AuthoredChallenge
 import br.com.anderson.cocuscodechallenge.model.DataSourceResult
@@ -32,6 +34,7 @@ class AuthoredChallengeRepositoryTest {
     private val codeWarsService = mock<CodeWarsService>()
     private val codeWarsDao = mock<CodeWarsDao>()
     private lateinit var authoredChallengeRepository: AuthoredChallengeRepository
+    private val mapper = DataAuthoredChallengeMapper(AuthoredChallengeMapper())
 
     @Rule
     @JvmField
@@ -43,7 +46,7 @@ class AuthoredChallengeRepositoryTest {
         given(db.codeWarsDao()).willReturn(codeWarsDao)
         given(db.runInTransaction(ArgumentMatchers.any())).willCallRealMethod()
 
-        authoredChallengeRepository = AuthoredChallengeRepository(codeWarsDao, codeWarsService)
+        authoredChallengeRepository = AuthoredChallengeRepository(codeWarsDao, codeWarsService, mapper)
     }
 
     @Test
@@ -64,7 +67,7 @@ class AuthoredChallengeRepositoryTest {
         testSubscriber.assertNoErrors()
         testSubscriber.assertSubscribed()
         testSubscriber.assertNotComplete()
-        testSubscriber.assertValues(DataSourceResult.create(remoteData.toAuthoredChallengeList(username)))
+        testSubscriber.assertValues(DataSourceResult.create(mapper.map(remoteData).apply { forEach { it.username = username } }))
     }
 
     @Test
@@ -89,7 +92,7 @@ class AuthoredChallengeRepositoryTest {
         testSubscriber.assertComplete()
         testSubscriber.assertValues(
             DataSourceResult.create(localData),
-            DataSourceResult.create(remoteData.toAuthoredChallengeList(username))
+            DataSourceResult.create(mapper.map(remoteData).apply { forEach { it.username = username } })
         )
     }
 

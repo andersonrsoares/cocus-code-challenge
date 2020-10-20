@@ -1,6 +1,4 @@
 package br.com.anderson.cocuscodechallenge.dto
-import br.com.anderson.cocuscodechallenge.extras.toTimestamp
-import br.com.anderson.cocuscodechallenge.model.Challenge
 import br.com.anderson.cocuscodechallenge.model.Member
 import br.com.anderson.cocuscodechallenge.model.Rank
 import com.google.gson.annotations.SerializedName

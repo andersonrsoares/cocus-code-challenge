@@ -1,7 +1,5 @@
 package br.com.anderson.cocuscodechallenge.repository
 
-import br.com.anderson.cocuscodechallenge.dto.UserDTO
-import br.com.anderson.cocuscodechallenge.mapper.Mapper
 import br.com.anderson.cocuscodechallenge.extras.transformToDataSourceResult
 import br.com.anderson.cocuscodechallenge.mapper.UserMapper
 import br.com.anderson.cocuscodechallenge.model.DataSourceResult
