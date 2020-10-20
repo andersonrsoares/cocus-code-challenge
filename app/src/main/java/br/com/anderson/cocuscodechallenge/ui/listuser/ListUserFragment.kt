@@ -29,7 +29,7 @@ class ListUserFragment : Fragment(R.layout.fragment_list_user), Injectable, Sear
 
     lateinit var adapter: ListUserAdapter
 
-    val viewModel: ListUserViewModel by viewModels {
+    private val viewModel: ListUserViewModel by viewModels {
         factory
     }
 

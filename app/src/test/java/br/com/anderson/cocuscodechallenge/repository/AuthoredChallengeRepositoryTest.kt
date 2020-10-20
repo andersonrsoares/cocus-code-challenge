@@ -36,10 +36,6 @@ class AuthoredChallengeRepositoryTest {
     private lateinit var authoredChallengeRepository: AuthoredChallengeRepository
     private val mapper = DataAuthoredChallengeMapper(AuthoredChallengeMapper())
 
-    @Rule
-    @JvmField
-    val instantExecutorRule = InstantTaskExecutorRule()
-
     @Before
     fun setup() {
         val db = mock<CodeWarsDb>()

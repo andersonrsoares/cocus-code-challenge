@@ -1,6 +1,6 @@
 package br.com.anderson.cocuscodechallenge.repository
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+
 import br.com.anderson.cocuscodechallenge.ApiUtil
 import br.com.anderson.cocuscodechallenge.any
 import br.com.anderson.cocuscodechallenge.dto.UserDTO
@@ -33,10 +33,6 @@ class UserRepositoryTest {
     private val codeWarsDao = mock<CodeWarsDao>()
     private lateinit var userRepository: UserRepository
     private val mapper = UserMapper()
-
-    @Rule
-    @JvmField
-    val instantExecutorRule = InstantTaskExecutorRule()
 
     @Before
     fun setup() {

@@ -13,7 +13,6 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-@OpenForTesting
 class UserRepository @Inject constructor(
     val localDataSouse: CodeWarsDao,
     val remoteDataSource: CodeWarsService,

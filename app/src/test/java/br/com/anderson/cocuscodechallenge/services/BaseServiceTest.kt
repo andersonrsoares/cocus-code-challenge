@@ -13,9 +13,6 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 
 open class BaseServiceTest {
-    @Rule
-    @JvmField
-    val instantExecutorRule = InstantTaskExecutorRule()
 
     protected lateinit var service: CodeWarsService
 

@@ -3,8 +3,11 @@ package br.com.anderson.cocuscodechallenge.mapper
 import br.com.anderson.cocuscodechallenge.dto.ChallengeDTO
 import br.com.anderson.cocuscodechallenge.extras.toTimestamp
 import br.com.anderson.cocuscodechallenge.model.Challenge
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class ChallengeMapper : Mapper<ChallengeDTO, Challenge>() {
+@Singleton
+class ChallengeMapper @Inject constructor() : Mapper<ChallengeDTO, Challenge>() {
 
     override fun map(from: ChallengeDTO): Challenge = Challenge(
         publishedAt = from.publishedAt?.toTimestamp(),

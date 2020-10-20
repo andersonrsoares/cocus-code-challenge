@@ -6,7 +6,7 @@ import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
 
-@Module(includes = [ViewModelModule::class, MapperModule::class, NetworkDataSourceModule::class, LocalDataSourceModule::class])
+@Module(includes = [ViewModelModule::class, NetworkDataSourceModule::class, LocalDataSourceModule::class])
 class AppModule {
 
     @Singleton

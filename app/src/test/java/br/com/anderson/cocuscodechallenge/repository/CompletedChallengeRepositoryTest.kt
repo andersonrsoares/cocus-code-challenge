@@ -36,10 +36,6 @@ class CompletedChallengeRepositoryTest {
     private lateinit var completedChallengeRepository: CompletedChallengeRepository
     private val mapper = PageCompletedChallengeMapper(CompletedChallengeMapper())
 
-    @Rule
-    @JvmField
-    val instantExecutorRule = InstantTaskExecutorRule()
-
     @Before
     fun setup() {
         val db = mock<CodeWarsDb>()

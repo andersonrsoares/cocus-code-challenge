@@ -17,6 +17,14 @@ configurations {
 }
 
 android {
+    signingConfigs {
+        debug {
+            storeFile file('app.jks')
+            storePassword 'android'
+            keyAlias 'key'
+            keyPassword 'android'
+        }
+    }
     compileSdkVersion 30
 
     defaultConfig {
@@ -30,10 +38,11 @@ android {
 
     buildTypes {
         debug {
+            minifyEnabled false
             testCoverageEnabled true
         }
         release {
-            minifyEnabled false
+            minifyEnabled true// obfuscation
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -88,7 +97,7 @@ dependencies {
     implementation "androidx.room:room-rxjava2:$room"
 
     //lifecicle
-    implementation "androidx.lifecycle:lifecycle-runtime:$lifecycle"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle"
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle"
     implementation "androidx.lifecycle:lifecycle-common-java8:$lifecycle"
 
@@ -97,9 +106,7 @@ dependencies {
 
     //navigation
     implementation "androidx.navigation:navigation-fragment-ktx:$navigation"//
-    implementation "androidx.navigation:navigation-runtime:$navigation"//
     implementation "androidx.navigation:navigation-runtime-ktx:$navigation"
-    implementation "androidx.navigation:navigation-fragment:$navigation"
     implementation "androidx.navigation:navigation-ui-ktx:$navigation"
     //retrofit
     implementation "com.squareup.retrofit2:retrofit:$retrofit"
@@ -150,9 +157,8 @@ dependencies {
     testImplementation "androidx.test.espresso:espresso-intents:$espresso"
     testImplementation "androidx.arch.core:core-testing:$arch_core"
 
-    debugImplementation "androidx.fragment:fragment:$fragment"
+    debugImplementation "androidx.fragment:fragment-ktx:$fragment"
     debugImplementation("androidx.fragment:fragment-testing:$fragment")
-    debugImplementation("androidx.fragment:fragment-ktx:$fragment")
     debugImplementation "androidx.test:core:$test_core"
     debugImplementation "androidx.test:core-ktx:$test_core"
     debugImplementation "androidx.test:runner:$atsl_runner"
@@ -190,7 +196,6 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest']) {
         csv.enabled = false
         xml.destination file("${buildDir}/reports/jacoco/report.xml")
     }
-
 
     def fileFilters =
             ['android/databinding/**/*.class',

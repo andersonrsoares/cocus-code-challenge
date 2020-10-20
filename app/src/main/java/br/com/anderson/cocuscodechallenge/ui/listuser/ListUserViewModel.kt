@@ -96,6 +96,7 @@ class ListUserViewModel @Inject constructor(val repository: UserRepository) : Ba
             result.body != null -> {
                 _clean.postValue(true)
                 delayToNewUser()
+                _empty.postValue(false)
                 _dataListLastUsers.postValue(replaceIfExists(result.body))
             }
             result.error is ErrorResult.NotFound -> _message.postValue(resourceProvider.getString(R.string.message_user_not_found))

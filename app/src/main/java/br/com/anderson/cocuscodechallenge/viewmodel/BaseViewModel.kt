@@ -59,7 +59,7 @@ open class BaseViewModel @Inject constructor() : ViewModel() {
         complete()
     }
 
-    fun refresh() {
+    open fun refresh() {
         _clean.postValue(true)
     }
 }
