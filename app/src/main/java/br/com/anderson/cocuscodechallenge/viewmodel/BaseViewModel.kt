@@ -9,7 +9,6 @@ import br.com.anderson.cocuscodechallenge.provider.ResourceProvider
 import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
 
-
 open class BaseViewModel @Inject constructor() : ViewModel() {
 
     @Inject

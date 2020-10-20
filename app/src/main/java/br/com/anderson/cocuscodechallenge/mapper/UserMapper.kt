@@ -7,7 +7,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class UserMapper @Inject constructor(): Mapper<UserDTO, User>() {
+class UserMapper @Inject constructor() : Mapper<UserDTO, User>() {
 
     override fun map(from: UserDTO): User = User(
         datetime = Calendar.getInstance().timeInMillis,

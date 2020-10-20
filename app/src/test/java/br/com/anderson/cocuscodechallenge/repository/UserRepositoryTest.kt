@@ -1,6 +1,5 @@
 package br.com.anderson.cocuscodechallenge.repository
 
-
 import br.com.anderson.cocuscodechallenge.ApiUtil
 import br.com.anderson.cocuscodechallenge.any
 import br.com.anderson.cocuscodechallenge.dto.UserDTO
@@ -16,7 +15,6 @@ import io.reactivex.Completable
 import io.reactivex.Single
 import okhttp3.ResponseBody.Companion.toResponseBody
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4

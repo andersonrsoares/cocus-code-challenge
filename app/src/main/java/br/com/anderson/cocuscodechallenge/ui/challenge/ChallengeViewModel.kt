@@ -11,7 +11,6 @@ import br.com.anderson.cocuscodechallenge.viewmodel.BaseViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import javax.inject.Inject
 
-
 class ChallengeViewModel @Inject constructor(val repository: ChallengeRepository) : BaseViewModel() {
 
     private var _dataChallenge = MutableLiveData<Challenge>()

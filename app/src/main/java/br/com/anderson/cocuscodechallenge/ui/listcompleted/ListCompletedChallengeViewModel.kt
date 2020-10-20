@@ -13,7 +13,6 @@ import javax.inject.Inject
 
 const val VISIBLE_THRESHOLD = 2
 
-
 class ListCompletedChallengeViewModel @Inject constructor(val repository: CompletedChallengeRepository) : BaseViewModel() {
 
     private var _dataCompletedChallenge = MutableLiveData<List<CompletedChallenge>>()

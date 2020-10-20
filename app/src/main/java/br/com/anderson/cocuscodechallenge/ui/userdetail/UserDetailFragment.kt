@@ -12,7 +12,6 @@ import br.com.anderson.cocuscodechallenge.ui.listauthored.ListAuthoredChallengeF
 import br.com.anderson.cocuscodechallenge.ui.listcompleted.ListCompletedChallengeFragment
 import kotlinx.android.synthetic.main.fragment_user_detail.*
 
-
 class UserDetailFragment : Fragment(R.layout.fragment_user_detail), Injectable {
 
     override fun onCreate(savedInstanceState: Bundle?) {
