@@ -12,6 +12,7 @@ import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import br.com.anderson.cocuscodechallenge.R
+import br.com.anderson.cocuscodechallenge.ViewModelUtil
 import br.com.anderson.cocuscodechallenge.mock
 import br.com.anderson.cocuscodechallenge.model.Challenge
 import br.com.anderson.cocuscodechallenge.ui.challenge.ChallengeFragment
@@ -39,7 +40,7 @@ class ChallengeFragmentFragmentTest {
             override fun instantiate(classLoader: ClassLoader, className: String): Fragment {
                 return ChallengeFragment()
                     .apply {
-                        this.viewModel = testviewModel
+                        this.factory = ViewModelUtil.createFor(testviewModel)
                     }
             }
         }

@@ -5,6 +5,8 @@ import android.view.View
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import br.com.anderson.cocuscodechallenge.R
 import br.com.anderson.cocuscodechallenge.adapter.AuthoredChallengeAdapter
@@ -22,8 +24,12 @@ class ListAuthoredChallengeFragment : Fragment(R.layout.fragment_list_authored_c
 
     lateinit var adapter: AuthoredChallengeAdapter
 
+    val viewModel: ListAuthoredChallengeViewModel by viewModels {
+        factory
+    }
+
     @Inject
-    lateinit var viewModel: ListAuthoredChallengeViewModel
+    lateinit var factory: ViewModelProvider.Factory
 
     var args: UserDetailFragmentArgs? = null
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -14,6 +14,7 @@ import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import br.com.anderson.cocuscodechallenge.R
 import br.com.anderson.cocuscodechallenge.RecyclerViewMatcher
+import br.com.anderson.cocuscodechallenge.ViewModelUtil
 import br.com.anderson.cocuscodechallenge.mock
 import br.com.anderson.cocuscodechallenge.model.CompletedChallenge
 import br.com.anderson.cocuscodechallenge.ui.listcompleted.ListCompletedChallengeFragment
@@ -41,7 +42,7 @@ class ListCompletedChallengeFragmentFragmentTest {
             override fun instantiate(classLoader: ClassLoader, className: String): Fragment {
                 return ListCompletedChallengeFragment()
                     .apply {
-                        this.viewModel = testviewModel
+                        this.factory = ViewModelUtil.createFor(testviewModel)
                     }
             }
         }
